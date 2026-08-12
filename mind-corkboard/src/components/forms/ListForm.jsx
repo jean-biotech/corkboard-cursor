@@ -3,8 +3,8 @@ import FormShell, { Field, AddMore } from './FormShell'
 
 const EMPTY = {
   title: '',
-  itemsText: '',
   category: '',
+  items: [],
 }
 
 export default function ListForm({ open, onClose, onSubmit, initial }) {
@@ -13,59 +13,121 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
       return {
         title: initial.title || '',
         category: initial.category || '',
-        itemsText: (initial.items || []).map((i) => i.text).join('\n'),
-        _items: initial.items,
+        items: (initial.items || []).map((i) => ({
+          text: i.text,
+          done: !!i.done,
+        })),
       }
     }
-    return { ...EMPTY }
+    return { ...EMPTY, items: [] }
   })
+  const [draft, setDraft] = useState('')
+
   const set = (key, value) => setForm((f) => ({ ...f, [key]: value }))
+
+  function addItem() {
+    const text = draft.trim()
+    if (!text) return
+    setForm((f) => ({ ...f, items: [...f.items, { text, done: false }] }))
+    setDraft('')
+  }
 
   return (
     <FormShell
       open={open}
-      title="to remember"
-      subtitle="pin a list"
+      variant="list"
+      title="list"
+      subtitle="pin things to remember"
       onClose={onClose}
       onSubmit={() => {
-        const lines = form.itemsText
-          .split('\n')
-          .map((t) => t.trim())
-          .filter(Boolean)
-        if (!form.title.trim() && lines.length === 0) return
-        const existing = form._items || []
-        const items = lines.map((text, i) => ({
-          text,
-          done: existing[i]?.text === text ? !!existing[i].done : false,
-        }))
+        if (!form.title.trim() && form.items.length === 0) return
         onSubmit({
           title: form.title.trim() || 'to remember',
           category: form.category,
-          items,
+          items: form.items,
         })
-        setForm({ ...EMPTY })
+        setForm({ ...EMPTY, items: [] })
+        setDraft('')
       }}
       submitLabel="pin list"
+      className="pl-8"
     >
-      <Field label="list title">
+      <Field label="title">
         <input
-          className="font-hand text-2xl"
+          className="font-serif text-xl italic"
           value={form.title}
           onChange={(e) => set('title', e.target.value)}
-          placeholder="books to read, songs, ideas…"
+          placeholder="what's this list for?"
           autoFocus
         />
       </Field>
-      <Field label="items (one per line)">
-        <textarea
+
+      <Field label="items">
+        <ul className="mb-2 space-y-1.5">
+          {form.items.map((entry, i) => (
+            <li key={`${entry.text}-${i}`} className="flex items-start gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setForm((f) => ({
+                    ...f,
+                    items: f.items.map((it, idx) =>
+                      idx === i ? { ...it, done: !it.done } : it,
+                    ),
+                  }))
+                }}
+                className="mt-1.5 h-3.5 w-3.5 shrink-0 border border-[#1E3A5F]/65"
+                style={{ background: entry.done ? '#1E3A5F' : 'transparent' }}
+                aria-label={entry.done ? 'uncheck' : 'check'}
+              />
+              <span
+                className="font-hand flex-1 text-xl leading-tight text-[#1E3A5F]"
+                style={{
+                  textDecoration: entry.done ? 'line-through' : 'none',
+                  opacity: entry.done ? 0.5 : 1,
+                }}
+              >
+                {entry.text}
+              </span>
+              <button
+                type="button"
+                className="font-hand text-base text-[#6B4A2E]/70"
+                onClick={() =>
+                  setForm((f) => ({
+                    ...f,
+                    items: f.items.filter((_, idx) => idx !== i),
+                  }))
+                }
+                aria-label="remove item"
+              >
+                ×
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <input
           className="font-hand text-xl"
-          value={form.itemsText}
-          onChange={(e) => set('itemsText', e.target.value)}
-          placeholder={'first thing\nsecond thing\nthird thing'}
-          rows={5}
+          value={draft}
+          onChange={(e) => setDraft(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              addItem()
+            }
+          }}
+          placeholder="type an item, hit enter"
         />
+        <button
+          type="button"
+          onClick={addItem}
+          className="font-hand mt-1 text-base text-[#1E3A5F] underline-offset-2 hover:underline"
+        >
+          add item
+        </button>
       </Field>
-      <AddMore>
+
+      <AddMore label="add category tag">
         <Field label="category">
           <input
             className="font-type text-sm"

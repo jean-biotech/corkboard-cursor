@@ -4,9 +4,10 @@ import FormShell, { Field, AddMore } from './FormShell'
 const EMPTY = {
   eventName: '',
   date: '',
-  memory: '',
   venue: '',
+  memory: '',
   seat: '',
+  withWhom: '',
   artist: '',
 }
 
@@ -17,8 +18,9 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
   return (
     <FormShell
       open={open}
-      title="admit one"
-      subtitle="pin a ticket"
+      variant="ticket"
+      title="ticket booth"
+      subtitle="pin a moment"
       onClose={onClose}
       onSubmit={() => {
         if (!form.eventName.trim()) return
@@ -26,34 +28,55 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
         setForm({ ...EMPTY })
       }}
       submitLabel="pin ticket"
+      className="pl-6"
     >
-      <Field label="event">
+      <Field label="what was it">
         <input
           className="font-serif text-xl italic"
           value={form.eventName}
           onChange={(e) => set('eventName', e.target.value)}
-          placeholder="concert, film, play…"
+          placeholder="concert, movie, show..."
           required
           autoFocus
         />
       </Field>
-      <Field label="date">
-        <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
-      </Field>
+
+      <div className="grid grid-cols-2 gap-4">
+        <Field label="when">
+          <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
+        </Field>
+        <Field label="where">
+          <input
+            value={form.venue}
+            onChange={(e) => set('venue', e.target.value)}
+            placeholder="the venue"
+          />
+        </Field>
+      </div>
+
       <Field label="one-line memory">
         <input
           className="font-hand text-xl"
           value={form.memory}
           onChange={(e) => set('memory', e.target.value)}
-          placeholder="what you still hear"
+          placeholder="what stays with you?"
         />
       </Field>
-      <AddMore>
-        <Field label="venue">
+
+      <AddMore label="add seat / who you went with">
+        <Field label="seat / row">
           <input
-            value={form.venue}
-            onChange={(e) => set('venue', e.target.value)}
-            placeholder="where"
+            value={form.seat}
+            onChange={(e) => set('seat', e.target.value)}
+            placeholder="row, seat…"
+          />
+        </Field>
+        <Field label="went with">
+          <input
+            className="font-hand text-lg"
+            value={form.withWhom}
+            onChange={(e) => set('withWhom', e.target.value)}
+            placeholder="who was there"
           />
         </Field>
         <Field label="artist / film">
@@ -61,13 +84,6 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
             value={form.artist}
             onChange={(e) => set('artist', e.target.value)}
             placeholder="optional"
-          />
-        </Field>
-        <Field label="seat">
-          <input
-            value={form.seat}
-            onChange={(e) => set('seat', e.target.value)}
-            placeholder="row, seat…"
           />
         </Field>
       </AddMore>

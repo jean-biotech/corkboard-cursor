@@ -1,7 +1,13 @@
 import { useState } from 'react'
 import FormShell, { Field, AddMore } from './FormShell'
 
-const EMPTY = { title: '', body: '', signature: '' }
+const EMPTY = {
+  title: '',
+  body: '',
+  signature: '',
+  date: '',
+  recipient: '',
+}
 
 export default function LetterForm({ open, onClose, onSubmit, initial }) {
   const [form, setForm] = useState(() => ({ ...EMPTY, ...initial }))
@@ -10,41 +16,56 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
   return (
     <FormShell
       open={open}
-      title="longer thoughts"
-      subtitle="pin a letter"
+      variant="letter"
+      title="letter"
+      subtitle="pin a longer thought"
       onClose={onClose}
       onSubmit={() => {
         if (!form.title.trim() && !form.body.trim()) return
         onSubmit({ ...form })
         setForm({ ...EMPTY })
       }}
-      submitLabel="pin letter"
+      submitLabel="seal and pin"
+      submitIcon="seal"
     >
       <Field label="title">
         <input
           className="font-serif text-xl italic"
           value={form.title}
           onChange={(e) => set('title', e.target.value)}
-          placeholder="what is this about"
+          placeholder="the subject at hand"
           autoFocus
         />
       </Field>
+
       <Field label="body">
         <textarea
-          className="font-serif"
+          className="font-hand text-xl"
           value={form.body}
           onChange={(e) => set('body', e.target.value)}
-          placeholder="take your time"
-          rows={7}
+          placeholder="dear diary, or dear anyone..."
+          rows={8}
         />
       </Field>
-      <AddMore>
-        <Field label="signature">
+
+      <Field label="sign-off">
+        <input
+          className="font-hand text-xl"
+          value={form.signature}
+          onChange={(e) => set('signature', e.target.value)}
+          placeholder="yours, [name]"
+        />
+      </Field>
+
+      <AddMore label="add date and recipient">
+        <Field label="date">
+          <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
+        </Field>
+        <Field label="recipient">
           <input
-            className="font-hand text-xl"
-            value={form.signature}
-            onChange={(e) => set('signature', e.target.value)}
-            placeholder="yours,"
+            value={form.recipient}
+            onChange={(e) => set('recipient', e.target.value)}
+            placeholder="to whom"
           />
         </Field>
       </AddMore>
