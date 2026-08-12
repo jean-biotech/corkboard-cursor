@@ -1,13 +1,13 @@
 import { useState } from 'react'
-import FormShell, { Field } from './FormShell'
+import FormShell, { Field, AddMore } from './FormShell'
 
 const EMPTY = {
   eventName: '',
   date: '',
+  memory: '',
   venue: '',
   seat: '',
   artist: '',
-  memory: '',
 }
 
 export default function TicketForm({ open, onClose, onSubmit, initial }) {
@@ -29,7 +29,7 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
     >
       <Field label="event">
         <input
-          className="font-serif text-xl"
+          className="font-serif text-xl italic"
           value={form.eventName}
           onChange={(e) => set('eventName', e.target.value)}
           placeholder="concert, film, play…"
@@ -37,10 +37,18 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
           autoFocus
         />
       </Field>
-      <div className="grid grid-cols-2 gap-4">
-        <Field label="date">
-          <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
-        </Field>
+      <Field label="date">
+        <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
+      </Field>
+      <Field label="one-line memory">
+        <input
+          className="font-hand text-xl"
+          value={form.memory}
+          onChange={(e) => set('memory', e.target.value)}
+          placeholder="what you still hear"
+        />
+      </Field>
+      <AddMore>
         <Field label="venue">
           <input
             value={form.venue}
@@ -48,8 +56,6 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
             placeholder="where"
           />
         </Field>
-      </div>
-      <div className="grid grid-cols-2 gap-4">
         <Field label="artist / film">
           <input
             value={form.artist}
@@ -64,15 +70,7 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
             placeholder="row, seat…"
           />
         </Field>
-      </div>
-      <Field label="one-line memory">
-        <input
-          className="font-hand text-lg"
-          value={form.memory}
-          onChange={(e) => set('memory', e.target.value)}
-          placeholder="what you still hear"
-        />
-      </Field>
+      </AddMore>
     </FormShell>
   )
 }

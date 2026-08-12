@@ -1,30 +1,28 @@
 export default function CorkTexture() {
-  // Deterministic speck positions for a lived-in cork surface
-  const darkSpecks = [
-    [42, 68], [118, 140], [210, 55], [305, 220], [390, 90],
-    [480, 310], [560, 180], [650, 70], [740, 250], [820, 130],
-    [910, 300], [1000, 85], [1080, 210], [1160, 150], [1240, 280],
-    [1320, 95], [95, 400], [175, 520], [260, 460], [350, 610],
-    [440, 540], [530, 700], [620, 480], [710, 620], [800, 540],
-    [890, 710], [980, 500], [1070, 640], [1150, 560], [1250, 690],
-    [1340, 520], [60, 780], [150, 860], [280, 820], [400, 900],
-    [520, 840], [640, 920], [760, 860], [880, 940], [1000, 880],
-    [1120, 930], [1260, 850], [190, 250], [470, 150], [690, 360],
-    [930, 190], [1190, 400], [330, 750], [770, 120], [1050, 780],
-  ]
-
+  // Fewer, heavier patches — used board, not brand-new cork
   const lightPatches = [
     [80, 100, 120], [300, 200, 90], [550, 80, 110], [800, 280, 100],
     [1050, 140, 95], [200, 550, 130], [500, 480, 85], [850, 600, 110],
     [1150, 520, 90], [150, 800, 100], [600, 850, 120], [1000, 780, 95],
-    [1280, 300, 80], [400, 350, 70], [720, 450, 85],
   ]
 
   const deepPatches = [
-    [160, 180, 100], [420, 90, 80], [700, 200, 95], [980, 100, 85],
-    [250, 420, 90], [580, 360, 75], [900, 400, 100], [1200, 220, 80],
-    [100, 650, 85], [480, 700, 95], [780, 750, 80], [1100, 680, 90],
-    [1300, 800, 70], [340, 900, 85], [950, 900, 75],
+    [160, 180, 130], [420, 90, 100], [700, 200, 120], [980, 100, 110],
+    [250, 420, 140], [580, 360, 95], [900, 400, 130], [1200, 220, 100],
+    [100, 650, 110], [480, 700, 125], [780, 750, 100], [1100, 680, 115],
+    [330, 900, 140], [950, 900, 120], [1280, 500, 90],
+  ]
+
+  // Deterministic dark cork pits
+  const darkSpecks = [
+    [42, 68], [118, 140], [210, 55], [305, 220], [390, 90],
+    [480, 310], [560, 180], [650, 70], [740, 250], [820, 130],
+    [910, 300], [1000, 85], [1080, 210], [1160, 150], [1240, 280],
+    [95, 400], [175, 520], [350, 610], [530, 700], [710, 620],
+    [890, 710], [1070, 640], [1250, 690], [60, 780], [280, 820],
+    [520, 840], [760, 860], [1000, 880], [1260, 850], [470, 150],
+    [690, 360], [930, 190], [330, 750], [1050, 780], [190, 250],
+    [400, 350], [840, 450], [1120, 360], [60, 300], [1350, 600],
   ]
 
   return (
@@ -35,11 +33,12 @@ export default function CorkTexture() {
       aria-hidden="true"
     >
       <defs>
+        {/* Lighter noise for performance */}
         <filter id="corkNoise" x="0%" y="0%" width="100%" height="100%">
           <feTurbulence
             type="fractalNoise"
-            baseFrequency="0.9"
-            numOctaves="4"
+            baseFrequency="0.75"
+            numOctaves="2"
             seed="7"
             stitchTiles="stitch"
             result="noise"
@@ -50,46 +49,26 @@ export default function CorkTexture() {
             values="0 0 0 0 0.78
                     0 0 0 0 0.62
                     0 0 0 0 0.42
-                    0 0 0 0.35 0"
-            result="tint"
+                    0 0 0 0.32 0"
           />
         </filter>
-        <filter id="corkMottle" x="0%" y="0%" width="100%" height="100%">
-          <feTurbulence
-            type="turbulence"
-            baseFrequency="0.035"
-            numOctaves="3"
-            seed="3"
-            stitchTiles="stitch"
-            result="mottle"
-          />
-          <feDisplacementMap
-            in="SourceGraphic"
-            in2="mottle"
-            scale="8"
-            xChannelSelector="R"
-            yChannelSelector="G"
-          />
-        </filter>
-        <radialGradient id="corkVignette" cx="50%" cy="45%" r="70%">
-          <stop offset="0%" stopColor="#D4B788" stopOpacity="0.35" />
-          <stop offset="55%" stopColor="#C9A876" stopOpacity="0.15" />
-          <stop offset="100%" stopColor="#A08560" stopOpacity="0.45" />
+        <radialGradient id="corkVignette" cx="50%" cy="45%" r="72%">
+          <stop offset="0%" stopColor="#D4B788" stopOpacity="0.3" />
+          <stop offset="55%" stopColor="#C9A876" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="#A08560" stopOpacity="0.42" />
         </radialGradient>
-        <pattern id="corkGrain" width="48" height="48" patternUnits="userSpaceOnUse">
-          <circle cx="8" cy="12" r="1.1" fill="#A08560" opacity="0.35" />
-          <circle cx="22" cy="6" r="0.8" fill="#8B7355" opacity="0.3" />
-          <circle cx="36" cy="20" r="1.3" fill="#A08560" opacity="0.28" />
-          <circle cx="14" cy="30" r="0.7" fill="#6B5344" opacity="0.25" />
-          <circle cx="40" cy="38" r="1" fill="#A08560" opacity="0.32" />
-          <circle cx="28" cy="42" r="0.6" fill="#8B7355" opacity="0.22" />
+        <pattern id="corkGrain" width="56" height="56" patternUnits="userSpaceOnUse">
+          <circle cx="8" cy="12" r="1.2" fill="#A08560" opacity="0.32" />
+          <circle cx="24" cy="6" r="0.7" fill="#8B7355" opacity="0.28" />
+          <circle cx="40" cy="22" r="1.4" fill="#A08560" opacity="0.26" />
+          <circle cx="16" cy="34" r="0.8" fill="#6B5344" opacity="0.24" />
+          <circle cx="44" cy="42" r="1.1" fill="#A08560" opacity="0.3" />
+          <circle cx="30" cy="48" r="0.6" fill="#8B7355" opacity="0.2" />
         </pattern>
       </defs>
 
-      {/* Base cork */}
       <rect width="1400" height="1000" fill="#C9A876" />
 
-      {/* Soft tonal variation patches */}
       {lightPatches.map(([cx, cy, r], i) => (
         <ellipse
           key={`l-${i}`}
@@ -98,8 +77,7 @@ export default function CorkTexture() {
           rx={r}
           ry={r * 0.72}
           fill="#D4B788"
-          opacity={0.28 + (i % 3) * 0.06}
-          filter="url(#corkMottle)"
+          opacity={0.3 + (i % 3) * 0.07}
         />
       ))}
       {deepPatches.map(([cx, cy, r], i) => (
@@ -107,41 +85,35 @@ export default function CorkTexture() {
           key={`d-${i}`}
           cx={cx}
           cy={cy}
-          rx={r * 0.9}
-          ry={r * 0.65}
+          rx={r * 0.95}
+          ry={r * 0.7}
           fill="#A08560"
-          opacity={0.18 + (i % 4) * 0.04}
-          filter="url(#corkMottle)"
+          opacity={0.2 + (i % 4) * 0.05}
         />
       ))}
 
-      {/* Noise grain layer */}
-      <rect width="1400" height="1000" filter="url(#corkNoise)" opacity="0.55" />
-      <rect width="1400" height="1000" fill="url(#corkGrain)" opacity="0.7" />
+      {/* Extra aged dark patches */}
+      <ellipse cx="380" cy="280" rx="160" ry="110" fill="#8B7355" opacity="0.14" />
+      <ellipse cx="980" cy="620" rx="180" ry="130" fill="#6B5344" opacity="0.12" />
+      <ellipse cx="720" cy="180" rx="90" ry="70" fill="#8B7355" opacity="0.11" />
+
+      <rect width="1400" height="1000" filter="url(#corkNoise)" opacity="0.45" />
+      <rect width="1400" height="1000" fill="url(#corkGrain)" opacity="0.65" />
       <rect width="1400" height="1000" fill="url(#corkVignette)" />
 
-      {/* Natural dark cork imperfections */}
       {darkSpecks.map(([x, y], i) => (
         <circle
           key={`s-${i}`}
           cx={x}
           cy={y}
-          r={0.8 + (i % 4) * 0.45}
+          r={0.9 + (i % 4) * 0.5}
           fill={i % 3 === 0 ? '#6B5344' : '#8B7355'}
-          opacity={0.35 + (i % 5) * 0.08}
+          opacity={0.38 + (i % 5) * 0.08}
         />
       ))}
 
-      {/* Coffee ring stain */}
-      <circle
-        cx="220"
-        cy="780"
-        r="38"
-        fill="none"
-        stroke="#6B4A2E"
-        strokeWidth="3.5"
-        opacity="0.12"
-      />
+      {/* Coffee ring */}
+      <circle cx="220" cy="780" r="38" fill="none" stroke="#6B4A2E" strokeWidth="3.5" opacity="0.14" />
       <circle
         cx="222"
         cy="782"
@@ -149,9 +121,14 @@ export default function CorkTexture() {
         fill="none"
         stroke="#4A3323"
         strokeWidth="1.5"
-        opacity="0.08"
+        opacity="0.09"
         strokeDasharray="8 4 3 6"
       />
+
+      {/* Faint water stains */}
+      <ellipse cx="640" cy="320" rx="55" ry="42" fill="none" stroke="#6B4A2E" strokeWidth="2" opacity="0.07" />
+      <ellipse cx="1100" cy="760" rx="48" ry="36" fill="none" stroke="#4A3323" strokeWidth="1.8" opacity="0.08" />
+      <ellipse cx="460" cy="860" rx="36" ry="28" fill="none" stroke="#6B4A2E" strokeWidth="1.5" opacity="0.06" />
 
       {/* Ink spot */}
       <ellipse cx="1180" cy="240" rx="14" ry="10" fill="#1E3A5F" opacity="0.08" />

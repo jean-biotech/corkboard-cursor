@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import FormShell, { Field, readFileAsDataUrl } from './FormShell'
+import FormShell, { Field, AddMore, readFileAsDataUrl } from './FormShell'
 
 const EMPTY = {
   image: null,
-  style: 'polaroid',
   caption: '',
+  style: 'polaroid',
   tapeColor: 'cream',
 }
 
@@ -40,41 +40,43 @@ export default function PhotoForm({ open, onClose, onSubmit, initial }) {
             src={form.image}
             alt=""
             className="mt-2 h-32 w-full object-cover"
-            style={{ border: '4px solid #FAF6EE' }}
+            style={{ border: '6px solid #FAF6EE', borderBottomWidth: 22 }}
           />
         )}
       </Field>
-      <Field label="style">
-        <div className="flex gap-4 font-hand text-lg text-[#1E3A5F]">
-          {['polaroid', 'regular'].map((s) => (
-            <label key={s} className="flex cursor-pointer items-center gap-2">
-              <input
-                type="radio"
-                name="style"
-                checked={form.style === s}
-                onChange={() => set('style', s)}
-              />
-              {s}
-            </label>
-          ))}
-        </div>
-      </Field>
       <Field label="caption">
         <input
-          className="font-hand text-lg"
+          className="font-hand text-xl"
           value={form.caption}
           onChange={(e) => set('caption', e.target.value)}
           placeholder="scribble something underneath"
         />
       </Field>
-      <Field label="tape color">
-        <select value={form.tapeColor} onChange={(e) => set('tapeColor', e.target.value)}>
-          <option value="cream">cream stripe</option>
-          <option value="rose">dusty rose</option>
-          <option value="sage">sage</option>
-          <option value="blue">pale blue</option>
-        </select>
-      </Field>
+      <AddMore>
+        <Field label="style">
+          <div className="flex gap-4 font-hand text-lg text-[#1E3A5F]">
+            {['polaroid', 'regular'].map((s) => (
+              <label key={s} className="flex cursor-pointer items-center gap-2">
+                <input
+                  type="radio"
+                  name="style"
+                  checked={form.style === s}
+                  onChange={() => set('style', s)}
+                />
+                {s}
+              </label>
+            ))}
+          </div>
+        </Field>
+        <Field label="tape color">
+          <select value={form.tapeColor} onChange={(e) => set('tapeColor', e.target.value)}>
+            <option value="cream">cream stripe</option>
+            <option value="rose">dusty rose</option>
+            <option value="sage">sage</option>
+            <option value="blue">pale blue</option>
+          </select>
+        </Field>
+      </AddMore>
     </FormShell>
   )
 }

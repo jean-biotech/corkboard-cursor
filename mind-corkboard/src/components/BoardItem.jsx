@@ -59,12 +59,13 @@ export default function BoardItem({
   return (
     <motion.div
       data-board-item
-      className="absolute touch-none cursor-grab active:cursor-grabbing"
+      className={`absolute touch-none board-item-cursor ${reduceMotion ? '' : 'ambient-sway'}`}
       style={{
         x,
         y,
         zIndex: item.z,
-        rotate: item.rotation,
+        '--base-rot': `${item.rotation}deg`,
+        '--sway-delay': `${(item.z % 5) * 0.9}s`,
       }}
       initial={justPinned && !reduceMotion ? { scale: 1.12, opacity: 0.85 } : false}
       animate={

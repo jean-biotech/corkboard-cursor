@@ -1,15 +1,20 @@
 import { useState } from 'react'
-import FormShell, { Field } from './FormShell'
+import FormShell, { Field, AddMore } from './FormShell'
 
 const EMPTY = {
   text: '',
   color: 'cream',
-  fontStyle: 'caveat',
+  fontStyle: 'reenie',
   showArrow: false,
 }
 
 export default function NoteForm({ open, onClose, onSubmit, initial }) {
-  const [form, setForm] = useState(() => ({ ...EMPTY, ...initial }))
+  const [form, setForm] = useState(() => {
+    const base = { ...EMPTY, ...initial }
+    if (base.fontStyle === 'caveat') base.fontStyle = 'reenie'
+    if (base.fontStyle === 'scribble') base.fontStyle = 'gloria'
+    return base
+  })
   const set = (key, value) => setForm((f) => ({ ...f, [key]: value }))
 
   return (
@@ -27,8 +32,7 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
     >
       <Field label="your note">
         <textarea
-          className={form.fontStyle === 'scribble' ? 'font-scribble' : 'font-hand'}
-          style={{ fontSize: '1.25rem' }}
+          className={form.fontStyle === 'gloria' ? 'font-scribble text-lg' : 'font-hand text-2xl'}
           value={form.text}
           onChange={(e) => set('text', e.target.value)}
           placeholder="write freely"
@@ -53,7 +57,7 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
               style={{
                 background: color,
                 borderColor: form.color === name ? '#1F1815' : 'rgba(74,51,35,0.25)',
-                outline: form.color === name ? '2px solid #C8322E' : 'none',
+                outline: form.color === name ? '2px solid #1E3A5F' : 'none',
                 outlineOffset: 2,
               }}
               aria-label={name}
@@ -61,28 +65,28 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
           ))}
         </div>
       </Field>
-      <Field label="handwriting">
+      <AddMore label="handwriting style">
         <div className="flex gap-4">
-          <label className="font-hand text-lg">
+          <label className="font-hand text-xl">
             <input
               type="radio"
-              checked={form.fontStyle === 'caveat'}
-              onChange={() => set('fontStyle', 'caveat')}
+              checked={form.fontStyle === 'reenie'}
+              onChange={() => set('fontStyle', 'reenie')}
+              className="mr-1"
+            />
+            messy
+          </label>
+          <label className="font-scribble text-sm">
+            <input
+              type="radio"
+              checked={form.fontStyle === 'gloria'}
+              onChange={() => set('fontStyle', 'gloria')}
               className="mr-1"
             />
             careful
           </label>
-          <label className="font-scribble text-base">
-            <input
-              type="radio"
-              checked={form.fontStyle === 'scribble'}
-              onChange={() => set('fontStyle', 'scribble')}
-              className="mr-1"
-            />
-            scribbled
-          </label>
         </div>
-      </Field>
+      </AddMore>
     </FormShell>
   )
 }

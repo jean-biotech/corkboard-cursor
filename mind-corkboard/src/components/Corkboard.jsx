@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState, lazy, Suspense } from 'react'
 import CorkTexture from './CorkTexture'
 import WoodFrame from './WoodFrame'
 import { BoardDecorations } from './decor/Doodles'
@@ -6,14 +6,6 @@ import AddItemPopover from './AddItemPopover'
 import BoardItem from './BoardItem'
 import ContextMenu from './ContextMenu'
 import ExpandedView from './ExpandedView'
-import BookForm from './forms/BookForm'
-import QuoteForm from './forms/QuoteForm'
-import PhotoForm from './forms/PhotoForm'
-import NoteForm from './forms/NoteForm'
-import PostcardForm from './forms/PostcardForm'
-import LetterForm from './forms/LetterForm'
-import TicketForm from './forms/TicketForm'
-import ListForm from './forms/ListForm'
 import {
   BOARD_H,
   BOARD_W,
@@ -22,14 +14,14 @@ import {
 } from '../lib/store'
 
 const FORM_MAP = {
-  book: BookForm,
-  quote: QuoteForm,
-  photo: PhotoForm,
-  note: NoteForm,
-  postcard: PostcardForm,
-  letter: LetterForm,
-  ticket: TicketForm,
-  list: ListForm,
+  book: lazy(() => import('./forms/BookForm')),
+  quote: lazy(() => import('./forms/QuoteForm')),
+  photo: lazy(() => import('./forms/PhotoForm')),
+  note: lazy(() => import('./forms/NoteForm')),
+  postcard: lazy(() => import('./forms/PostcardForm')),
+  letter: lazy(() => import('./forms/LetterForm')),
+  ticket: lazy(() => import('./forms/TicketForm')),
+  list: lazy(() => import('./forms/ListForm')),
 }
 
 export default function Corkboard({ boardRef }) {
@@ -168,7 +160,7 @@ export default function Corkboard({ boardRef }) {
             <div
               ref={surfaceRef}
               data-cork-surface
-              className="absolute overflow-hidden"
+              className="cork-surface absolute overflow-hidden"
               style={{
                 left: 32,
                 top: 32,
@@ -274,16 +266,18 @@ export default function Corkboard({ boardRef }) {
       )}
 
       {FormComponent && (
-        <FormComponent
-          key={editingItem?.id || formType}
-          open
-          initial={editingItem?.data}
-          onClose={() => {
-            setFormType(null)
-            setEditingItem(null)
-          }}
-          onSubmit={handleFormSubmit}
-        />
+        <Suspense fallback={null}>
+          <FormComponent
+            key={editingItem?.id || formType}
+            open
+            initial={editingItem?.data}
+            onClose={() => {
+              setFormType(null)
+              setEditingItem(null)
+            }}
+            onSubmit={handleFormSubmit}
+          />
+        </Suspense>
       )}
 
       <ExpandedView

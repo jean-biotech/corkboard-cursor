@@ -1,5 +1,5 @@
-const STORAGE_KEY = 'mind-corkboard-v1'
-const VERSION = 1
+const STORAGE_KEY = 'mind-corkboard-v2'
+const VERSION = 2
 
 export function loadState() {
   try {

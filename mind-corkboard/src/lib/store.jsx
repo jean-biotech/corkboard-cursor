@@ -47,10 +47,11 @@ function createWelcomeItem() {
     pinColor: 'red',
     createdAt: Date.now(),
     data: {
-      text: 'everything you love goes here. pin your first thing →',
+      text: 'everything you love\ngoes here.\n\npin your first thing',
       color: 'cream',
-      fontStyle: 'caveat',
+      fontStyle: 'reenie',
       showArrow: true,
+      doodle: 'star',
     },
   }
 }
@@ -343,18 +344,31 @@ export function playPinChime() {
     const AudioCtx = window.AudioContext || window.webkitAudioContext
     if (!AudioCtx) return
     const ctx = new AudioCtx()
+    // soft cork "thud" + tiny chime overtone
+    const thud = ctx.createOscillator()
+    const thudGain = ctx.createGain()
+    thud.type = 'sine'
+    thud.frequency.setValueAtTime(90, ctx.currentTime)
+    thud.frequency.exponentialRampToValueAtTime(45, ctx.currentTime + 0.12)
+    thudGain.gain.setValueAtTime(0.0001, ctx.currentTime)
+    thudGain.gain.exponentialRampToValueAtTime(0.12, ctx.currentTime + 0.01)
+    thudGain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.22)
+    thud.connect(thudGain)
+    thudGain.connect(ctx.destination)
+    thud.start()
+    thud.stop(ctx.currentTime + 0.25)
+
     const osc = ctx.createOscillator()
     const gain = ctx.createGain()
-    osc.type = 'sine'
-    osc.frequency.setValueAtTime(880, ctx.currentTime)
-    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.08)
-    gain.gain.setValueAtTime(0.0001, ctx.currentTime)
-    gain.gain.exponentialRampToValueAtTime(0.08, ctx.currentTime + 0.02)
-    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.35)
+    osc.type = 'triangle'
+    osc.frequency.setValueAtTime(660, ctx.currentTime + 0.04)
+    gain.gain.setValueAtTime(0.0001, ctx.currentTime + 0.04)
+    gain.gain.exponentialRampToValueAtTime(0.035, ctx.currentTime + 0.06)
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.32)
     osc.connect(gain)
     gain.connect(ctx.destination)
-    osc.start()
-    osc.stop(ctx.currentTime + 0.4)
+    osc.start(ctx.currentTime + 0.04)
+    osc.stop(ctx.currentTime + 0.35)
     osc.onended = () => ctx.close()
   } catch {
     // optional sound

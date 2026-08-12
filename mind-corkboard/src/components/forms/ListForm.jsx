@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import FormShell, { Field } from './FormShell'
+import FormShell, { Field, AddMore } from './FormShell'
 
 const EMPTY = {
   title: '',
-  category: '',
   itemsText: '',
+  category: '',
 }
 
 export default function ListForm({ open, onClose, onSubmit, initial }) {
@@ -49,30 +49,32 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
     >
       <Field label="list title">
         <input
-          className="font-hand text-xl"
+          className="font-hand text-2xl"
           value={form.title}
           onChange={(e) => set('title', e.target.value)}
           placeholder="books to read, songs, ideas…"
           autoFocus
         />
       </Field>
-      <Field label="category">
-        <input
-          className="font-type text-sm"
-          value={form.category}
-          onChange={(e) => set('category', e.target.value)}
-          placeholder="reading, watching, making…"
-        />
-      </Field>
       <Field label="items (one per line)">
         <textarea
-          className="font-hand text-lg"
+          className="font-hand text-xl"
           value={form.itemsText}
           onChange={(e) => set('itemsText', e.target.value)}
           placeholder={'first thing\nsecond thing\nthird thing'}
-          rows={6}
+          rows={5}
         />
       </Field>
+      <AddMore>
+        <Field label="category">
+          <input
+            className="font-type text-sm"
+            value={form.category}
+            onChange={(e) => set('category', e.target.value)}
+            placeholder="reading, watching, making…"
+          />
+        </Field>
+      </AddMore>
     </FormShell>
   )
 }

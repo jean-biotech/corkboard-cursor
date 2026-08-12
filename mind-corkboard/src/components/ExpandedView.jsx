@@ -13,20 +13,16 @@ function DetailPanel({ item }) {
   const { type, data } = item
 
   if (type === 'book') {
+    const note = data.note || data.takeaway || data.review
     return (
       <div className="space-y-4">
         <div>
-          <h2 className="font-serif text-4xl font-medium text-[#1F1815]">{data.title}</h2>
+          <h2 className="font-serif text-4xl font-medium italic text-[#1F1815]">{data.title}</h2>
           <p className="font-type mt-1 text-sm text-[#6B4A2E]">{data.author}</p>
         </div>
         <Stars rating={data.rating || 0} size={22} />
-        {data.takeaway && (
-          <p className="font-hand text-2xl text-[#1E3A5F]">{data.takeaway}</p>
-        )}
-        {data.review && (
-          <p className="font-serif text-lg leading-relaxed text-[#1F1815]/90 whitespace-pre-wrap">
-            {data.review}
-          </p>
+        {note && (
+          <p className="font-hand text-2xl text-[#1E3A5F] whitespace-pre-wrap">{note}</p>
         )}
         {data.dateRead && (
           <p className="font-type text-xs text-[#6B4A2E]">read {data.dateRead}</p>

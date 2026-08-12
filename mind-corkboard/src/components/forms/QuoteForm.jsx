@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FormShell, { Field } from './FormShell'
+import FormShell, { Field, AddMore } from './FormShell'
 
 const EMPTY = { text: '', attribution: '', context: '' }
 
@@ -31,22 +31,24 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
           rows={3}
         />
       </Field>
-      <Field label="attribution">
+      <Field label="who said it">
         <input
           className="font-type text-sm"
           value={form.attribution}
           onChange={(e) => set('attribution', e.target.value)}
-          placeholder="who said it, where from"
+          placeholder="author, source"
         />
       </Field>
-      <Field label="context (optional)">
-        <input
-          className="font-hand text-lg"
-          value={form.context}
-          onChange={(e) => set('context', e.target.value)}
-          placeholder="why it hit"
-        />
-      </Field>
+      <AddMore>
+        <Field label="context">
+          <input
+            className="font-hand text-lg"
+            value={form.context}
+            onChange={(e) => set('context', e.target.value)}
+            placeholder="why it hit"
+          />
+        </Field>
+      </AddMore>
     </FormShell>
   )
 }

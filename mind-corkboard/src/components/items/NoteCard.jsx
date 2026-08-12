@@ -1,6 +1,6 @@
 import PushPin from '../decor/PushPin'
 import { TornPaperClip } from '../decor/TornEdges'
-import { TinyArrow } from '../decor/Doodles'
+import { TinyArrow, TinyStar } from '../decor/Doodles'
 
 const NOTE_COLORS = {
   cream: '#F1E7C7',
@@ -13,7 +13,8 @@ export default function NoteCard({ item }) {
   const { data, pinColor, id } = item
   const bg = NOTE_COLORS[data.color] || NOTE_COLORS.cream
   const clipId = `torn-${id}`
-  const fontClass = data.fontStyle === 'scribble' ? 'font-scribble' : 'font-hand'
+  const isGloria = data.fontStyle === 'gloria' || data.fontStyle === 'scribble'
+  const fontClass = isGloria ? 'font-scribble text-[1.05rem]' : 'font-hand text-[1.35rem]'
 
   return (
     <div className="relative select-none" style={{ width: 200 }}>
@@ -31,14 +32,14 @@ export default function NoteCard({ item }) {
           minHeight: 120,
         }}
       >
-        <p
-          className={`${fontClass} text-[1.25rem] leading-snug text-[#1E3A5F]`}
-          style={{ fontWeight: data.fontStyle === 'scribble' ? 400 : 600 }}
-        >
+        {data.doodle === 'star' && (
+          <TinyStar className="absolute right-3 top-3 opacity-60" style={{ transform: 'rotate(12deg)' }} />
+        )}
+        <p className={`${fontClass} whitespace-pre-line leading-snug text-[#1E3A5F]`}>
           {data.text || '…'}
         </p>
         {data.showArrow && (
-          <div className="mt-2 flex justify-end">
+          <div className="mt-3 flex justify-end pr-1">
             <TinyArrow />
           </div>
         )}

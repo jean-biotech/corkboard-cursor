@@ -18,11 +18,12 @@
   --color-washi-cream: #EDE0C4;
   --color-washi-blue: #B8CBDA;
   --color-wall: #F5EFE4;
-  --font-display: "Playfair Display", Georgia, serif;
-  --font-serif: "Cormorant Garamond", Georgia, serif;
-  --font-hand: "Caveat", cursive;
-  --font-scribble: "Homemade Apple", cursive;
+  --font-display: "Instrument Serif", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-hand: "Reenie Beanie", cursive;
+  --font-scribble: "Gloria Hallelujah", cursive;
   --font-type: "Special Elite", "Courier New", monospace;
+  --font-label: "Courier Prime", "Courier New", monospace;
 }
 
 * {
@@ -39,7 +40,8 @@ body {
   margin: 0;
   color: #1F1815;
   background: #F5EFE4;
-  font-family: "Cormorant Garamond", Georgia, serif;
+  font-family: "Fraunces", Georgia, serif;
+  font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -60,7 +62,7 @@ button {
 }
 
 ::selection {
-  background: rgba(200, 50, 46, 0.22);
+  background: rgba(30, 58, 95, 0.18);
 }
 
 .font-display {
@@ -69,6 +71,8 @@ button {
 
 .font-serif {
   font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-weight: 500;
 }
 
 .font-hand {
@@ -81,6 +85,10 @@ button {
 
 .font-type {
   font-family: var(--font-type);
+}
+
+.font-label {
+  font-family: var(--font-label);
 }
 
 .paper-form input,
@@ -97,11 +105,20 @@ button {
 }
 
 .paper-form textarea {
-  border: 1px solid rgba(74, 51, 35, 0.22);
-  padding: 0.6rem 0.75rem;
-  min-height: 5.5rem;
+  border: none;
+  border-bottom: 1px solid rgba(74, 51, 35, 0.22);
+  padding: 0.4rem 0.15rem;
+  min-height: 4.5rem;
   resize: vertical;
-  background: rgba(255, 255, 255, 0.18);
+  background: transparent;
+  line-height: 1.7;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 1.55rem,
+    rgba(74, 51, 35, 0.12) 1.55rem,
+    rgba(74, 51, 35, 0.12) calc(1.55rem + 1px)
+  );
+  background-attachment: local;
 }
 
 .paper-form input:focus,
@@ -110,27 +127,40 @@ button {
   border-color: #1E3A5F;
 }
 
+.paper-form input::placeholder,
+.paper-form textarea::placeholder {
+  color: rgba(31, 24, 21, 0.28);
+  font-style: italic;
+  font-family: var(--font-serif);
+}
+
 .paper-form label {
   display: block;
   font-family: var(--font-type);
-  font-size: 0.72rem;
-  letter-spacing: 0.04em;
+  font-size: 0.65rem;
+  letter-spacing: 0.03em;
   color: #6B4A2E;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.15rem;
+  text-transform: lowercase;
 }
 
-.wall-dots {
-  background-image: radial-gradient(rgba(74, 51, 35, 0.08) 1px, transparent 1px);
-  background-size: 28px 28px;
+.wall-pattern {
+  background-color: #F5EFE4;
+  background-image:
+    radial-gradient(rgba(74, 51, 35, 0.055) 1.1px, transparent 1.1px),
+    linear-gradient(45deg, rgba(74, 51, 35, 0.035) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(74, 51, 35, 0.035) 25%, transparent 25%);
+  background-size: 26px 26px, 52px 52px, 52px 52px;
+  background-position: 0 0, 0 0, 26px 26px;
 }
 
 .grain-overlay {
   pointer-events: none;
   position: absolute;
   inset: 0;
-  opacity: 0.07;
+  opacity: 0.06;
   mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
 .window-light {
@@ -139,10 +169,10 @@ button {
   inset: 0;
   background: linear-gradient(
     115deg,
-    rgba(255, 248, 230, 0.18) 0%,
+    rgba(255, 248, 230, 0.16) 0%,
     transparent 42%,
     transparent 58%,
-    rgba(160, 133, 96, 0.08) 100%
+    rgba(160, 133, 96, 0.07) 100%
   );
   animation: windowDrift 14s ease-in-out infinite alternate;
 }
@@ -169,13 +199,72 @@ button {
   }
 }
 
+@keyframes ambientSway {
+  0%,
+  100% {
+    rotate: var(--base-rot, 0deg);
+  }
+  50% {
+    rotate: calc(var(--base-rot, 0deg) + 0.5deg);
+  }
+}
+
+@keyframes photoCurl {
+  0%,
+  100% {
+    transform: perspective(80px) rotateX(0deg);
+  }
+  50% {
+    transform: perspective(80px) rotateX(2.5deg);
+  }
+}
+
 .dust-puff {
   animation: dustPuff 0.55s ease-out forwards;
 }
 
+.ambient-sway {
+  animation: ambientSway 8s ease-in-out infinite;
+  animation-delay: var(--sway-delay, 0s);
+}
+
+.photo-curl-corner {
+  transform-origin: bottom right;
+  animation: photoCurl 9s ease-in-out infinite;
+}
+
+.cork-surface {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='10' cy='8' r='5' fill='%23C8322E'/%3E%3Cpath d='M10 13 L9 24 L11 24 Z' fill='%236B4A2E'/%3E%3C/svg%3E") 8 4, crosshair;
+}
+
+.board-item-cursor {
+  cursor: grab;
+}
+
+.board-item-cursor:active {
+  cursor: grabbing;
+}
+
+.library-card-form {
+  background: #F1E7C7;
+  border: 1.5px dashed rgba(74, 51, 35, 0.45);
+  box-shadow: 0 18px 42px rgba(74, 51, 35, 0.28);
+}
+
+.ruled-field {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 1.6rem,
+    rgba(74, 51, 35, 0.14) 1.6rem,
+    rgba(74, 51, 35, 0.14) calc(1.6rem + 1px)
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
   .window-light,
-  .dust-puff {
+  .dust-puff,
+  .ambient-sway,
+  .photo-curl-corner {
     animation: none !important;
   }
 

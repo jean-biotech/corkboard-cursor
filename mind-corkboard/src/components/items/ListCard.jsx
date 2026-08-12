@@ -16,12 +16,11 @@ export default function ListCard({ item, onToggleItem }) {
         style={{
           minHeight: 220,
           background: '#F1E7C7',
-          boxShadow: '2px 3px 10px rgba(74,51,35,0.25), inset 0 0 0 1px rgba(74,51,35,0.12)',
+          boxShadow: '2px 3px 10px rgba(74,51,35,0.22), inset 0 0 0 1px rgba(74,51,35,0.1)',
         }}
       >
         <SpiralHoles className="w-6 shrink-0 border-r border-[#A08560]/25 bg-[#E8DCB8]/50 py-2" />
         <div className="relative flex-1 px-3 py-3">
-          {/* lined paper */}
           <div className="pointer-events-none absolute inset-0" aria-hidden="true">
             {lines.map((i) => (
               <div
@@ -30,10 +29,9 @@ export default function ListCard({ item, onToggleItem }) {
                 style={{ top: 36 + i * 22 }}
               />
             ))}
-            <div className="absolute inset-y-0 left-0 w-px bg-[#E4A5A5]/50" style={{ left: 4 }} />
           </div>
 
-          <h3 className="font-hand relative text-[1.3rem] text-[#1E3A5F]">
+          <h3 className="font-hand relative text-[1.4rem] text-[#1E3A5F]">
             {data.title || 'to remember'}
           </h3>
           {data.category && (
@@ -52,13 +50,11 @@ export default function ListCard({ item, onToggleItem }) {
                     onToggleItem?.(i)
                   }}
                   className="mt-1.5 h-3 w-3 shrink-0 border border-[#1E3A5F]/60"
-                  style={{
-                    background: entry.done ? '#1E3A5F' : 'transparent',
-                  }}
+                  style={{ background: entry.done ? '#1E3A5F' : 'transparent' }}
                   aria-label={entry.done ? 'mark incomplete' : 'mark complete'}
                 />
                 <span
-                  className="font-hand text-[1.1rem] leading-tight text-[#1E3A5F]"
+                  className="font-hand text-[1.15rem] leading-tight text-[#1E3A5F]"
                   style={{
                     textDecoration: entry.done ? 'line-through' : 'none',
                     opacity: entry.done ? 0.5 : 1,

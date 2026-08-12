@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FormShell, { Field } from './FormShell'
+import FormShell, { Field, AddMore } from './FormShell'
 
 const EMPTY = { title: '', body: '', signature: '' }
 
@@ -22,7 +22,7 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
     >
       <Field label="title">
         <input
-          className="font-serif text-xl"
+          className="font-serif text-xl italic"
           value={form.title}
           onChange={(e) => set('title', e.target.value)}
           placeholder="what is this about"
@@ -35,17 +35,19 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
           value={form.body}
           onChange={(e) => set('body', e.target.value)}
           placeholder="take your time"
-          rows={8}
+          rows={7}
         />
       </Field>
-      <Field label="signature">
-        <input
-          className="font-hand text-xl"
-          value={form.signature}
-          onChange={(e) => set('signature', e.target.value)}
-          placeholder="yours,"
-        />
-      </Field>
+      <AddMore>
+        <Field label="signature">
+          <input
+            className="font-hand text-xl"
+            value={form.signature}
+            onChange={(e) => set('signature', e.target.value)}
+            placeholder="yours,"
+          />
+        </Field>
+      </AddMore>
     </FormShell>
   )
 }

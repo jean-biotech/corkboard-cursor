@@ -14,34 +14,23 @@ export default function TicketCard({ item }) {
         className="relative flex overflow-hidden"
         style={{
           background: '#F1E7C7',
-          boxShadow: '2px 3px 10px rgba(74,51,35,0.28)',
+          boxShadow: '2px 3px 10px rgba(74,51,35,0.26)',
           clipPath:
             'polygon(0% 0%, 97% 0%, 100% 8%, 96% 16%, 100% 24%, 97% 32%, 100% 40%, 96% 48%, 100% 56%, 97% 64%, 100% 72%, 96% 80%, 100% 88%, 97% 96%, 100% 100%, 0% 100%)',
         }}
       >
         <PerforatedEdge className="w-4 shrink-0 border-r border-dashed border-[#A08560]/50 bg-[#EDE0C4]/60" />
         <div className="flex-1 px-3 py-3">
-          <p className="font-type text-[0.55rem] tracking-[0.12em] text-[#6B4A2E]">
-            ADMIT ONE
-          </p>
-          <h3 className="font-serif mt-1 text-lg font-medium leading-tight text-[#1F1815]">
+          <p className="font-type text-[0.55rem] tracking-[0.12em] text-[#6B4A2E]">admit one</p>
+          <h3 className="font-serif mt-1 text-lg font-medium italic leading-tight text-[#1F1815]">
             {data.eventName || 'Event'}
           </h3>
-          <p className="font-type mt-2 text-[0.7rem] text-[#4A3323]">
-            {data.date || '—'}
-          </p>
-          <p className="font-type text-[0.65rem] text-[#6B4A2E]">
-            {data.venue || 'somewhere'}
-          </p>
-          {(data.seat || data.artist) && (
-            <p className="font-type mt-1 text-[0.6rem] text-[#6B4A2E]/80">
-              {[data.artist, data.seat].filter(Boolean).join(' · ')}
-            </p>
+          <p className="font-type mt-2 text-[0.7rem] text-[#4A3323]">{data.date || '—'}</p>
+          {data.venue && (
+            <p className="font-type text-[0.65rem] text-[#6B4A2E]">{data.venue}</p>
           )}
           {data.memory && (
-            <p className="font-hand mt-2 text-[1.05rem] leading-snug text-[#1E3A5F]">
-              {data.memory}
-            </p>
+            <p className="font-hand mt-2 text-[1.1rem] leading-snug text-[#1E3A5F]">{data.memory}</p>
           )}
         </div>
       </div>

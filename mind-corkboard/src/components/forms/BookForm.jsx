@@ -1,40 +1,51 @@
 import { useState } from 'react'
-import FormShell, { Field, readFileAsDataUrl } from './FormShell'
+import FormShell, { Field, AddMore, readFileAsDataUrl } from './FormShell'
 import { StarPicker } from '../items/Stars'
 
 const EMPTY = {
   title: '',
   author: '',
-  genre: '',
   rating: 0,
-  review: '',
-  takeaway: '',
+  note: '',
+  genre: '',
   dateRead: '',
   coverImage: null,
-  coverEmoji: '◆',
+  review: '',
+  takeaway: '',
 }
 
 export default function BookForm({ open, onClose, onSubmit, initial }) {
-  const [form, setForm] = useState(() => ({ ...EMPTY, ...initial }))
-
+  const [form, setForm] = useState(() => {
+    const base = { ...EMPTY, ...initial }
+    if (!base.note && (initial?.takeaway || initial?.review)) {
+      base.note = [initial.takeaway, initial.review].filter(Boolean).join('\n')
+    }
+    return base
+  })
   const set = (key, value) => setForm((f) => ({ ...f, [key]: value }))
 
   return (
     <FormShell
       open={open}
+      variant="library"
       title="library card"
       subtitle="pin a book"
       onClose={onClose}
       onSubmit={() => {
         if (!form.title.trim()) return
-        onSubmit({ ...form, title: form.title.trim() })
+        onSubmit({
+          ...form,
+          title: form.title.trim(),
+          takeaway: form.note,
+          review: form.note,
+        })
         setForm({ ...EMPTY })
       }}
       submitLabel="pin book"
     >
       <Field label="title">
         <input
-          className="font-serif text-xl"
+          className="font-serif text-xl italic"
           value={form.title}
           onChange={(e) => set('title', e.target.value)}
           placeholder="what did you read?"
@@ -42,14 +53,31 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
           autoFocus
         />
       </Field>
+
       <Field label="author">
         <input
+          className="font-type text-sm"
           value={form.author}
           onChange={(e) => set('author', e.target.value)}
-          placeholder="who wrote it"
+          placeholder="who wrote it (optional)"
         />
       </Field>
-      <div className="grid grid-cols-2 gap-4">
+
+      <Field label="rating">
+        <StarPicker value={form.rating} onChange={(n) => set('rating', n)} />
+      </Field>
+
+      <Field label="note">
+        <textarea
+          className="font-hand text-xl ruled-field"
+          value={form.note}
+          onChange={(e) => set('note', e.target.value)}
+          placeholder="what stayed with you?"
+          rows={3}
+        />
+      </Field>
+
+      <AddMore>
         <Field label="genre">
           <input
             value={form.genre}
@@ -64,37 +92,17 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
             onChange={(e) => set('dateRead', e.target.value)}
           />
         </Field>
-      </div>
-      <Field label="rating">
-        <StarPicker value={form.rating} onChange={(n) => set('rating', n)} />
-      </Field>
-      <Field label="one-line takeaway">
-        <input
-          className="font-hand text-lg"
-          value={form.takeaway}
-          onChange={(e) => set('takeaway', e.target.value)}
-          placeholder="what stayed with you"
-        />
-      </Field>
-      <Field label="personal review">
-        <textarea
-          className="font-serif"
-          value={form.review}
-          onChange={(e) => set('review', e.target.value)}
-          placeholder="the long version, if you want it"
-          rows={4}
-        />
-      </Field>
-      <Field label="cover image (optional)">
-        <input
-          type="file"
-          accept="image/*"
-          onChange={async (e) => {
-            const url = await readFileAsDataUrl(e.target.files?.[0])
-            set('coverImage', url)
-          }}
-        />
-      </Field>
+        <Field label="cover image">
+          <input
+            type="file"
+            accept="image/*"
+            onChange={async (e) => {
+              const url = await readFileAsDataUrl(e.target.files?.[0])
+              set('coverImage', url)
+            }}
+          />
+        </Field>
+      </AddMore>
     </FormShell>
   )
 }
