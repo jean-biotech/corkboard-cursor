@@ -226,15 +226,17 @@ export default function Corkboard({ boardRef }) {
               />
             ))}
 
-            <AddItemPopover
-              open={!!addMenu}
-              xPct={addMenu?.xPct ?? 50}
-              yPct={addMenu?.yPct ?? 50}
-              corkWidth={corkSize.w}
-              corkHeight={corkSize.h}
-              onClose={() => setAddMenu(null)}
-              onSelect={(type) => openForm(type, addMenu.xPct, addMenu.yPct)}
-            />
+            {addMenu && (
+              <AddItemPopover
+                open
+                xPct={addMenu.xPct}
+                yPct={addMenu.yPct}
+                corkWidth={corkSize.w}
+                corkHeight={corkSize.h}
+                onClose={() => setAddMenu(null)}
+                onSelect={(type) => openForm(type, addMenu.xPct, addMenu.yPct)}
+              />
+            )}
           </div>
         </div>
       </div>

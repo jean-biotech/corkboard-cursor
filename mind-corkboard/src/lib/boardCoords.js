@@ -16,10 +16,32 @@ export const ITEM_CQW = {
   postcard: 20,
 }
 
+const WELCOME_NOTE_SNIPPET = 'everything you love'
+
+export function isWelcomeNote(item) {
+  return (
+    item?.type === 'note' &&
+    (item.data?.isWelcome ||
+      (typeof item.data?.text === 'string' && item.data.text.includes(WELCOME_NOTE_SNIPPET)))
+  )
+}
+
 export function migrateItem(item) {
   if (item == null) return item
   if (typeof item.xPct === 'number' && typeof item.yPct === 'number') {
-    return { ...item, xPct: clampPct(item.xPct), yPct: clampPct(item.yPct) }
+    const next = { ...item, xPct: clampPct(item.xPct), yPct: clampPct(item.yPct) }
+    if (isWelcomeNote(next)) {
+      const { xPct, yPct } = pxToPct(600, 410)
+      return {
+        ...next,
+        xPct,
+        yPct,
+        rotation: -1.5,
+        pinColor: 'red',
+        data: { ...next.data, isWelcome: true },
+      }
+    }
+    return next
   }
   const x = typeof item.x === 'number' ? item.x : 0
   const y = typeof item.y === 'number' ? item.y : 0
@@ -27,6 +49,17 @@ export function migrateItem(item) {
   const next = { ...item, xPct, yPct }
   delete next.x
   delete next.y
+  if (isWelcomeNote(next)) {
+    const centered = pxToPct(600, 410)
+    return {
+      ...next,
+      xPct: centered.xPct,
+      yPct: centered.yPct,
+      rotation: -1.5,
+      pinColor: 'red',
+      data: { ...next.data, isWelcome: true },
+    }
+  }
   return next
 }
 
@@ -59,16 +92,17 @@ export function pctDeltaFromDrag(offsetX, offsetY, corkW, corkH) {
 }
 
 export function getPagePad(viewportWidth) {
-  if (viewportWidth >= 1024) return 40
-  if (viewportWidth >= 768) return 24
-  return 16
+  if (viewportWidth >= 1400) return 24
+  if (viewportWidth >= 1024) return 20
+  if (viewportWidth >= 768) return 16
+  return 12
 }
 
 export function getBoardWidthPct(viewportWidth) {
-  if (viewportWidth >= 1400) return 0.85
-  if (viewportWidth >= 1024) return 0.9
-  if (viewportWidth >= 768) return 0.92
-  return 0.95
+  if (viewportWidth >= 1400) return 0.92
+  if (viewportWidth >= 1024) return 0.94
+  if (viewportWidth >= 768) return 0.95
+  return 0.96
 }
 
 /** Compute frame + cork dimensions that fit the viewport */
@@ -77,7 +111,7 @@ export function computeBoardLayout(viewportWidth, viewportHeight) {
   const widthPct = getBoardWidthPct(viewportWidth)
   const frameInset = Math.min(32, Math.max(20, viewportWidth * 0.02))
 
-  let frameWidth = Math.max(280, (viewportWidth - pagePad * 2) * widthPct)
+  let frameWidth = Math.max(280, viewportWidth * widthPct)
   let frameHeight = frameWidth * FRAME_ASPECT
 
   const maxFrameHeight = Math.max(600, viewportHeight - 200)

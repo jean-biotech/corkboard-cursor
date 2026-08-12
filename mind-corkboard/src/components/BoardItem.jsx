@@ -8,9 +8,9 @@ import PostcardCard from './items/PostcardCard'
 import LetterCard from './items/LetterCard'
 import TicketCard from './items/TicketCard'
 import ListCard from './items/ListCard'
-import { ITEM_CQW, pctDeltaFromDrag } from '../lib/boardCoords'
+import { ITEM_CQW, pctDeltaFromDrag, isWelcomeNote } from '../lib/boardCoords'
 
-function renderCard(item, onToggleListItem) {
+function renderCard(item, onToggleListItem, welcome = false) {
   switch (item.type) {
     case 'book':
       return <BookCard item={item} />
@@ -19,7 +19,7 @@ function renderCard(item, onToggleListItem) {
     case 'photo':
       return <PhotoCard item={item} />
     case 'note':
-      return <NoteCard item={item} />
+      return <NoteCard item={item} welcome={welcome} />
     case 'postcard':
       return <PostcardCard item={item} />
     case 'letter':
@@ -48,6 +48,7 @@ export default function BoardItem({
   const didDrag = useRef(false)
   const longPressTimer = useRef(null)
   const mobileBoost = corkWidth > 0 && corkWidth < 520 ? 1.12 : 1
+  const welcome = isWelcomeNote(item)
   const widthCqw = (ITEM_CQW[item.type] || 16) * mobileBoost
 
   useEffect(() => () => {
@@ -59,9 +60,9 @@ export default function BoardItem({
       data-board-item
       className={`absolute touch-none board-item-cursor ${reduceMotion ? '' : 'ambient-sway'}`}
       style={{
-        left: `${item.xPct}%`,
-        top: `${item.yPct}%`,
-        width: `${widthCqw}cqw`,
+        left: welcome ? 'calc(50% - 100px)' : `${item.xPct}%`,
+        top: welcome ? '42%' : `${item.yPct}%`,
+        width: welcome ? 200 : `${widthCqw}cqw`,
         zIndex: item.z,
         '--base-rot': `${item.rotation}deg`,
         '--sway-delay': `${(item.z % 5) * 0.9}s`,
@@ -139,7 +140,7 @@ export default function BoardItem({
           filter: 'drop-shadow(2px 3px 5px rgba(74,51,35,0.2))',
         }}
       >
-        {renderCard(item, onToggleListItem)}
+        {renderCard(item, onToggleListItem, welcome)}
         {justPinned && !reduceMotion && (
           <span
             className="dust-puff pointer-events-none absolute left-1/2 top-0 h-8 w-8 -translate-x-1/2 rounded-full"

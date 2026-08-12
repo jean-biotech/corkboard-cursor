@@ -38,14 +38,14 @@ function randomPinColor() {
 }
 
 function createWelcomeItem() {
-  const { xPct, yPct } = pxToPct(980, 420)
+  const { xPct, yPct } = pxToPct(600, 410)
   return {
     id: uid('item'),
     type: 'note',
     xPct,
     yPct,
     z: 1,
-    rotation: -2.2,
+    rotation: -1.5,
     pinColor: 'red',
     createdAt: Date.now(),
     data: {
@@ -54,6 +54,7 @@ function createWelcomeItem() {
       fontStyle: 'reenie',
       showArrow: true,
       doodle: 'star',
+      isWelcome: true,
     },
   }
 }

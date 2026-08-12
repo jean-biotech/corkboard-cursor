@@ -134,6 +134,8 @@ const BASE_RADIUS = 118
 const BASE_MENU = 320
 
 export default function AddItemPopover({ open, xPct, yPct, corkWidth, corkHeight, onSelect, onClose }) {
+  if (!open) return null
+
   const scale = corkWidth > 0 ? Math.min(1, Math.max(0.55, corkWidth / 900)) : 1
   const menuSize = BASE_MENU * scale
   const radius = BASE_RADIUS * scale
