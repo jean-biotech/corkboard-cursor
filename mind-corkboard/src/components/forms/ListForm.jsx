@@ -1,29 +1,18 @@
 import { useState } from 'react'
 import FormShell, { Field, AddMore } from './FormShell'
 
-const EMPTY = {
-  title: '',
-  category: '',
-  items: [],
-}
-
 export default function ListForm({ open, onClose, onSubmit, initial }) {
   const [form, setForm] = useState(() => {
     if (initial) {
       return {
         title: initial.title || '',
         category: initial.category || '',
-        items: (initial.items || []).map((i) => ({
-          text: i.text,
-          done: !!i.done,
-        })),
+        items: (initial.items || []).map((i) => ({ text: i.text, done: !!i.done })),
       }
     }
-    return { ...EMPTY, items: [] }
+    return { title: '', category: '', items: [] }
   })
   const [draft, setDraft] = useState('')
-
-  const set = (key, value) => setForm((f) => ({ ...f, [key]: value }))
 
   function addItem() {
     const text = draft.trim()
@@ -37,7 +26,7 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
       open={open}
       variant="list"
       title="list"
-      subtitle="pin things to remember"
+      subtitle="things to remember"
       onClose={onClose}
       onSubmit={() => {
         if (!form.title.trim() && form.items.length === 0) return
@@ -46,66 +35,52 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
           category: form.category,
           items: form.items,
         })
-        setForm({ ...EMPTY, items: [] })
+        setForm({ title: '', category: '', items: [] })
         setDraft('')
       }}
       submitLabel="pin list"
-      className="pl-8"
+      className="pl-7"
     >
-      <Field label="title">
+      <Field label="what's this for" labelStyle="hand" offset="tilt">
         <input
-          className="font-serif text-xl italic"
+          className="font-serif text-lg italic"
           value={form.title}
-          onChange={(e) => set('title', e.target.value)}
+          onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
           placeholder="what's this list for?"
           autoFocus
         />
       </Field>
 
-      <Field label="items">
-        <ul className="mb-2 space-y-1.5">
+      <Field label="items" labelStyle="type" offset="none">
+        <ul className="mb-1 space-y-1">
           {form.items.map((entry, i) => (
             <li key={`${entry.text}-${i}`} className="flex items-start gap-2">
               <button
                 type="button"
-                onClick={() => {
+                onClick={() =>
                   setForm((f) => ({
                     ...f,
                     items: f.items.map((it, idx) =>
                       idx === i ? { ...it, done: !it.done } : it,
                     ),
                   }))
-                }}
-                className="mt-1.5 h-3.5 w-3.5 shrink-0 border border-[#1E3A5F]/65"
+                }
+                className="mt-1.5 h-3 w-3 shrink-0 border border-[#1E3A5F]/6"
                 style={{ background: entry.done ? '#1E3A5F' : 'transparent' }}
-                aria-label={entry.done ? 'uncheck' : 'check'}
               />
               <span
                 className="font-hand flex-1 text-xl leading-tight text-[#1E3A5F]"
                 style={{
                   textDecoration: entry.done ? 'line-through' : 'none',
                   opacity: entry.done ? 0.5 : 1,
+                  transform: `rotate(${(i % 3) - 1}deg)`,
                 }}
               >
                 {entry.text}
               </span>
-              <button
-                type="button"
-                className="font-hand text-base text-[#6B4A2E]/70"
-                onClick={() =>
-                  setForm((f) => ({
-                    ...f,
-                    items: f.items.filter((_, idx) => idx !== i),
-                  }))
-                }
-                aria-label="remove item"
-              >
-                ×
-              </button>
             </li>
           ))}
         </ul>
-
         <input
           className="font-hand text-xl"
           value={draft}
@@ -116,24 +91,17 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
               addItem()
             }
           }}
-          placeholder="type an item, hit enter"
+          placeholder="type + enter"
         />
-        <button
-          type="button"
-          onClick={addItem}
-          className="font-hand mt-1 text-base text-[#1E3A5F] underline-offset-2 hover:underline"
-        >
-          add item
-        </button>
       </Field>
 
-      <AddMore label="add category tag">
-        <Field label="category">
+      <AddMore label="add tag">
+        <Field label="tag" labelStyle="type">
           <input
             className="font-type text-sm"
             value={form.category}
-            onChange={(e) => set('category', e.target.value)}
-            placeholder="reading, watching, making…"
+            onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+            placeholder="reading, watching…"
           />
         </Field>
       </AddMore>

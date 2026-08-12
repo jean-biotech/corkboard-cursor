@@ -113,6 +113,35 @@ export default function WoodFrame() {
         <circle cx="1436" cy="1050" r="2.2" fill="#6B4A2E" opacity="0.55" />
         <circle cx="1450" cy="1036" r="2.2" fill="#6B4A2E" opacity="0.55" />
       </g>
+
+      {/* Chip / uneven edge on bottom-right rail */}
+      <path
+        d="M1420 1048 L1435 1052 L1448 1045 L1455 1055 L1425 1058 Z"
+        fill="#F5EFE4"
+        opacity="0.55"
+      />
+      <path
+        d="M1418 1046 Q1430 1054 1450 1048"
+        fill="none"
+        stroke="#2E1F14"
+        strokeWidth="1.2"
+        opacity="0.4"
+      />
+
+      {/* Hanging ribbon string off top edge */}
+      <path
+        d="M220 32 Q230 70 218 110 Q210 130 225 150"
+        fill="none"
+        stroke="#C8322E"
+        strokeWidth="2.2"
+        opacity="0.55"
+        strokeLinecap="round"
+      />
+      <path
+        d="M218 148 L210 165 L225 158 L232 168 L226 150"
+        fill="#C8322E"
+        opacity="0.5"
+      />
     </svg>
   )
 }

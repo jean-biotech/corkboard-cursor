@@ -148,8 +148,8 @@ export default function Corkboard({ boardRef }) {
           style={{
             width: frameW,
             height: frameH,
-            transform: `scale(${scale})`,
-            filter: 'drop-shadow(0 22px 40px rgba(74, 51, 35, 0.35))',
+            transform: `scale(${scale}) rotate(-0.7deg)`,
+            filter: 'drop-shadow(8px 24px 36px rgba(74, 51, 35, 0.38))',
           }}
         >
           {/* Wood frame shell */}
@@ -174,32 +174,32 @@ export default function Corkboard({ boardRef }) {
               <div className="grain-overlay" />
               <BoardDecorations />
 
-              {/* Board title card */}
+              {/* Board title card — off-center */}
               <div
-                className="pointer-events-none absolute left-1/2 top-6 -translate-x-1/2 px-5 py-2"
+                className="pointer-events-none absolute top-5 px-4 py-1.5"
                 style={{
+                  left: '38%',
                   background: '#F1E7C7',
-                  transform: 'translateX(-50%) rotate(-1.5deg)',
+                  transform: 'rotate(-2.8deg)',
                   boxShadow: '2px 3px 8px rgba(74,51,35,0.2)',
                 }}
               >
-                <p className="font-display text-center text-xl italic text-[#1F1815]">
+                <p className="font-display text-lg text-[#1F1815]">
                   {board.titleCard || board.name}
                 </p>
               </div>
 
-              {/* Item counter note */}
+              {/* Item counter — asymmetric corner */}
               <div
-                className="pointer-events-none absolute bottom-4 right-6 px-3 py-1"
+                className="pointer-events-none absolute bottom-8 left-8 px-2.5 py-1"
                 style={{
                   background: 'rgba(241,231,199,0.85)',
-                  transform: 'rotate(2deg)',
+                  transform: 'rotate(-3.5deg)',
                   boxShadow: '1px 2px 4px rgba(74,51,35,0.15)',
                 }}
               >
                 <p className="font-hand text-base text-[#1E3A5F]">
-                  your board has {board.items.length} pinned item
-                  {board.items.length === 1 ? '' : 's'}
+                  {board.items.length} thing{board.items.length === 1 ? '' : 's'} pinned
                 </p>
               </div>
 

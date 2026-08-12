@@ -7,35 +7,37 @@ import PushPin from './components/decor/PushPin'
 
 function TitleMark() {
   return (
-    <div className="relative inline-block">
-      <p className="font-scribble absolute -top-4 left-1 text-[11px] leading-none text-[#1E3A5F]">
+    <div className="relative inline-block" style={{ transform: 'rotate(-0.6deg)' }}>
+      <p className="font-scribble absolute -top-3 left-2 text-[11px] leading-none text-[#1E3A5F]">
         no. 1
       </p>
       <div className="flex flex-wrap items-end gap-2 sm:gap-3">
         <div className="relative">
           <div className="flex items-center gap-2">
-            <PushPin color="red" size={18} />
+            <span style={{ transform: 'rotate(-12deg)', marginTop: -4 }}>
+              <PushPin color="red" size={18} />
+            </span>
             <h1
-              className="font-display italic leading-none text-[#1F1815]"
-              style={{ fontSize: '42px', fontWeight: 400 }}
+              className="font-display leading-none text-[#1F1815]"
+              style={{ fontSize: '38px', fontWeight: 400 }}
             >
               Mind{' '}
               <span className="relative inline-block">
                 Corkboard
                 <svg
-                  className="absolute -bottom-1 left-0 w-full"
-                  height="10"
-                  viewBox="0 0 180 10"
+                  className="absolute -bottom-0.5 left-0 w-full"
+                  height="12"
+                  viewBox="0 0 200 12"
                   preserveAspectRatio="none"
                   aria-hidden="true"
                 >
                   <path
-                    d="M2 6 Q40 2 80 7 T160 4 Q170 3 178 5"
+                    d="M1 8 Q35 3 70 9 T140 5 Q170 3 198 7"
                     fill="none"
                     stroke="#1E3A5F"
-                    strokeWidth="1.6"
+                    strokeWidth="2"
                     strokeLinecap="round"
-                    opacity="0.75"
+                    opacity="0.8"
                   />
                 </svg>
               </span>
@@ -43,8 +45,8 @@ function TitleMark() {
           </div>
         </div>
         <p
-          className="font-hand mb-1 text-[#1E3A5F]"
-          style={{ fontSize: '16px', transform: 'rotate(-3deg)', lineHeight: 1 }}
+          className="font-hand mb-0.5 text-[#1E3A5F]"
+          style={{ fontSize: '16px', transform: 'rotate(-4deg) translateY(2px)', lineHeight: 1 }}
         >
           Pin what stays with you.
         </p>

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import FormShell, { Field, AddMore, readFileAsDataUrl } from './FormShell'
+import FormShell, { Field, readFileAsDataUrl } from './FormShell'
 
 const EMPTY = {
   image: null,
@@ -7,7 +7,6 @@ const EMPTY = {
   style: 'polaroid',
   tapeColor: 'cream',
   location: '',
-  date: '',
 }
 
 export default function PhotoForm({ open, onClose, onSubmit, initial }) {
@@ -34,7 +33,7 @@ export default function PhotoForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin photo"
     >
-      <Field label="image">
+      <Field label="image" labelStyle="hand" offset="none">
         <input
           ref={fileRef}
           type="file"
@@ -44,30 +43,32 @@ export default function PhotoForm({ open, onClose, onSubmit, initial }) {
         />
         <button
           type="button"
-          className="photo-dropzone w-full"
+          className="w-full overflow-hidden text-left"
           onClick={() => fileRef.current?.click()}
           onDragOver={(e) => e.preventDefault()}
           onDrop={async (e) => {
             e.preventDefault()
             handleFiles(e.dataTransfer.files)
           }}
+          style={{
+            background: form.image ? '#2A221C' : '#FAF6EE',
+            boxShadow: '3px 5px 14px rgba(74,51,35,0.28)',
+            minHeight: 150,
+            maxHeight: 200,
+            transform: 'rotate(-0.6deg)',
+          }}
         >
           {form.image ? (
-            <img
-              src={form.image}
-              alt=""
-              className="max-h-44 w-full object-cover"
-              style={{ border: '6px solid #FAF6EE', borderBottomWidth: 20 }}
-            />
+            <img src={form.image} alt="" className="max-h-[200px] w-full object-cover" />
           ) : (
-            <p className="font-hand px-4 text-center text-xl text-[#1E3A5F]/70">
-              drop a photo or click to upload
+            <p className="font-hand px-4 py-10 text-center text-xl text-[#1E3A5F]/65">
+              drop a photo here
             </p>
           )}
         </button>
       </Field>
 
-      <Field label="caption">
+      <Field label="caption" labelStyle="type" offset="right">
         <input
           className="font-hand text-xl"
           value={form.caption}
@@ -76,47 +77,47 @@ export default function PhotoForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="style">
-        <div className="flex gap-5">
-          {[
-            { id: 'polaroid', label: 'polaroid' },
-            { id: 'regular', label: 'regular' },
-          ].map((opt) => (
-            <button
-              key={opt.id}
-              type="button"
-              onClick={() => set('style', opt.id)}
-              className="flex items-center gap-2"
-            >
-              <span
-                className="inline-block"
-                style={{
-                  width: opt.id === 'polaroid' ? 22 : 24,
-                  height: opt.id === 'polaroid' ? 26 : 18,
-                  border: `1.5px solid ${form.style === opt.id ? '#1E3A5F' : 'rgba(74,51,35,0.35)'}`,
-                  background: form.style === opt.id ? 'rgba(30,58,95,0.08)' : '#FAF6EE',
-                  boxShadow: form.style === opt.id ? '1px 1px 0 #1E3A5F' : 'none',
-                }}
-                aria-hidden="true"
-              />
-              <span className="font-hand text-lg text-[#1E3A5F]">{opt.label}</span>
-            </button>
-          ))}
-        </div>
+      <Field label="where" labelStyle="hand" offset="short">
+        <input
+          className="font-hand text-lg"
+          value={form.location}
+          onChange={(e) => set('location', e.target.value)}
+          placeholder="optional place"
+        />
       </Field>
 
-      <AddMore label="add location and date">
-        <Field label="location">
-          <input
-            value={form.location}
-            onChange={(e) => set('location', e.target.value)}
-            placeholder="where was this"
+      <div
+        className="flex items-end gap-6 pt-1"
+        style={{ marginLeft: '8%', transform: 'rotate(0.8deg)' }}
+      >
+        <button type="button" onClick={() => set('style', 'polaroid')} className="flex flex-col items-center gap-0.5">
+          <span
+            aria-hidden="true"
+            style={{
+              width: 28,
+              height: 34,
+              background: '#FAF6EE',
+              boxShadow: form.style === 'polaroid' ? '2px 2px 0 #1E3A5F' : '1px 2px 4px rgba(74,51,35,0.2)',
+              borderBottom: '8px solid #FAF6EE',
+              outline: form.style === 'polaroid' ? '1.5px solid #1E3A5F' : '1px solid rgba(74,51,35,0.25)',
+            }}
           />
-        </Field>
-        <Field label="date">
-          <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
-        </Field>
-      </AddMore>
+          <span className="font-hand text-sm text-[#1E3A5F]">polaroid</span>
+        </button>
+        <button type="button" onClick={() => set('style', 'regular')} className="flex flex-col items-center gap-0.5">
+          <span
+            aria-hidden="true"
+            style={{
+              width: 34,
+              height: 24,
+              background: '#FAF6EE',
+              boxShadow: form.style === 'regular' ? '2px 2px 0 #1E3A5F' : '1px 2px 4px rgba(74,51,35,0.2)',
+              outline: form.style === 'regular' ? '1.5px solid #1E3A5F' : '1px solid rgba(74,51,35,0.25)',
+            }}
+          />
+          <span className="font-type text-[0.55rem] text-[#6B4A2E]">regular</span>
+        </button>
+      </div>
     </FormShell>
   )
 }

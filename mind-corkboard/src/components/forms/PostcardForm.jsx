@@ -8,7 +8,6 @@ const EMPTY = {
   date: '',
   location: '',
   sentFrom: '',
-  address: '',
 }
 
 export default function PostcardForm({ open, onClose, onSubmit, initial }) {
@@ -29,28 +28,26 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin postcard"
     >
-      {/* split postcard back */}
-      <div className="relative mt-2 grid gap-4 sm:grid-cols-2">
+      <div className="relative mt-1 grid gap-3 sm:grid-cols-2">
         <div
-          className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-[#A08560]/40 sm:block"
+          className="pointer-events-none absolute inset-y-2 left-1/2 hidden w-px -translate-x-1/2 bg-[#A08560]/35 sm:block"
+          style={{ transform: 'translateX(-50%) rotate(1deg)' }}
           aria-hidden="true"
         />
 
-        <div>
-          <p className="font-label mb-1 text-[12px] text-[#6B4A2E]">message</p>
+        <Field label="message" labelStyle="hand" offset="tilt">
           <textarea
             className="font-serif text-base italic"
             value={form.message}
             onChange={(e) => set('message', e.target.value)}
             placeholder="your message..."
-            rows={6}
+            rows={5}
             autoFocus
           />
-        </div>
+        </Field>
 
-        <div className="space-y-3">
-          <div>
-            <p className="font-label mb-1 text-[12px] text-[#6B4A2E]">stamp / photo</p>
+        <div className="space-y-2" style={{ transform: 'rotate(0.6deg)' }}>
+          <Field label="photo" labelStyle="type" offset="none">
             <input
               ref={fileRef}
               type="file"
@@ -64,36 +61,22 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
             <button
               type="button"
               onClick={() => fileRef.current?.click()}
-              className="relative flex h-24 w-20 flex-col items-center justify-center overflow-hidden"
+              className="flex h-20 w-16 flex-col items-center justify-center overflow-hidden"
               style={{
-                border: '2px dashed rgba(200,50,46,0.45)',
-                background: form.image ? '#2A221C' : 'rgba(255,255,255,0.2)',
+                border: '2px dashed rgba(200,50,46,0.4)',
+                background: form.image ? '#2A221C' : 'rgba(255,255,255,0.15)',
+                transform: 'rotate(4deg)',
               }}
             >
               {form.image ? (
                 <img src={form.image} alt="" className="h-full w-full object-cover" />
               ) : (
-                <>
-                  <span className="font-type text-[0.5rem] text-[#C8322E]">MMXXVI</span>
-                  <span className="font-hand text-sm text-[#1E3A5F]/70">photo</span>
-                </>
+                <span className="font-hand text-sm text-[#1E3A5F]/65">stamp</span>
               )}
             </button>
-            {!form.image && (
-              <select
-                className="mt-2"
-                value={form.preset}
-                onChange={(e) => set('preset', e.target.value)}
-              >
-                <option value="coast">or: coast light</option>
-                <option value="forest">or: forest walk</option>
-                <option value="city">or: city dusk</option>
-                <option value="dusk">or: warm dusk</option>
-              </select>
-            )}
-          </div>
+          </Field>
 
-          <Field label="from">
+          <Field label="from" labelStyle="hand" offset="short">
             <input
               className="font-hand text-lg"
               value={form.sentFrom}
@@ -101,27 +84,18 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
               placeholder="sent from..."
             />
           </Field>
-
-          <Field label="date">
-            <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
-          </Field>
         </div>
       </div>
 
-      <AddMore label="add address">
-        <Field label="location">
+      <AddMore label="add date & place">
+        <Field label="date" labelStyle="type">
+          <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
+        </Field>
+        <Field label="place" labelStyle="hand">
           <input
             value={form.location}
             onChange={(e) => set('location', e.target.value)}
             placeholder="where were you"
-          />
-        </Field>
-        <Field label="address">
-          <textarea
-            value={form.address}
-            onChange={(e) => set('address', e.target.value)}
-            placeholder="to whom, where"
-            rows={2}
           />
         </Field>
       </AddMore>

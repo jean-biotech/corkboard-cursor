@@ -18,12 +18,12 @@
   --color-washi-cream: #EDE0C4;
   --color-washi-blue: #B8CBDA;
   --color-wall: #F5EFE4;
-  --font-display: "Instrument Serif", Georgia, serif;
+  --font-display: "Rozha One", Georgia, serif;
   --font-serif: "Fraunces", Georgia, serif;
   --font-hand: "Reenie Beanie", cursive;
   --font-scribble: "Gloria Hallelujah", cursive;
   --font-type: "Special Elite", "Courier New", monospace;
-  --font-label: "Courier Prime", "Courier New", monospace;
+  --font-label: "Special Elite", "Courier New", monospace;
 }
 
 * {
@@ -138,13 +138,45 @@ button {
 
 .paper-form label {
   display: block;
-  font-family: var(--font-label);
-  font-size: 12px;
-  letter-spacing: 0.02em;
-  color: #6B4A2E;
-  margin-bottom: 0.15rem;
+  color: #1E3A5F;
+  margin-bottom: 0.1rem;
   text-transform: lowercase;
   font-weight: 400;
+  opacity: 0.85;
+}
+
+.paper-form label.label-hand {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  letter-spacing: 0;
+  transform: rotate(-1deg);
+  display: inline-block;
+}
+
+.paper-form label.label-type {
+  font-family: var(--font-type);
+  font-size: 0.68rem;
+  letter-spacing: 0.03em;
+  color: #6B4A2E;
+}
+
+.form-field-offset-left {
+  margin-left: 0;
+  margin-right: 12%;
+  max-width: 88%;
+}
+
+.form-field-offset-right {
+  margin-left: 10%;
+  max-width: 86%;
+}
+
+.form-field-short {
+  max-width: 58%;
+}
+
+.form-field-tilt {
+  transform: rotate(-0.8deg);
 }
 
 .paper-grain {

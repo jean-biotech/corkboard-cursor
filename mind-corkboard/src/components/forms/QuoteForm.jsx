@@ -11,7 +11,7 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
     <FormShell
       open={open}
       variant="quote"
-      title="commonplace book"
+      title="commonplace"
       subtitle="pin a quote"
       onClose={onClose}
       onSubmit={() => {
@@ -21,7 +21,7 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin quote"
     >
-      <Field label="the quote">
+      <Field label="the quote" labelStyle="hand" offset="none">
         <textarea
           className="font-serif text-lg italic"
           value={form.text}
@@ -29,22 +29,15 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
           placeholder="what did they say?"
           required
           autoFocus
-          rows={4}
+          rows={3}
           style={{ backgroundImage: 'none', borderBottom: 'none' }}
         />
-        {/* inked flourish */}
-        <svg width="80" height="12" viewBox="0 0 80 12" aria-hidden="true" className="mt-1 opacity-60">
-          <path
-            d="M2 7 Q20 3 40 8 T78 5"
-            fill="none"
-            stroke="#1E3A5F"
-            strokeWidth="1.3"
-            strokeLinecap="round"
-          />
+        <svg width="64" height="10" viewBox="0 0 64 10" aria-hidden="true" className="mt-0.5 opacity-50">
+          <path d="M1 6 Q18 2 36 7 T62 4" fill="none" stroke="#1E3A5F" strokeWidth="1.2" strokeLinecap="round" />
         </svg>
       </Field>
 
-      <Field label="who said it">
+      <Field label="who said it" labelStyle="type" offset="right">
         <input
           className="font-type text-sm"
           value={form.attribution}
@@ -54,7 +47,7 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <AddMore label="add source">
-        <Field label="where it came from">
+        <Field label="source" labelStyle="hand">
           <input
             className="font-hand text-lg"
             value={form.context}

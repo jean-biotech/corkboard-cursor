@@ -43,7 +43,7 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin book"
     >
-      <Field label="title">
+      <Field label="title" labelStyle="hand" offset="tilt">
         <input
           className="font-serif text-xl italic"
           value={form.title}
@@ -54,45 +54,37 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="author">
+      <Field label="author" labelStyle="type" offset="right">
         <input
           className="font-type text-sm"
           value={form.author}
           onChange={(e) => set('author', e.target.value)}
-          placeholder="who wrote it (optional)"
+          placeholder="who wrote it"
         />
       </Field>
 
-      <Field label="rating">
+      <Field label="rating" labelStyle="hand" offset="short">
         <StarPicker value={form.rating} onChange={(n) => set('rating', n)} />
       </Field>
 
-      <Field label="note">
+      <Field label="note" labelStyle="type" offset="none">
         <textarea
-          className="font-hand text-xl ruled-field"
+          className="font-hand text-xl"
           value={form.note}
           onChange={(e) => set('note', e.target.value)}
           placeholder="what stayed with you?"
-          rows={3}
+          rows={2}
         />
       </Field>
 
-      <AddMore>
-        <Field label="genre">
-          <input
-            value={form.genre}
-            onChange={(e) => set('genre', e.target.value)}
-            placeholder="fiction, memoir…"
-          />
+      <AddMore label="more details">
+        <Field label="genre" labelStyle="hand">
+          <input value={form.genre} onChange={(e) => set('genre', e.target.value)} placeholder="fiction…" />
         </Field>
-        <Field label="date read">
-          <input
-            type="date"
-            value={form.dateRead}
-            onChange={(e) => set('dateRead', e.target.value)}
-          />
+        <Field label="date" labelStyle="type">
+          <input type="date" value={form.dateRead} onChange={(e) => set('dateRead', e.target.value)} />
         </Field>
-        <Field label="cover image">
+        <Field label="cover" labelStyle="hand">
           <input
             type="file"
             accept="image/*"
