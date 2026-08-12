@@ -83,6 +83,7 @@ export default function AddItemPopover({ open, x, y, onSelect, onClose }) {
             onClick={onClose}
           />
           <motion.div
+            data-add-popover
             className="absolute z-[70]"
             style={{ left: x, top: y }}
             initial={{ opacity: 0, scale: 0.6 }}

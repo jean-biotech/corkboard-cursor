@@ -57,6 +57,7 @@ export default function Corkboard({ boardRef }) {
   const [justPinnedId, setJustPinnedId] = useState(null)
   const [reduceMotion, setReduceMotion] = useState(false)
   const [pinnedFlash, setPinnedFlash] = useState(false)
+  const ignoreBoardClickUntil = useRef(0)
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -85,11 +86,10 @@ export default function Corkboard({ boardRef }) {
   }, [justPinnedId])
 
   const handleBoardClick = useCallback((e) => {
-    if (e.target !== surfaceRef.current && !e.target.closest('[data-cork-surface]')) {
-      return
-    }
-    // only empty cork
+    if (Date.now() < ignoreBoardClickUntil.current) return
+    // only empty cork — ignore clicks that land on pinned items
     if (e.target.closest('[data-board-item]')) return
+    if (e.target.closest('[data-add-popover]')) return
 
     const rect = surfaceRef.current.getBoundingClientRect()
     const x = (e.clientX - rect.left) / scale
@@ -218,6 +218,7 @@ export default function Corkboard({ boardRef }) {
                   justPinned={justPinnedId === item.id}
                   reduceMotion={reduceMotion}
                   onMove={(id, nx, ny) => {
+                    ignoreBoardClickUntil.current = Date.now() + 250
                     moveItem(id, nx, ny)
                     if (!reduceMotion) {
                       const nudges = {}

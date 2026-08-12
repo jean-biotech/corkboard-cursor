@@ -77,7 +77,14 @@ export default function BoardItem({
           ? { duration: 0.45, times: [0, 0.45, 0.75, 1] }
           : { duration: 0.2 }
       }
-      whileHover={reduceMotion ? undefined : { scale: 1.03 }}
+      whileHover={
+        reduceMotion
+          ? undefined
+          : {
+              scale: 1.03,
+              filter: 'drop-shadow(4px 8px 12px rgba(74,51,35,0.32))',
+            }
+      }
       drag
       dragMomentum={false}
       dragElastic={0.04}
