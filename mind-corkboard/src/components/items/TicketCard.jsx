@@ -21,16 +21,16 @@ export default function TicketCard({ item }) {
       >
         <PerforatedEdge className="w-4 shrink-0 border-r border-dashed border-[#A08560]/50 bg-[#EDE0C4]/60" />
         <div className="flex-1 px-3 py-3">
-          <p className="font-type text-[0.55rem] tracking-[0.12em] text-[#6B4A2E]">admit one</p>
-          <h3 className="font-serif mt-1 text-lg font-medium italic leading-tight text-[#1F1815]">
+          <p className="font-type text-[0.62rem] tracking-[0.12em] text-[#6B4A2E]">admit one</p>
+          <h3 className="font-display mt-1 text-[1.25rem] font-medium italic leading-tight text-[#1F1815]">
             {data.eventName || 'Event'}
           </h3>
-          <p className="font-type mt-2 text-[0.7rem] text-[#4A3323]">{data.date || '—'}</p>
+          <p className="font-type mt-2 text-[0.78rem] text-[#4A3323]">{data.date || '—'}</p>
           {data.venue && (
-            <p className="font-type text-[0.65rem] text-[#6B4A2E]">{data.venue}</p>
+            <p className="font-type text-[0.72rem] text-[#6B4A2E]">{data.venue}</p>
           )}
           {data.memory && (
-            <p className="font-hand mt-2 text-[1.1rem] leading-snug text-[#1E3A5F]">{data.memory}</p>
+            <p className="font-hand mt-2 text-[1.25rem] leading-snug text-[#1E3A5F]">{data.memory}</p>
           )}
         </div>
       </div>

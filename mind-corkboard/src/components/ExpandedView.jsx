@@ -17,7 +17,7 @@ function DetailPanel({ item }) {
     return (
       <div className="space-y-4">
         <div>
-          <h2 className="font-serif text-4xl font-medium italic text-[#1F1815]">{data.title}</h2>
+          <h2 className="font-display text-4xl font-medium italic text-[#1F1815]">{data.title}</h2>
           <p className="font-type mt-1 text-sm text-[#6B4A2E]">{data.author}</p>
         </div>
         <Stars rating={data.rating || 0} size={22} />
@@ -34,7 +34,7 @@ function DetailPanel({ item }) {
   if (type === 'quote') {
     return (
       <div>
-        <p className="font-serif text-3xl italic leading-snug text-[#1F1815]">
+        <p className="font-display text-3xl italic leading-snug text-[#1F1815]">
           “{data.text}”
         </p>
         <p className="font-type mt-4 text-sm text-[#6B4A2E]">— {data.attribution}</p>
@@ -48,8 +48,8 @@ function DetailPanel({ item }) {
   if (type === 'letter') {
     return (
       <div>
-        <h2 className="font-serif text-3xl font-medium">{data.title}</h2>
-        <p className="font-serif mt-4 whitespace-pre-wrap text-lg leading-relaxed text-[#1F1815]/90">
+        <h2 className="font-display text-3xl font-medium">{data.title}</h2>
+        <p className="font-display mt-4 whitespace-pre-wrap text-lg leading-relaxed text-[#1F1815]/90">
           {data.body}
         </p>
         {data.signature && (

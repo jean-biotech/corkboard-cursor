@@ -65,7 +65,6 @@ function pick(seed, arr) {
 export default function FormShell({
   open,
   title,
-  subtitle,
   onClose,
   onSubmit,
   children,
@@ -82,9 +81,9 @@ export default function FormShell({
   const [reduceMotion, setReduceMotion] = useState(false)
 
   const layout = useMemo(() => {
-    const rot = Math.random() * 3 - 1.5
-    const ox = Math.random() * 20 - 10
-    const oy = Math.random() * 16 - 8
+    const rot = Math.random() * 2.4 - 1.2
+    const ox = Math.random() * 16 - 8
+    const oy = Math.random() * 12 - 6
     return { rot, ox, oy, shadowX: 6, shadowY: 14 }
   }, [open, variant])
 
@@ -129,7 +128,7 @@ export default function FormShell({
             animate={
               reduceMotion
                 ? { opacity: 1 }
-                : { opacity: 1, y: [ -28, 4, 0 ], scale: [1.02, 0.995, 1], rotate: layout.rot }
+                : { opacity: 1, y: [-28, 4, 0], scale: [1.02, 0.995, 1], rotate: layout.rot }
             }
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 12, scale: 0.98 }}
             transition={
@@ -152,19 +151,20 @@ export default function FormShell({
               {topRight}
 
               {!hideDefaultHeader && (
-                <div className="form-header mb-7 flex items-start gap-3">
+                <div className="form-header mb-8 flex items-start gap-2.5">
                   <FormIcon variant={variant} />
                   <div className="min-w-0 flex-1">
                     {title && (
                       <h2
-                        className="font-display leading-none text-[#1F1815]"
-                        style={{ fontSize: '1.4rem', fontWeight: 400 }}
+                        className="font-display italic leading-none text-[#1F1815]"
+                        style={{
+                          fontSize: '28px',
+                          fontWeight: 500,
+                          fontVariationSettings: '"opsz" 144',
+                        }}
                       >
                         {title}
                       </h2>
-                    )}
-                    {subtitle && (
-                      <p className="font-type mt-1.5 text-[0.6rem] text-[#6B4A2E]">{subtitle}</p>
                     )}
                     {headerExtra}
                   </div>
@@ -172,7 +172,7 @@ export default function FormShell({
                     <button
                       type="button"
                       onClick={onClose}
-                      className="font-hand shrink-0 text-base text-[#6B4A2E] underline-offset-2 hover:underline"
+                      className="font-hand shrink-0 text-[14px] text-[#6B4A2E] underline-offset-2 hover:underline"
                     >
                       close
                     </button>
@@ -187,7 +187,7 @@ export default function FormShell({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="font-hand text-lg text-[#6B4A2E] underline-offset-2 hover:underline"
+                    className="font-hand text-[14px] text-[#6B4A2E] underline-offset-2 hover:underline"
                   >
                     never mind
                   </button>
@@ -196,7 +196,7 @@ export default function FormShell({
                 )}
                 <button
                   type="submit"
-                  className="font-hand inline-flex items-center gap-1.5 text-2xl leading-none text-[#1E3A5F]"
+                  className="font-hand inline-flex items-center gap-1.5 text-[14px] leading-none text-[#1E3A5F]"
                 >
                   <SubmitIcon kind={submitIcon} />
                   {submitLabel}
@@ -206,12 +206,12 @@ export default function FormShell({
 
             {cfg.watermark && (
               <div
-                className="pointer-events-none absolute bottom-6 right-4 select-none"
-                style={{ transform: 'rotate(-10deg)', opacity: 0.13 }}
+                className="pointer-events-none absolute bottom-5 right-3 select-none"
+                style={{ transform: 'rotate(-10deg) scale(0.75)', opacity: 0.13 }}
                 aria-hidden="true"
               >
-                <div className="border border-[#C8322E] px-2 py-0.5">
-                  <p className="font-type text-[0.48rem] tracking-wide text-[#C8322E]">
+                <div className="border border-[#C8322E] px-1.5 py-0.5">
+                  <p className="font-type text-[0.45rem] tracking-wide text-[#C8322E]">
                     {cfg.watermark} · MMXXVI
                   </p>
                 </div>
@@ -224,22 +224,22 @@ export default function FormShell({
   )
 }
 
-/** Max 3 imperfections, muted */
+/** Max 2 quiet imperfections — no margin scribbles */
 function PaperImperfections({ seed }) {
-  const pool = ['coffee', 'curl', 'blot', 'doodle', 'grease']
+  const pool = ['coffee', 'curl', 'blot', 'grease']
   let h = 0
   for (let i = 0; i < seed.length; i++) h = (h * 17 + seed.charCodeAt(i)) >>> 0
-  const chosen = [pool[h % pool.length], pool[(h + 2) % pool.length], pool[(h + 4) % pool.length]]
-  const unique = [...new Set(chosen)].slice(0, 3)
+  const chosen = [pool[h % pool.length], pool[(h + 2) % pool.length]]
+  const unique = [...new Set(chosen)].slice(0, 2)
 
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
       {unique.includes('coffee') && (
         <svg
           className="absolute"
-          style={{ right: '18%', top: '58%', opacity: 0.1, transform: 'rotate(-12deg)' }}
-          width="44"
-          height="44"
+          style={{ right: '18%', top: '58%', opacity: 0.09, transform: 'rotate(-12deg) scale(0.85)' }}
+          width="38"
+          height="38"
           viewBox="0 0 52 52"
         >
           <circle cx="26" cy="26" r="20" fill="none" stroke="#6B4A2E" strokeWidth="2.5" />
@@ -248,9 +248,9 @@ function PaperImperfections({ seed }) {
       {unique.includes('blot') && (
         <svg
           className="absolute"
-          style={{ left: '12%', top: '20%', opacity: 0.08 }}
-          width="22"
-          height="18"
+          style={{ left: '12%', top: '20%', opacity: 0.07, transform: 'scale(0.85)' }}
+          width="20"
+          height="16"
           viewBox="0 0 28 22"
         >
           <ellipse cx="12" cy="10" rx="9" ry="6" fill="#1E3A5F" />
@@ -259,27 +259,11 @@ function PaperImperfections({ seed }) {
       )}
       {unique.includes('curl') && (
         <div
-          className="absolute bottom-0 right-0 h-10 w-10"
+          className="absolute bottom-0 right-0 h-8 w-8"
           style={{
-            background: 'linear-gradient(225deg, transparent 48%, rgba(160,133,96,0.18) 48%)',
+            background: 'linear-gradient(225deg, transparent 48%, rgba(160,133,96,0.16) 48%)',
           }}
         />
-      )}
-      {unique.includes('doodle') && (
-        <svg
-          className="absolute"
-          style={{ right: '14%', bottom: '22%', opacity: 0.28, transform: 'rotate(12deg)' }}
-          width="14"
-          height="14"
-          viewBox="0 0 16 16"
-        >
-          <path
-            d="M8 1 L9.5 5.5 L14 5.5 L10.5 8.5 L12 13 L8 10.5 L4 13 L5.5 8.5 L2 5.5 L6.5 5.5 Z"
-            fill="none"
-            stroke="#1E3A5F"
-            strokeWidth="1"
-          />
-        </svg>
       )}
       {unique.includes('grease') && (
         <div
@@ -287,9 +271,9 @@ function PaperImperfections({ seed }) {
           style={{
             left: '22%',
             bottom: '30%',
-            width: 28,
-            height: 22,
-            background: 'radial-gradient(ellipse, rgba(107,74,46,0.08), transparent 70%)',
+            width: 24,
+            height: 18,
+            background: 'radial-gradient(ellipse, rgba(107,74,46,0.07), transparent 70%)',
           }}
         />
       )}
@@ -297,21 +281,20 @@ function PaperImperfections({ seed }) {
   )
 }
 
-/** Max 2 throwaways, quiet */
+/** At most one quiet throwaway — no math scribbles */
 function Throwaways({ seed, variant }) {
-  const primary = pick(seed + 'a', ['clip', 'formno', 'approved', 'none'])
-  const secondary = pick(seed + 'b', ['arrow', 'math', 'none'])
-  const kinds = [primary, secondary].filter((k) => k !== 'none').slice(0, 2)
+  const kind = pick(seed + 'a', ['clip', 'formno', 'approved', 'none', 'none'])
+  if (kind === 'none') return null
 
   return (
     <div className="pointer-events-none absolute inset-0 z-[3]" aria-hidden="true">
-      {kinds.includes('clip') && (
+      {kind === 'clip' && (
         <svg
-          className="absolute left-10 top-0"
-          width="14"
-          height="28"
+          className="absolute left-9 top-0"
+          width="12"
+          height="24"
           viewBox="0 0 18 36"
-          style={{ transform: 'rotate(-8deg)', opacity: 0.5 }}
+          style={{ transform: 'rotate(-8deg)', opacity: 0.45 }}
         >
           <path
             d="M9 4 V28 Q9 33 5 33 Q2 33 2 28 V12 Q2 8 6 8 Q10 8 10 14 V26"
@@ -322,51 +305,31 @@ function Throwaways({ seed, variant }) {
           />
         </svg>
       )}
-      {kinds.includes('formno') && (
+      {kind === 'formno' && (
         <div
-          className="absolute right-10 top-12"
-          style={{ transform: 'rotate(4deg)', opacity: 0.35 }}
+          className="absolute right-9 top-11"
+          style={{ transform: 'rotate(4deg) scale(0.85)', opacity: 0.3 }}
         >
-          <p className="font-type text-[0.5rem] text-[#6B4A2E] line-through">no. 47</p>
-          <p className="font-hand text-sm leading-none text-[#1E3A5F]">no. 48</p>
+          <p className="font-type text-[0.45rem] text-[#6B4A2E] line-through">no. 47</p>
+          <p className="font-hand text-[13px] leading-none text-[#1E3A5F]">no. 48</p>
         </div>
       )}
-      {kinds.includes('approved') && (
+      {kind === 'approved' && (
         <div
-          className="absolute bottom-28 left-8 border border-[#5C7A4F] px-1.5 py-0.5"
-          style={{ transform: 'rotate(-12deg)', opacity: 0.18 }}
+          className="absolute bottom-24 left-7 border border-[#5C7A4F] px-1 py-0.5"
+          style={{ transform: 'rotate(-12deg) scale(0.8)', opacity: 0.16 }}
         >
-          <p className="font-type text-[0.5rem] tracking-wide text-[#5C7A4F]">
+          <p className="font-type text-[0.45rem] tracking-wide text-[#5C7A4F]">
             {variant === 'ticket' ? 'ADMITTED' : 'APPROVED'}
           </p>
         </div>
-      )}
-      {kinds.includes('arrow') && (
-        <svg
-          className="absolute left-5 top-[48%]"
-          width="22"
-          height="16"
-          viewBox="0 0 28 20"
-          style={{ opacity: 0.28, transform: 'rotate(-8deg)' }}
-        >
-          <path d="M2 14 Q12 4 22 10" fill="none" stroke="#1E3A5F" strokeWidth="1.2" />
-          <path d="M18 6 L24 10 L18 14" fill="none" stroke="#1E3A5F" strokeWidth="1.2" />
-        </svg>
-      )}
-      {kinds.includes('math') && (
-        <p
-          className="font-hand absolute text-xs text-[#1E3A5F]"
-          style={{ right: '10%', top: '45%', opacity: 0.22, transform: 'rotate(4deg)' }}
-        >
-          12+7
-        </p>
       )}
     </div>
   )
 }
 
 function FormIcon({ variant }) {
-  const wrap = { transform: 'scale(0.6)', transformOrigin: 'top left', opacity: 0.55, flexShrink: 0 }
+  const wrap = { transform: 'scale(0.5)', transformOrigin: 'top left', opacity: 0.5, flexShrink: 0 }
   if (variant === 'quote') {
     return (
       <svg width="26" height="28" viewBox="0 0 26 28" aria-hidden="true" style={wrap}>
@@ -433,19 +396,23 @@ function FormIcon({ variant }) {
 function SubmitIcon({ kind }) {
   if (kind === 'seal') {
     return (
-      <svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true">
+      <svg width="13" height="13" viewBox="0 0 20 20" aria-hidden="true">
         <circle cx="10" cy="9" r="6" fill="#C8322E" opacity="0.7" />
         <circle cx="10" cy="9" r="3" fill="none" stroke="#F1E7C7" strokeWidth="1" opacity="0.65" />
       </svg>
     )
   }
-  return <PushPin color="red" size={12} />
+  return <PushPin color="red" size={10} />
 }
 
 function VariantChrome({ variant }) {
   if (variant === 'library') {
     return (
-      <div className="pointer-events-none absolute left-8 top-5 z-[2] flex gap-2" aria-hidden="true" style={{ opacity: 0.5 }}>
+      <div
+        className="pointer-events-none absolute left-8 top-5 z-[2] flex gap-2"
+        aria-hidden="true"
+        style={{ opacity: 0.45, transform: 'scale(0.85)' }}
+      >
         <span className="block h-2.5 w-2.5 rounded-full border border-[#A08560]/45 bg-[#C9A876]/3" />
         <span className="block h-2.5 w-2.5 rounded-full border border-[#A08560]/4 bg-[#C9A876]/25" />
       </div>
@@ -456,7 +423,7 @@ function VariantChrome({ variant }) {
       <div
         className="pointer-events-none absolute inset-0"
         style={{
-          opacity: 0.28,
+          opacity: 0.22,
           backgroundImage:
             'repeating-linear-gradient(transparent, transparent 28px, rgba(74,51,35,0.12) 28px, rgba(74,51,35,0.12) 29px)',
           backgroundPosition: '0 72px',
@@ -468,8 +435,8 @@ function VariantChrome({ variant }) {
   if (variant === 'postcard') {
     return (
       <p
-        className="font-type pointer-events-none absolute left-1/2 top-4 z-[2] -translate-x-1/2 text-[0.5rem] tracking-[0.16em] text-[#6B4A2E]"
-        style={{ opacity: 0.55 }}
+        className="font-type pointer-events-none absolute left-1/2 top-4 z-[2] -translate-x-1/2 text-[0.45rem] tracking-[0.16em] text-[#6B4A2E]"
+        style={{ opacity: 0.5 }}
         aria-hidden="true"
       >
         POSTCARD
@@ -487,9 +454,9 @@ function VariantChrome({ variant }) {
   if (variant === 'ticket') {
     return (
       <div
-        className="pointer-events-none absolute inset-y-0 left-0 flex w-3.5 flex-col items-center justify-around border-r border-dashed border-[#A08560]/35 bg-[#EDE0C4]/25 py-2"
+        className="pointer-events-none absolute inset-y-0 left-0 flex w-3 flex-col items-center justify-around border-r border-dashed border-[#A08560]/35 bg-[#EDE0C4]/25 py-2"
         aria-hidden="true"
-        style={{ opacity: 0.7 }}
+        style={{ opacity: 0.65 }}
       >
         {Array.from({ length: 8 }).map((_, i) => (
           <span key={i} className="block h-1 w-1 rounded-full bg-[#C9A876]" />
@@ -501,9 +468,9 @@ function VariantChrome({ variant }) {
     return (
       <>
         <div
-          className="pointer-events-none absolute inset-y-0 left-0 flex w-5 flex-col items-center justify-around border-r border-[#A08560]/2 bg-[#E8DCB8]/25 py-4"
+          className="pointer-events-none absolute inset-y-0 left-0 flex w-4 flex-col items-center justify-around border-r border-[#A08560]/2 bg-[#E8DCB8]/25 py-4"
           aria-hidden="true"
-          style={{ opacity: 0.65 }}
+          style={{ opacity: 0.6 }}
         >
           {Array.from({ length: 6 }).map((_, i) => (
             <span key={i} className="block h-1.5 w-1.5 rounded-full border border-[#A08560]/4 bg-[#C9A876]/5" />
@@ -512,8 +479,8 @@ function VariantChrome({ variant }) {
         <div
           className="pointer-events-none absolute bottom-0 right-0 top-0"
           style={{
-            left: 20,
-            opacity: 0.35,
+            left: 16,
+            opacity: 0.3,
             backgroundImage:
               'repeating-linear-gradient(transparent, transparent 28px, rgba(184,203,218,0.45) 28px, rgba(184,203,218,0.45) 29px)',
             backgroundPosition: '0 72px',
@@ -526,18 +493,13 @@ function VariantChrome({ variant }) {
   return null
 }
 
-/**
- * labelStyle: 'hand' for core fields, 'type' for secondary
- * breakAlign: optional intentional offset (one per form max)
- */
-export function Field({ label, children, labelStyle = 'hand', breakAlign = false, focal = false }) {
+/** All field labels use Reenie Beanie — single voice per form */
+export function Field({ label, children, breakAlign = false, focal = false }) {
   return (
     <div
       className={`form-field ${focal ? 'form-field-focal' : ''} ${breakAlign ? 'form-field-break' : ''}`}
     >
-      {label ? (
-        <label className={labelStyle === 'type' ? 'label-type' : 'label-hand'}>{label}</label>
-      ) : null}
+      {label ? <label className="label-hand">{label}</label> : null}
       {children}
     </div>
   )
@@ -551,7 +513,7 @@ export function AddMore({ children, label = 'add more' }) {
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="font-type text-[0.65rem] text-[#1E3A5F] underline-offset-2 hover:underline"
+          className="font-hand text-[13px] text-[#1E3A5F] underline-offset-2 hover:underline"
         >
           {label}
         </button>

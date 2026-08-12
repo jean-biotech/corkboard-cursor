@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import FormShell, { Field, AddMore } from './FormShell'
+import FormShell, { Field } from './FormShell'
 
 const COLORS = [
   ['cream', '#F1E7C7'],
@@ -18,8 +18,8 @@ const EMPTY = {
 export default function NoteForm({ open, onClose, onSubmit, initial }) {
   const [form, setForm] = useState(() => {
     const base = { ...EMPTY, ...initial }
-    if (base.fontStyle === 'caveat') base.fontStyle = 'reenie'
-    if (base.fontStyle === 'scribble') base.fontStyle = 'gloria'
+    // Collapse legacy styles into Reenie Beanie only
+    base.fontStyle = 'reenie'
     return base
   })
   const set = (key, value) => setForm((f) => ({ ...f, [key]: value }))
@@ -34,7 +34,7 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
       onClose={onClose}
       onSubmit={() => {
         if (!form.text.trim()) return
-        onSubmit({ ...form, text: form.text.trim() })
+        onSubmit({ ...form, text: form.text.trim(), fontStyle: 'reenie' })
         setForm({ ...EMPTY })
       }}
       submitLabel="pin it"
@@ -53,7 +53,12 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
       }
     >
       <div className="mb-6 flex items-center justify-between pr-6">
-        <p className="font-type text-[0.58rem] text-[#6B4A2E]">quick note</p>
+        <p
+          className="font-display italic text-[#1F1815]"
+          style={{ fontSize: '22px', fontWeight: 500, fontVariationSettings: '"opsz" 144' }}
+        >
+          note
+        </p>
         <div className="flex gap-1.5">
           {COLORS.map(([name, color]) => (
             <button
@@ -73,9 +78,9 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
         </div>
       </div>
 
-      <Field labelStyle="hand" focal>
+      <Field focal>
         <textarea
-          className={form.fontStyle === 'gloria' ? 'font-scribble text-lg' : 'font-hand text-2xl'}
+          className="font-hand text-2xl"
           value={form.text}
           onChange={(e) => set('text', e.target.value)}
           placeholder="jot it down..."
@@ -85,21 +90,6 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
           style={{ backgroundImage: 'none', borderBottom: 'none', minHeight: '5.5rem' }}
         />
       </Field>
-
-      <AddMore label="handwriting">
-        <Field label="style" labelStyle="type">
-          <div className="flex gap-4">
-            <label className="font-hand text-lg">
-              <input type="radio" checked={form.fontStyle === 'reenie'} onChange={() => set('fontStyle', 'reenie')} className="mr-1" />
-              messy
-            </label>
-            <label className="font-scribble text-sm">
-              <input type="radio" checked={form.fontStyle === 'gloria'} onChange={() => set('fontStyle', 'gloria')} className="mr-1" />
-              careful
-            </label>
-          </div>
-        </Field>
-      </AddMore>
     </FormShell>
   )
 }

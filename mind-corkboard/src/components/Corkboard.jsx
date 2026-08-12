@@ -6,6 +6,7 @@ import AddItemPopover from './AddItemPopover'
 import BoardItem from './BoardItem'
 import ContextMenu from './ContextMenu'
 import ExpandedView from './ExpandedView'
+import ExportToolbar from './ExportToolbar'
 import {
   BOARD_H,
   BOARD_W,
@@ -82,6 +83,7 @@ export default function Corkboard({ boardRef }) {
     // only empty cork — ignore clicks that land on pinned items
     if (e.target.closest('[data-board-item]')) return
     if (e.target.closest('[data-add-popover]')) return
+    if (e.target.closest('[data-no-export]')) return
 
     const rect = surfaceRef.current.getBoundingClientRect()
     const x = (e.clientX - rect.left) / scale
@@ -184,23 +186,28 @@ export default function Corkboard({ boardRef }) {
                   boxShadow: '2px 3px 8px rgba(74,51,35,0.2)',
                 }}
               >
-                <p className="font-display text-lg text-[#1F1815]">
+                <p className="font-display text-[17px] font-medium italic text-[#1F1815]">
                   {board.titleCard || board.name}
                 </p>
               </div>
 
-              {/* Item counter — asymmetric corner */}
+              {/* Pin counter + save — quiet bottom-right */}
               <div
-                className="pointer-events-none absolute bottom-8 left-8 px-2.5 py-1"
-                style={{
-                  background: 'rgba(241,231,199,0.85)',
-                  transform: 'rotate(-3.5deg)',
-                  boxShadow: '1px 2px 4px rgba(74,51,35,0.15)',
-                }}
+                className="absolute bottom-5 right-5 z-[8] flex flex-col items-end gap-1.5"
+                data-no-export
+                onClick={(e) => e.stopPropagation()}
               >
-                <p className="font-hand text-base text-[#1E3A5F]">
+                <p
+                  className="font-hand pointer-events-none px-2 py-0.5 text-[13px] leading-none text-[#1E3A5F]"
+                  style={{
+                    background: 'rgba(241,231,199,0.72)',
+                    transform: 'rotate(-2deg)',
+                    boxShadow: '1px 1px 3px rgba(74,51,35,0.1)',
+                  }}
+                >
                   {board.items.length} thing{board.items.length === 1 ? '' : 's'} pinned
                 </p>
+                <ExportToolbar boardRef={boardRef} />
               </div>
 
               {board.items.map((item) => (

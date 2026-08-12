@@ -12,7 +12,6 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
       open={open}
       variant="quote"
       title="commonplace"
-      subtitle="pin a quote"
       onClose={onClose}
       onSubmit={() => {
         if (!form.text.trim()) return
@@ -21,9 +20,9 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin quote"
     >
-      <Field label="the quote" labelStyle="hand" focal>
+      <Field label="the quote" focal>
         <textarea
-          className="font-serif text-lg italic"
+          className="font-display text-lg italic"
           value={form.text}
           onChange={(e) => set('text', e.target.value)}
           placeholder="what did they say?"
@@ -34,9 +33,9 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="who said it" labelStyle="hand">
+      <Field label="who said it">
         <input
-          className="font-type text-sm"
+          className="font-type text-[15px]"
           value={form.attribution}
           onChange={(e) => set('attribution', e.target.value)}
           placeholder="attribution"
@@ -44,7 +43,7 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <AddMore label="add source">
-        <Field label="source" labelStyle="type">
+        <Field label="source">
           <input
             className="font-hand text-lg"
             value={form.context}

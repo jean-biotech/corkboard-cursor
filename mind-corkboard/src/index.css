@@ -18,12 +18,15 @@
   --color-washi-cream: #EDE0C4;
   --color-washi-blue: #B8CBDA;
   --color-wall: #F5EFE4;
-  --font-display: "Rozha One", Georgia, serif;
+  --font-display: "Fraunces", Georgia, serif;
   --font-serif: "Fraunces", Georgia, serif;
   --font-hand: "Reenie Beanie", cursive;
-  --font-scribble: "Gloria Hallelujah", cursive;
   --font-type: "Special Elite", "Courier New", monospace;
   --font-label: "Special Elite", "Courier New", monospace;
+  --space-related: 8px;
+  --space-section: 32px;
+  --space-form-pad: 40px;
+  --space-card-pad: 24px;
 }
 
 * {
@@ -42,6 +45,8 @@ body {
   background: #F5EFE4;
   font-family: "Fraunces", Georgia, serif;
   font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings: "opsz" 144;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
@@ -65,30 +70,22 @@ button {
   background: rgba(30, 58, 95, 0.18);
 }
 
-.font-display {
-  font-family: var(--font-display);
-}
-
+.font-display,
 .font-serif {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-optical-sizing: auto;
   font-weight: 500;
+  font-variation-settings: "opsz" 144;
 }
 
-.font-hand {
+.font-hand,
+.font-scribble {
   font-family: var(--font-hand);
 }
 
-.font-scribble {
-  font-family: var(--font-scribble);
-}
-
-.font-type {
-  font-family: var(--font-type);
-}
-
+.font-type,
 .font-label {
-  font-family: var(--font-label);
+  font-family: var(--font-type);
 }
 
 .paper-form input,
@@ -102,6 +99,7 @@ button {
   padding: 0.35rem 0.15rem;
   outline: none;
   color: #1F1815;
+  font-size: 17px;
 }
 
 .paper-form textarea {
@@ -139,40 +137,30 @@ button {
 .paper-form label {
   display: block;
   color: #1E3A5F;
-  margin-bottom: 6px;
+  margin-bottom: var(--space-related);
   text-transform: lowercase;
   font-weight: 400;
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
-.paper-form label.label-hand {
+.paper-form label.label-hand,
+.paper-form label.label-type {
   font-family: var(--font-hand);
-  font-size: 1.1rem;
+  font-size: 15px;
   letter-spacing: 0;
   display: inline-block;
+  color: #1E3A5F;
 }
 
-.paper-form label.label-type {
-  font-family: var(--font-type);
-  font-size: 0.65rem;
-  letter-spacing: 0.03em;
-  color: #6B4A2E;
-}
-
-.form-pad {
-  padding: 48px 48px 40px;
-}
-
+.form-pad,
 .form-pad-compact {
-  padding: 36px 40px 32px;
+  padding: var(--space-form-pad);
 }
 
 @media (max-width: 640px) {
-  .form-pad {
-    padding: 32px 24px 28px;
-  }
+  .form-pad,
   .form-pad-compact {
-    padding: 28px 22px 24px;
+    padding: 28px 22px;
   }
 }
 
@@ -253,11 +241,15 @@ button {
 .wall-pattern {
   background-color: #F5EFE4;
   background-image:
-    radial-gradient(rgba(74, 51, 35, 0.055) 1.1px, transparent 1.1px),
-    linear-gradient(45deg, rgba(74, 51, 35, 0.035) 25%, transparent 25%),
-    linear-gradient(-45deg, rgba(74, 51, 35, 0.035) 25%, transparent 25%);
+    radial-gradient(rgba(74, 51, 35, 0.08) 1.1px, transparent 1.1px),
+    linear-gradient(45deg, rgba(74, 51, 35, 0.04) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(74, 51, 35, 0.04) 25%, transparent 25%);
   background-size: 26px 26px, 52px 52px, 52px 52px;
   background-position: 0 0, 0 0, 26px 26px;
+}
+
+.card-pad {
+  padding: var(--space-card-pad);
 }
 
 .grain-overlay {

@@ -24,7 +24,6 @@ export default function PhotoForm({ open, onClose, onSubmit, initial }) {
       open={open}
       variant="photo"
       title="photo lab"
-      subtitle="pin a photo"
       onClose={onClose}
       onSubmit={() => {
         if (!form.image) return
@@ -33,7 +32,7 @@ export default function PhotoForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin photo"
     >
-      <Field label="photo" labelStyle="hand" focal>
+      <Field label="photo" focal>
         <input
           ref={fileRef}
           type="file"
@@ -67,7 +66,7 @@ export default function PhotoForm({ open, onClose, onSubmit, initial }) {
         </button>
       </Field>
 
-      <Field label="caption" labelStyle="hand">
+      <Field label="caption">
         <input
           className="font-hand text-xl"
           value={form.caption}
@@ -76,7 +75,7 @@ export default function PhotoForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="location" labelStyle="type" breakAlign>
+      <Field label="location" breakAlign>
         <input
           className="font-hand text-lg"
           value={form.location}
@@ -113,7 +112,7 @@ export default function PhotoForm({ open, onClose, onSubmit, initial }) {
               opacity: 0.9,
             }}
           />
-          <span className="font-type text-[0.55rem] text-[#6B4A2E]">regular</span>
+          <span className="font-hand text-sm text-[#1E3A5F]/80">regular</span>
         </button>
       </div>
     </FormShell>

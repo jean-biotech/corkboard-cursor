@@ -54,99 +54,42 @@ export function TinyArrow({ className = '', style }) {
   )
 }
 
-function TinyBird({ className = '', style }) {
+function WaterRing({ className = '', style }) {
   return (
-    <svg width="36" height="24" viewBox="0 0 36 24" className={className} style={style} aria-hidden="true">
-      <path
-        d="M6 14 Q12 6 20 10 Q26 4 32 8"
-        fill="none"
-        stroke="#1E3A5F"
-        strokeWidth="1.4"
-        strokeLinecap="round"
-        opacity="0.55"
-      />
-      <path
-        d="M20 10 Q18 16 14 18"
-        fill="none"
-        stroke="#1E3A5F"
-        strokeWidth="1.2"
-        opacity="0.5"
-      />
-      <circle cx="31" cy="8" r="1.2" fill="#1E3A5F" opacity="0.55" />
+    <svg width="52" height="52" viewBox="0 0 64 64" className={className} style={style} aria-hidden="true">
+      <ellipse cx="32" cy="32" rx="26" ry="20" fill="none" stroke="#5C4033" strokeWidth="2.5" opacity="0.55" />
+      <ellipse cx="33" cy="33" rx="18" ry="13" fill="none" stroke="#5C4033" strokeWidth="1.2" opacity="0.3" />
     </svg>
   )
 }
 
-function TinyMoth({ className = '', style }) {
-  return (
-    <svg width="34" height="28" viewBox="0 0 34 28" className={className} style={style} aria-hidden="true">
-      <ellipse cx="12" cy="14" rx="8" ry="10" fill="#6B4A2E" opacity="0.18" transform="rotate(-18 12 14)" />
-      <ellipse cx="22" cy="14" rx="8" ry="10" fill="#6B4A2E" opacity="0.18" transform="rotate(18 22 14)" />
-      <path d="M17 8 V22" stroke="#4A3323" strokeWidth="1.1" opacity="0.45" />
-      <circle cx="17" cy="7" r="1.4" fill="#4A3323" opacity="0.4" />
-    </svg>
-  )
-}
-
-function ForYouStamp({ className = '', style }) {
-  return (
-    <div
-      className={className}
-      style={{
-        ...style,
-        border: '1.5px solid rgba(200,50,46,0.45)',
-        padding: '2px 6px',
-        opacity: 0.45,
-        transform: `${style?.transform || ''} rotate(-8deg)`.trim(),
-      }}
-      aria-hidden="true"
-    >
-      <p className="font-type text-[0.55rem] tracking-wide text-[#C8322E]">FOR YOU</p>
-    </div>
-  )
-}
-
-function BlankTornScrap({ className = '', style }) {
-  return (
-    <svg width="48" height="36" viewBox="0 0 48 36" className={className} style={style} aria-hidden="true">
-      <path
-        d="M4 4 L40 2 L44 6 L42 10 L46 14 L43 20 L46 26 L40 32 L8 34 L4 30 L6 24 L3 18 L6 12 L3 8 Z"
-        fill="#F1E7C7"
-        stroke="#A08560"
-        strokeWidth="0.8"
-        opacity="0.75"
-      />
-    </svg>
-  )
-}
-
+/** Used but not decorated — washi, pins, one stain, one flower */
 export function BoardDecorations() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      {/* Sparse, composed — canvas recedes */}
-      <div className="absolute left-[6%] top-[8%]" style={{ opacity: 0.75 }}>
+      <div className="absolute left-[6%] top-[8%]" style={{ opacity: 0.7 }}>
         <WashiTape color="rose" width={90} height={16} rotation={-14} />
       </div>
-      <div className="absolute right-[8%] top-[14%]" style={{ opacity: 0.7 }}>
+      <div className="absolute right-[8%] top-[14%]" style={{ opacity: 0.65 }}>
         <WashiTape color="sage" width={72} height={14} rotation={10} striped />
       </div>
 
-      <div className="absolute left-[5%] top-[28%]" style={{ opacity: 0.7 }}>
+      <div className="absolute left-[5%] top-[28%]" style={{ opacity: 0.65 }}>
         <PushPin color="blue" size={14} />
       </div>
-      <div className="absolute right-[7%] top-[48%]" style={{ opacity: 0.65 }}>
+      <div className="absolute right-[7%] top-[48%]" style={{ opacity: 0.6 }}>
         <PushPin color="yellow" size={13} />
       </div>
 
+      <WaterRing
+        className="absolute left-[12%] top-[18%]"
+        style={{ opacity: 0.12, transform: 'rotate(-8deg)' }}
+      />
+
       <PressedFlower
-        className="absolute right-[6%] bottom-[16%]"
-        style={{ transform: 'rotate(10deg)', opacity: 0.45 }}
+        className="absolute bottom-[14%] right-[6%]"
+        style={{ transform: 'rotate(10deg)', opacity: 0.42 }}
       />
-      <TinyBird
-        className="absolute left-[30%] top-[7%]"
-        style={{ transform: 'rotate(-3deg)', opacity: 0.4 }}
-      />
-      <ForYouStamp className="absolute left-[5%] bottom-[30%]" style={{ opacity: 0.35 }} />
     </div>
   )
 }

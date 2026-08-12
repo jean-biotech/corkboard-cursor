@@ -12,7 +12,6 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
       open={open}
       variant="letter"
       title="letter"
-      subtitle="a longer thought"
       onClose={onClose}
       onSubmit={() => {
         if (!form.title.trim() && !form.body.trim()) return
@@ -22,9 +21,9 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
       submitLabel="seal and pin"
       submitIcon="seal"
     >
-      <Field label="subject" labelStyle="hand">
+      <Field label="subject">
         <input
-          className="font-serif text-lg italic"
+          className="font-display text-lg italic"
           value={form.title}
           onChange={(e) => set('title', e.target.value)}
           placeholder="the subject at hand"
@@ -32,7 +31,7 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="body" labelStyle="hand" focal>
+      <Field label="body" focal>
         <textarea
           className="font-hand text-xl"
           value={form.body}
@@ -42,7 +41,7 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="sign-off" labelStyle="type" breakAlign>
+      <Field label="sign-off" breakAlign>
         <input
           className="font-hand text-xl"
           value={form.signature}
@@ -52,10 +51,10 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <AddMore label="add date">
-        <Field label="date" labelStyle="type">
+        <Field label="date">
           <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
         </Field>
-        <Field label="to" labelStyle="type">
+        <Field label="to">
           <input
             value={form.recipient}
             onChange={(e) => set('recipient', e.target.value)}

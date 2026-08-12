@@ -29,7 +29,6 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
       open={open}
       variant="library"
       title="library card"
-      subtitle="pin a book"
       onClose={onClose}
       onSubmit={() => {
         if (!form.title.trim()) return
@@ -43,9 +42,9 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin book"
     >
-      <Field label="title" labelStyle="hand" focal>
+      <Field label="title" focal>
         <input
-          className="font-serif text-xl italic"
+          className="font-display text-xl italic"
           value={form.title}
           onChange={(e) => set('title', e.target.value)}
           placeholder="what did you read?"
@@ -54,20 +53,20 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="author" labelStyle="hand">
+      <Field label="author">
         <input
-          className="font-type text-sm"
+          className="font-type text-[15px]"
           value={form.author}
           onChange={(e) => set('author', e.target.value)}
           placeholder="who wrote it"
         />
       </Field>
 
-      <Field label="rating" labelStyle="hand">
+      <Field label="rating">
         <StarPicker value={form.rating} onChange={(n) => set('rating', n)} />
       </Field>
 
-      <Field label="note" labelStyle="type" breakAlign>
+      <Field label="note" breakAlign>
         <textarea
           className="font-hand text-xl"
           value={form.note}
@@ -78,13 +77,13 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <AddMore label="more details">
-        <Field label="genre" labelStyle="type">
+        <Field label="genre">
           <input value={form.genre} onChange={(e) => set('genre', e.target.value)} placeholder="fiction…" />
         </Field>
-        <Field label="date" labelStyle="type">
+        <Field label="date">
           <input type="date" value={form.dateRead} onChange={(e) => set('dateRead', e.target.value)} />
         </Field>
-        <Field label="cover" labelStyle="type">
+        <Field label="cover">
           <input
             type="file"
             accept="image/*"

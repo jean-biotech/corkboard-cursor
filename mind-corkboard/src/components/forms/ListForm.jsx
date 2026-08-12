@@ -26,7 +26,6 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
       open={open}
       variant="list"
       title="list"
-      subtitle="things to remember"
       onClose={onClose}
       onSubmit={() => {
         if (!form.title.trim() && form.items.length === 0) return
@@ -41,9 +40,9 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
       submitLabel="pin list"
       className="pl-5"
     >
-      <Field label="what's this for" labelStyle="hand">
+      <Field label="what's this for">
         <input
-          className="font-serif text-lg italic"
+          className="font-display text-lg italic"
           value={form.title}
           onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
           placeholder="what's this list for?"
@@ -51,7 +50,7 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="items" labelStyle="hand" focal>
+      <Field label="items" focal>
         <ul className="mb-2 space-y-2">
           {form.items.map((entry, i) => (
             <li key={`${entry.text}-${i}`} className="flex items-start gap-2">
@@ -95,9 +94,9 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <AddMore label="add tag">
-        <Field label="tag" labelStyle="type">
+        <Field label="tag">
           <input
-            className="font-type text-sm"
+            className="font-type text-[15px]"
             value={form.category}
             onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
             placeholder="reading, watching…"

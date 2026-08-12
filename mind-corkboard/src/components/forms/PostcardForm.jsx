@@ -20,7 +20,6 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
       open={open}
       variant="postcard"
       title="postcard"
-      subtitle="pin a memory"
       onClose={onClose}
       onSubmit={() => {
         onSubmit({ ...form })
@@ -34,9 +33,9 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
           aria-hidden="true"
         />
 
-        <Field label="message" labelStyle="hand" focal>
+        <Field label="message" focal>
           <textarea
-            className="font-serif text-base italic"
+            className="font-display text-base italic"
             value={form.message}
             onChange={(e) => set('message', e.target.value)}
             placeholder="your message..."
@@ -46,7 +45,7 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
         </Field>
 
         <div className="space-y-6">
-          <Field label="photo" labelStyle="hand">
+          <Field label="photo">
             <input
               ref={fileRef}
               type="file"
@@ -74,7 +73,7 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
             </button>
           </Field>
 
-          <Field label="from" labelStyle="type">
+          <Field label="from">
             <input
               className="font-hand text-lg"
               value={form.sentFrom}
@@ -86,10 +85,10 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
       </div>
 
       <AddMore label="add date & place">
-        <Field label="date" labelStyle="type">
+        <Field label="date">
           <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
         </Field>
-        <Field label="place" labelStyle="type">
+        <Field label="place">
           <input
             value={form.location}
             onChange={(e) => set('location', e.target.value)}

@@ -31,11 +31,11 @@ export default function ListCard({ item, onToggleItem }) {
             ))}
           </div>
 
-          <h3 className="font-hand relative text-[1.4rem] text-[#1E3A5F]">
+          <h3 className="font-display relative text-[1.25rem] font-medium italic text-[#1F1815]">
             {data.title || 'to remember'}
           </h3>
           {data.category && (
-            <p className="font-type relative mt-0.5 text-[0.55rem] tracking-wide text-[#6B4A2E]">
+            <p className="font-type relative mt-0.5 text-[0.62rem] tracking-wide text-[#6B4A2E]">
               {data.category}
             </p>
           )}
@@ -54,7 +54,7 @@ export default function ListCard({ item, onToggleItem }) {
                   aria-label={entry.done ? 'mark incomplete' : 'mark complete'}
                 />
                 <span
-                  className="font-hand text-[1.15rem] leading-tight text-[#1E3A5F]"
+                  className="font-hand text-[1.3rem] leading-tight text-[#1E3A5F]"
                   style={{
                     textDecoration: entry.done ? 'line-through' : 'none',
                     opacity: entry.done ? 0.5 : 1,

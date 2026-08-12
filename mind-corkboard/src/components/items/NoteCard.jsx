@@ -13,8 +13,6 @@ export default function NoteCard({ item }) {
   const { data, pinColor, id } = item
   const bg = NOTE_COLORS[data.color] || NOTE_COLORS.cream
   const clipId = `torn-${id}`
-  const isGloria = data.fontStyle === 'gloria' || data.fontStyle === 'scribble'
-  const fontClass = isGloria ? 'font-scribble text-[1.05rem]' : 'font-hand text-[1.35rem]'
 
   return (
     <div className="relative select-none" style={{ width: 200 }}>
@@ -24,7 +22,7 @@ export default function NoteCard({ item }) {
       </div>
 
       <div
-        className="relative px-4 py-5"
+        className="relative px-6 py-6"
         style={{
           background: bg,
           clipPath: `url(#${clipId})`,
@@ -35,7 +33,7 @@ export default function NoteCard({ item }) {
         {data.doodle === 'star' && (
           <TinyStar className="absolute right-3 top-3 opacity-60" style={{ transform: 'rotate(12deg)' }} />
         )}
-        <p className={`${fontClass} whitespace-pre-line leading-snug text-[#1E3A5F]`}>
+        <p className="font-hand whitespace-pre-line text-[1.5rem] leading-snug text-[#1E3A5F]">
           {data.text || '…'}
         </p>
         {data.showArrow && (

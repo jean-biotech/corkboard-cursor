@@ -19,7 +19,6 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
       open={open}
       variant="ticket"
       title="ticket booth"
-      subtitle="pin a moment"
       onClose={onClose}
       onSubmit={() => {
         if (!form.eventName.trim()) return
@@ -29,9 +28,9 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
       submitLabel="pin ticket"
       className="pl-4"
     >
-      <Field label="what was it" labelStyle="hand" focal>
+      <Field label="what was it" focal>
         <input
-          className="font-serif text-xl italic"
+          className="font-display text-xl italic"
           value={form.eventName}
           onChange={(e) => set('eventName', e.target.value)}
           placeholder="concert, movie, show..."
@@ -41,10 +40,10 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <div className="grid grid-cols-2 gap-6">
-        <Field label="when" labelStyle="type">
+        <Field label="when">
           <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
         </Field>
-        <Field label="where" labelStyle="type">
+        <Field label="where">
           <input
             value={form.venue}
             onChange={(e) => set('venue', e.target.value)}
@@ -53,7 +52,7 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
         </Field>
       </div>
 
-      <Field label="memory" labelStyle="hand" breakAlign>
+      <Field label="memory" breakAlign>
         <input
           className="font-hand text-xl"
           value={form.memory}
@@ -63,10 +62,10 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <AddMore label="add seat / company">
-        <Field label="seat" labelStyle="type">
+        <Field label="seat">
           <input value={form.seat} onChange={(e) => set('seat', e.target.value)} placeholder="row…" />
         </Field>
-        <Field label="with" labelStyle="type">
+        <Field label="with">
           <input
             className="font-hand text-lg"
             value={form.withWhom}

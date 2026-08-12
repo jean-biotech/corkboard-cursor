@@ -23,10 +23,10 @@ export default function BookCard({ item, compact = false }) {
       </div>
 
       <div className="mb-2 flex items-start justify-between gap-2">
-        <p className="font-label text-[0.55rem] tracking-wide text-[#6B4A2E]/55">
+        <p className="font-label text-[0.62rem] tracking-wide text-[#6B4A2E]/55">
           no. {catalogNo}
         </p>
-        <p className="font-label text-[0.55rem] tracking-wide text-[#6B4A2E]/55">
+        <p className="font-label text-[0.62rem] tracking-wide text-[#6B4A2E]/55">
           {data.dateRead || '····'}
         </p>
       </div>
@@ -38,13 +38,13 @@ export default function BookCard({ item, compact = false }) {
       )}
 
       <h3
-        className="font-serif italic leading-tight text-[#1F1815]"
-        style={{ fontSize: compact ? '1.05rem' : '1.2rem', fontWeight: 500 }}
+        className="font-display italic leading-tight text-[#1F1815]"
+        style={{ fontSize: compact ? '1.15rem' : '1.35rem', fontWeight: 500 }}
       >
         {data.title || 'Untitled'}
       </h3>
       {data.author && (
-        <p className="font-type mt-1 text-[0.62rem] text-[#6B4A2E]">{data.author}</p>
+        <p className="font-type mt-1 text-[0.7rem] text-[#6B4A2E]">{data.author}</p>
       )}
 
       <div className="mt-2">
@@ -52,13 +52,13 @@ export default function BookCard({ item, compact = false }) {
       </div>
 
       {note && (
-        <p className="font-hand mt-2 line-clamp-4 text-[1.2rem] leading-snug text-[#1E3A5F]">
+        <p className="font-hand mt-2 line-clamp-4 text-[1.35rem] leading-snug text-[#1E3A5F]">
           {note}
         </p>
       )}
 
       {data.genre && (
-        <p className="font-type mt-auto pt-2 text-[0.55rem] text-[#6B4A2E]/70">{data.genre}</p>
+        <p className="font-type mt-auto pt-2 text-[0.62rem] text-[#6B4A2E]/70">{data.genre}</p>
       )}
     </div>
   )

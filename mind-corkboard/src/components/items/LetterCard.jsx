@@ -27,10 +27,10 @@ export default function LetterCard({ item }) {
         style={{ background: 'rgba(160,133,96,0.16)' }}
       />
 
-      <h3 className="font-serif text-xl font-medium italic leading-tight text-[#1F1815]">
+      <h3 className="font-display text-[1.35rem] font-medium italic leading-tight text-[#1F1815]">
         {data.title || 'Untitled'}
       </h3>
-      <div className="font-serif mt-3 space-y-2 overflow-hidden text-[0.9rem] leading-relaxed text-[#1F1815]/85">
+      <div className="font-display mt-3 space-y-2 overflow-hidden text-[1rem] leading-relaxed text-[#1F1815]/85">
         {(data.body || '')
           .split('\n')
           .filter(Boolean)
@@ -42,7 +42,7 @@ export default function LetterCard({ item }) {
           ))}
       </div>
       {data.signature && (
-        <p className="font-hand mt-4 text-right text-[1.35rem] text-[#1E3A5F]">{data.signature}</p>
+        <p className="font-hand mt-4 text-right text-[1.5rem] text-[#1E3A5F]">{data.signature}</p>
       )}
     </div>
   )

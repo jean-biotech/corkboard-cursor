@@ -29,10 +29,10 @@ export default function QuoteCard({ item }) {
               'repeating-linear-gradient(0deg, #1F1815 0 1px, transparent 1px 7px)',
           }}
         />
-        <p className="font-serif relative text-[1.2rem] leading-snug text-[#1F1815] italic">
+        <p className="font-display relative text-[1.35rem] leading-snug text-[#1F1815] italic">
           “{data.text || '…'}”
         </p>
-        <p className="font-type relative mt-3 text-right text-[0.62rem] text-[#6B4A2E]">
+        <p className="font-type relative mt-3 text-right text-[0.7rem] text-[#6B4A2E]">
           — {data.attribution || 'anonymous'}
         </p>
       </div>

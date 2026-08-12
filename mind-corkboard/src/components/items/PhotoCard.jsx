@@ -42,7 +42,7 @@ export default function PhotoCard({ item }) {
           )}
         </div>
         {data.caption && (
-          <p className="font-hand mt-2 text-center text-[1.2rem] leading-tight text-[#1E3A5F]">
+          <p className="font-hand mt-2 text-center text-[1.35rem] leading-tight text-[#1E3A5F]">
             {data.caption}
           </p>
         )}

@@ -16,11 +16,11 @@ export default function BoardTabs() {
   const [draft, setDraft] = useState('')
 
   return (
-    <div className="flex flex-wrap items-end gap-2 px-1 pb-1">
+    <div className="flex flex-wrap items-end gap-2 px-1">
       {boards.map((board, i) => {
         const active = board.id === activeBoardId
         const washi = WASHI[i % WASHI.length]
-        const rot = ((i % 3) - 1) * 2.2 + (active ? -1 : 0.5)
+        const rot = ((i % 3) - 1) * 0.7
 
         return (
           <div key={board.id} className="relative" style={{ transform: `rotate(${rot}deg)` }}>
@@ -33,7 +33,7 @@ export default function BoardTabs() {
                 }}
               >
                 <input
-                  className="font-hand w-36 border-b border-[#4A3323] bg-transparent px-2 py-1 text-xl text-[#1E3A5F] outline-none"
+                  className="font-hand w-32 border-b border-[#4A3323] bg-transparent px-2 py-0.5 text-[14px] text-[#1E3A5F] outline-none"
                   value={draft}
                   onChange={(e) => setDraft(e.target.value)}
                   onBlur={() => {
@@ -51,32 +51,26 @@ export default function BoardTabs() {
                   setEditingId(board.id)
                   setDraft(board.name)
                 }}
-                className="font-hand relative px-4 py-1.5 text-xl leading-none text-[#1F1815]"
+                className="font-hand relative px-3.5 py-1 text-[14px] leading-none text-[#1F1815] transition"
                 style={{
                   background: washi.fill,
-                  opacity: active ? 1 : 0.62,
+                  opacity: active ? 1 : 0.6,
                   boxShadow: active
-                    ? '1px 3px 6px rgba(74,51,35,0.22)'
-                    : '1px 2px 3px rgba(74,51,35,0.12)',
+                    ? '1px 2px 4px rgba(74,51,35,0.18)'
+                    : '1px 1px 2px rgba(74,51,35,0.1)',
+                  filter: active ? 'saturate(1.08)' : 'saturate(0.9)',
                   backgroundImage: washi.stripe
                     ? `repeating-linear-gradient(90deg, ${washi.fill} 0 8px, ${washi.stripe} 8px 12px)`
                     : undefined,
                 }}
               >
-                {/* torn edge nicks */}
-                <span
-                  className="pointer-events-none absolute -left-0.5 top-0 h-full w-1.5 opacity-70"
-                  style={{
-                    background: `linear-gradient(180deg, transparent 10%, ${washi.fill} 12%, transparent 30%, ${washi.fill} 55%, transparent 70%)`,
-                  }}
-                />
                 {board.name}
               </button>
             )}
             {active && boards.length > 1 && (
               <button
                 type="button"
-                className="font-hand absolute -right-1 -top-2 text-sm text-[#C8322E]/75"
+                className="font-hand absolute -right-1 -top-1.5 text-[11px] text-[#C8322E]/70"
                 onClick={() => {
                   if (window.confirm('take this board down?')) deleteBoard(board.id)
                 }}
@@ -96,26 +90,11 @@ export default function BoardTabs() {
             const name = window.prompt('name this board', `Board ${boards.length + 1}`)
             if (name?.trim()) addBoard(name.trim())
           }}
-          className="ml-1 px-2 py-1"
+          className="mb-0.5 ml-0.5 px-1.5 font-hand text-[16px] leading-none text-[#8A6A4A] opacity-45 transition hover:opacity-75"
           aria-label="add board"
-          style={{ transform: 'rotate(4deg)' }}
+          title="New board"
         >
-          <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
-            <path
-              d="M4 11.2 Q10 10.5 18 10.8"
-              stroke="#1E3A5F"
-              strokeWidth="1.8"
-              fill="none"
-              strokeLinecap="round"
-            />
-            <path
-              d="M10.8 4 Q11.4 11 11 18"
-              stroke="#1E3A5F"
-              strokeWidth="1.8"
-              fill="none"
-              strokeLinecap="round"
-            />
-          </svg>
+          +
         </button>
       )}
     </div>

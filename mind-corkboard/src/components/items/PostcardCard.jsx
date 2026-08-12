@@ -26,7 +26,7 @@ export default function PostcardCard({ item, showBack = false }) {
       </div>
 
       <div className="absolute inset-1.5 border border-[#A08560]/35" />
-      <p className="font-type absolute left-4 top-3 z-[1] text-[0.55rem] tracking-[0.14em] text-[#6B4A2E]/70">
+      <p className="font-type absolute left-4 top-3 z-[1] text-[0.62rem] tracking-[0.14em] text-[#6B4A2E]/70">
         postcard
       </p>
 
@@ -50,7 +50,7 @@ export default function PostcardCard({ item, showBack = false }) {
             </span>
           </div>
           {data.location && (
-            <p className="font-hand absolute bottom-4 left-5 text-[1.15rem] text-[#1E3A5F]">
+            <p className="font-hand absolute bottom-4 left-5 text-[1.3rem] text-[#1E3A5F]">
               {data.location}
             </p>
           )}
@@ -58,16 +58,16 @@ export default function PostcardCard({ item, showBack = false }) {
       ) : (
         <div className="relative flex h-full gap-3 p-4 pt-7">
           <div className="flex-1 border-r border-dashed border-[#A08560]/40 pr-3">
-            <p className="font-type text-[0.55rem] tracking-wide text-[#6B4A2E]">message</p>
-            <p className="font-hand mt-1 text-[1.1rem] leading-snug text-[#1E3A5F]">
+            <p className="font-type text-[0.62rem] tracking-wide text-[#6B4A2E]">message</p>
+            <p className="font-hand mt-1 text-[1.25rem] leading-snug text-[#1E3A5F]">
               {data.message || '…'}
             </p>
           </div>
           <div className="w-[42%]">
-            <p className="font-type text-[0.55rem] tracking-wide text-[#6B4A2E]">from</p>
-            <p className="font-hand text-[1rem] text-[#1E3A5F]">{data.sentFrom || 'you'}</p>
-            <p className="font-type mt-3 text-[0.55rem] tracking-wide text-[#6B4A2E]">date</p>
-            <p className="font-type text-[0.7rem] text-[#1F1815]">{data.date || '—'}</p>
+            <p className="font-type text-[0.62rem] tracking-wide text-[#6B4A2E]">from</p>
+            <p className="font-hand text-[1.15rem] text-[#1E3A5F]">{data.sentFrom || 'you'}</p>
+            <p className="font-type mt-3 text-[0.62rem] tracking-wide text-[#6B4A2E]">date</p>
+            <p className="font-type text-[0.78rem] text-[#1F1815]">{data.date || '—'}</p>
           </div>
         </div>
       )}
