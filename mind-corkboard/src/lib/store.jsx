@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer, useCallback } from 'react'
 import { loadState, saveState } from './persistence'
+import { clampPct, migrateBoard, pxToPct } from './boardCoords'
 
 export const BOARD_W = 1400
 export const BOARD_H = 1000
@@ -37,11 +38,12 @@ function randomPinColor() {
 }
 
 function createWelcomeItem() {
+  const { xPct, yPct } = pxToPct(980, 420)
   return {
     id: uid('item'),
     type: 'note',
-    x: 980,
-    y: 420,
+    xPct,
+    yPct,
     z: 1,
     rotation: -2.2,
     pinColor: 'red',
@@ -70,7 +72,7 @@ function createInitialState() {
   const saved = loadState()
   if (saved?.boards?.length) {
     return {
-      boards: saved.boards,
+      boards: saved.boards.map(migrateBoard),
       activeBoardId: saved.activeBoardId || saved.boards[0].id,
       soundEnabled: saved.soundEnabled ?? true,
     }
@@ -148,8 +150,8 @@ function reducer(state, action) {
         const item = {
           id: uid('item'),
           type: action.itemType,
-          x: action.x,
-          y: action.y,
+          xPct: clampPct(action.xPct),
+          yPct: clampPct(action.yPct),
           z: board.nextZ,
           rotation: randomRotation(),
           pinColor: action.pinColor || randomPinColor(),
@@ -185,8 +187,8 @@ function reducer(state, action) {
           item.id === action.id
             ? {
                 ...item,
-                x: Math.max(20, Math.min(BOARD_W - 80, action.x)),
-                y: Math.max(20, Math.min(BOARD_H - 80, action.y)),
+                xPct: clampPct(action.xPct),
+                yPct: clampPct(action.yPct),
                 z: board.nextZ,
               }
             : item,
@@ -202,8 +204,8 @@ function reducer(state, action) {
           if (!nudge) return item
           return {
             ...item,
-            x: Math.max(20, Math.min(BOARD_W - 80, item.x + nudge.dx)),
-            y: Math.max(20, Math.min(BOARD_H - 80, item.y + nudge.dy)),
+            xPct: clampPct(item.xPct + nudge.dxPct),
+            yPct: clampPct(item.yPct + nudge.dyPct),
           }
         }),
       }))
@@ -224,8 +226,8 @@ function reducer(state, action) {
         const copy = {
           ...source,
           id: uid('item'),
-          x: Math.min(BOARD_W - 100, source.x + 28),
-          y: Math.min(BOARD_H - 100, source.y + 28),
+          xPct: clampPct(source.xPct + 2),
+          yPct: clampPct(source.yPct + 2.5),
           z: board.nextZ,
           rotation: randomRotation(),
           createdAt: Date.now(),
@@ -279,8 +281,8 @@ export function StoreProvider({ children }) {
     itemCount: board?.items?.length ?? 0,
     dispatch,
     addItem: useCallback(
-      (itemType, x, y, data, pinColor) =>
-        dispatch({ type: 'ADD_ITEM', itemType, x, y, data, pinColor }),
+      (itemType, xPct, yPct, data, pinColor) =>
+        dispatch({ type: 'ADD_ITEM', itemType, xPct, yPct, data, pinColor }),
       [],
     ),
     updateItem: useCallback(
@@ -288,7 +290,7 @@ export function StoreProvider({ children }) {
       [],
     ),
     moveItem: useCallback(
-      (id, x, y) => dispatch({ type: 'MOVE_ITEM', id, x, y }),
+      (id, xPct, yPct) => dispatch({ type: 'MOVE_ITEM', id, xPct, yPct }),
       [],
     ),
     nudgeItems: useCallback(

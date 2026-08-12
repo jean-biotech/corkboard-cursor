@@ -1,5 +1,5 @@
 import { useRef, useEffect } from 'react'
-import { motion, useMotionValue } from 'framer-motion'
+import { motion } from 'framer-motion'
 import BookCard from './items/BookCard'
 import QuoteCard from './items/QuoteCard'
 import PhotoCard from './items/PhotoCard'
@@ -8,6 +8,7 @@ import PostcardCard from './items/PostcardCard'
 import LetterCard from './items/LetterCard'
 import TicketCard from './items/TicketCard'
 import ListCard from './items/ListCard'
+import { ITEM_CQW, pctDeltaFromDrag } from '../lib/boardCoords'
 
 function renderCard(item, onToggleListItem) {
   switch (item.type) {
@@ -41,16 +42,13 @@ export default function BoardItem({
   onContextMenu,
   onToggleListItem,
   reduceMotion,
+  corkWidth,
+  corkHeight,
 }) {
   const didDrag = useRef(false)
   const longPressTimer = useRef(null)
-  const x = useMotionValue(item.x)
-  const y = useMotionValue(item.y)
-
-  useEffect(() => {
-    x.set(item.x)
-    y.set(item.y)
-  }, [item.x, item.y, x, y])
+  const mobileBoost = corkWidth > 0 && corkWidth < 520 ? 1.12 : 1
+  const widthCqw = (ITEM_CQW[item.type] || 16) * mobileBoost
 
   useEffect(() => () => {
     if (longPressTimer.current) clearTimeout(longPressTimer.current)
@@ -61,8 +59,9 @@ export default function BoardItem({
       data-board-item
       className={`absolute touch-none board-item-cursor ${reduceMotion ? '' : 'ambient-sway'}`}
       style={{
-        x,
-        y,
+        left: `${item.xPct}%`,
+        top: `${item.yPct}%`,
+        width: `${widthCqw}cqw`,
         zIndex: item.z,
         '--base-rot': `${item.rotation}deg`,
         '--sway-delay': `${(item.z % 5) * 0.9}s`,
@@ -108,7 +107,13 @@ export default function BoardItem({
         if (longPressTimer.current) clearTimeout(longPressTimer.current)
       }}
       onDragEnd={(_, info) => {
-        onMove(item.id, item.x + info.offset.x, item.y + info.offset.y)
+        const { dxPct, dyPct } = pctDeltaFromDrag(
+          info.offset.x,
+          info.offset.y,
+          corkWidth,
+          corkHeight,
+        )
+        onMove(item.id, item.xPct + dxPct, item.yPct + dyPct)
         requestAnimationFrame(() => {
           didDrag.current = false
         })
@@ -129,7 +134,7 @@ export default function BoardItem({
       }}
     >
       <div
-        className="relative"
+        className="relative w-full"
         style={{
           filter: 'drop-shadow(2px 3px 5px rgba(74,51,35,0.2))',
         }}

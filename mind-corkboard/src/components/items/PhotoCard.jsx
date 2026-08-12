@@ -5,7 +5,7 @@ export default function PhotoCard({ item }) {
   const isPolaroid = data.style !== 'regular'
 
   return (
-    <div className="relative select-none" style={{ width: isPolaroid ? 176 : 196 }}>
+    <div className="relative w-full select-none">
       <div className="absolute -top-2 left-1/2 z-10 -translate-x-1/2">
         <WashiTape
           color={data.tapeColor || 'cream'}

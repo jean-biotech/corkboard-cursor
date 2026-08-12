@@ -5,7 +5,7 @@ export default function TicketCard({ item }) {
   const { data, pinColor } = item
 
   return (
-    <div className="relative select-none" style={{ width: 240 }}>
+    <div className="relative w-full select-none">
       <div className="absolute -top-2 left-1/2 z-10 -translate-x-1/2">
         <PushPin color={pinColor} size={16} />
       </div>

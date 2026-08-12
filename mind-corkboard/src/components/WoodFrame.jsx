@@ -3,7 +3,7 @@ export default function WoodFrame() {
     <svg
       className="pointer-events-none absolute inset-0 h-full w-full"
       viewBox="0 0 1464 1064"
-      preserveAspectRatio="none"
+      preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
     >
       <defs>

@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { ITEM_TYPES } from '../lib/store'
 
-/** Hand-drawn icons — sized ~56px (60% larger than prior 34px) */
+/** Hand-drawn icons — sized ~56px at reference scale */
 function iconSvg(children) {
   return (
     <svg viewBox="0 0 36 36" width="56" height="56" aria-hidden="true">
@@ -130,31 +130,41 @@ const ICONS = {
   ),
 }
 
-/** ~320px diameter compass — radius keeps icons in a tight ring */
-const RADIUS = 118
+const BASE_RADIUS = 118
+const BASE_MENU = 320
 
-export default function AddItemPopover({ open, x, y, onSelect, onClose }) {
+export default function AddItemPopover({ open, xPct, yPct, corkWidth, corkHeight, onSelect, onClose }) {
+  const scale = corkWidth > 0 ? Math.min(1, Math.max(0.55, corkWidth / 900)) : 1
+  const menuSize = BASE_MENU * scale
+  const radius = BASE_RADIUS * scale
+  const iconScale = scale
+
   return (
     <AnimatePresence>
       {open && (
         <>
           <button
             type="button"
-            className="fixed inset-0 z-[60]"
+            className="absolute inset-0 z-[60]"
             aria-label="close add menu"
             onClick={onClose}
           />
           <motion.div
             data-add-popover
             className="absolute z-[70]"
-            style={{ left: x, top: y }}
+            style={{
+              left: `${xPct}%`,
+              top: `${yPct}%`,
+            }}
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: 'spring', stiffness: 340, damping: 24 }}
           >
-            <div className="relative h-[320px] w-[320px] -translate-x-1/2 -translate-y-1/2">
-              {/* Soft cream paper circle */}
+            <div
+              className="relative -translate-x-1/2 -translate-y-1/2"
+              style={{ width: menuSize, height: menuSize }}
+            >
               <div
                 className="pointer-events-none absolute inset-0 rounded-full"
                 style={{
@@ -163,45 +173,58 @@ export default function AddItemPopover({ open, x, y, onSelect, onClose }) {
                 }}
                 aria-hidden="true"
               />
-              {/* Faint compass ring */}
               <div
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[236px] w-[236px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(42,58,46,0.08)]"
-                aria-hidden="true"
-              />
-              <div
-                className="pointer-events-none absolute left-1/2 top-1/2 h-px w-7 -translate-x-1/2 -translate-y-1/2 bg-[rgba(42,58,46,0.06)]"
-                aria-hidden="true"
-              />
-              <div
-                className="pointer-events-none absolute left-1/2 top-1/2 h-7 w-px -translate-x-1/2 -translate-y-1/2 bg-[rgba(42,58,46,0.06)]"
+                className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[rgba(42,58,46,0.08)]"
+                style={{
+                  width: menuSize * 0.7375,
+                  height: menuSize * 0.7375,
+                }}
                 aria-hidden="true"
               />
 
               <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-                <span className="font-hand text-[32px] leading-none text-[#1E3A5F] opacity-70">+</span>
+                <span
+                  className="font-hand leading-none text-[#1E3A5F] opacity-70"
+                  style={{ fontSize: `${32 * scale}px` }}
+                >
+                  +
+                </span>
               </div>
 
               {ITEM_TYPES.map((type, i) => {
                 const angle = -90 + i * 45
                 const rad = (angle * Math.PI) / 180
-                const dx = Math.cos(rad) * RADIUS
-                const dy = Math.sin(rad) * RADIUS
+                const dx = Math.cos(rad) * radius
+                const dy = Math.sin(rad) * radius
                 return (
                   <motion.button
                     key={type.id}
                     type="button"
-                    className="group absolute left-1/2 top-1/2 flex w-[76px] -translate-x-1/2 -translate-y-1/2 flex-col items-center"
-                    style={{ left: `calc(50% + ${dx}px)`, top: `calc(50% + ${dy}px)` }}
+                    className="group absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
+                    style={{
+                      left: `calc(50% + ${dx}px)`,
+                      top: `calc(50% + ${dy}px)`,
+                      width: 76 * iconScale,
+                    }}
                     initial={{ opacity: 0, scale: 0.6 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: i * 0.025, type: 'spring', stiffness: 360, damping: 22 }}
                     whileHover={{ scale: 1.1 }}
                     onClick={() => onSelect(type.id)}
                   >
-                    <span className="flex h-14 w-14 items-center justify-center drop-shadow-sm">
+                    <span
+                      className="flex h-14 w-14 items-center justify-center drop-shadow-sm"
+                      style={{
+                        transform: `scale(${iconScale})`,
+                        transformOrigin: 'center',
+                      }}
+                    >
                       {ICONS[type.id]}
                     </span>
-                    <span className="mt-2 font-hand text-[14px] leading-none text-[#1E3A5F] opacity-75 transition group-hover:opacity-100 group-hover:[text-shadow:0_0_0.3px_currentColor,0_0_0.3px_currentColor]">
+                    <span
+                      className="mt-2 font-hand leading-none text-[#1E3A5F] opacity-75 transition group-hover:opacity-100 group-hover:[text-shadow:0_0_0.3px_currentColor,0_0_0.3px_currentColor]"
+                      style={{ fontSize: `${14 * scale}px` }}
+                    >
                       {type.label}
                     </span>
                   </motion.button>

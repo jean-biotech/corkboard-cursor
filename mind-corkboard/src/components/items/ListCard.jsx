@@ -6,7 +6,7 @@ export default function ListCard({ item, onToggleItem }) {
   const lines = Array.from({ length: 8 }, (_, i) => i)
 
   return (
-    <div className="relative select-none" style={{ width: 200 }}>
+    <div className="relative w-full select-none">
       <div className="absolute -top-2 left-1/2 z-10 -translate-x-1/2">
         <PushPin color={pinColor} size={18} />
       </div>

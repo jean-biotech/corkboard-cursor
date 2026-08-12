@@ -7,7 +7,7 @@ export default function LetterCard({ item }) {
     <div
       className="relative select-none px-4 pb-4 pt-6"
       style={{
-        width: 250,
+        width: '100%',
         minHeight: 300,
         maxHeight: 360,
         background: 'linear-gradient(180deg, #F4EBD0 0%, #F1E7C7 60%, #E8DCB8 100%)',

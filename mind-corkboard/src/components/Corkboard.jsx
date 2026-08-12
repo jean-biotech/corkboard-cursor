@@ -6,13 +6,8 @@ import AddItemPopover from './AddItemPopover'
 import BoardItem from './BoardItem'
 import ContextMenu from './ContextMenu'
 import ExpandedView from './ExpandedView'
-import ExportToolbar from './ExportToolbar'
-import {
-  BOARD_H,
-  BOARD_W,
-  playPinChime,
-  useStore,
-} from '../lib/store'
+import { playPinChime, useStore } from '../lib/store'
+import { useBoardLayout } from '../lib/useBoardLayout'
 
 const FORM_MAP = {
   book: lazy(() => import('./forms/BookForm')),
@@ -39,17 +34,18 @@ export default function Corkboard({ boardRef }) {
     setPinColor,
   } = useStore()
 
+  const layout = useBoardLayout()
   const surfaceRef = useRef(null)
-  const [scale, setScale] = useState(1)
   const [addMenu, setAddMenu] = useState(null)
   const [formType, setFormType] = useState(null)
-  const [formPos, setFormPos] = useState({ x: 200, y: 200 })
+  const [formPos, setFormPos] = useState({ xPct: 50, yPct: 50 })
   const [editingItem, setEditingItem] = useState(null)
   const [expanded, setExpanded] = useState(null)
   const [context, setContext] = useState(null)
   const [justPinnedId, setJustPinnedId] = useState(null)
   const [reduceMotion, setReduceMotion] = useState(false)
   const [pinnedFlash, setPinnedFlash] = useState(false)
+  const [corkSize, setCorkSize] = useState({ w: layout.corkWidth, h: layout.corkHeight })
   const ignoreBoardClickUntil = useRef(0)
 
   useEffect(() => {
@@ -61,16 +57,15 @@ export default function Corkboard({ boardRef }) {
   }, [])
 
   useEffect(() => {
-    function updateScale() {
-      const padding = window.innerWidth < 640 ? 16 : 48
-      const available = Math.min(window.innerWidth - padding, 1500)
-      const frameW = BOARD_W + 64
-      setScale(Math.min(1, available / frameW))
-    }
-    updateScale()
-    window.addEventListener('resize', updateScale)
-    return () => window.removeEventListener('resize', updateScale)
-  }, [])
+    if (!surfaceRef.current) return
+    const el = surfaceRef.current
+    const ro = new ResizeObserver(([entry]) => {
+      const { width, height } = entry.contentRect
+      setCorkSize({ w: width, h: height })
+    })
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [layout.frameWidth, layout.frameHeight])
 
   useEffect(() => {
     if (!justPinnedId) return
@@ -78,23 +73,24 @@ export default function Corkboard({ boardRef }) {
     return () => clearTimeout(t)
   }, [justPinnedId])
 
-  const handleBoardClick = useCallback((e) => {
-    if (Date.now() < ignoreBoardClickUntil.current) return
-    // only empty cork — ignore clicks that land on pinned items
-    if (e.target.closest('[data-board-item]')) return
-    if (e.target.closest('[data-add-popover]')) return
-    if (e.target.closest('[data-no-export]')) return
+  const handleBoardClick = useCallback(
+    (e) => {
+      if (Date.now() < ignoreBoardClickUntil.current) return
+      if (e.target.closest('[data-board-item]')) return
+      if (e.target.closest('[data-add-popover]')) return
 
-    const rect = surfaceRef.current.getBoundingClientRect()
-    const x = (e.clientX - rect.left) / scale
-    const y = (e.clientY - rect.top) / scale
-    setAddMenu({ x, y })
-    setContext(null)
-  }, [scale])
+      const rect = surfaceRef.current.getBoundingClientRect()
+      const xPct = ((e.clientX - rect.left) / rect.width) * 100
+      const yPct = ((e.clientY - rect.top) / rect.height) * 100
+      setAddMenu({ xPct, yPct })
+      setContext(null)
+    },
+    [],
+  )
 
-  const openForm = (type, x, y, item = null) => {
+  const openForm = (type, xPct, yPct, item = null) => {
     setFormType(type)
-    setFormPos({ x, y })
+    setFormPos({ xPct, yPct })
     setEditingItem(item)
     setAddMenu(null)
     setExpanded(null)
@@ -107,12 +103,7 @@ export default function Corkboard({ boardRef }) {
       setFormType(null)
       return
     }
-    addItem(formType, formPos.x - 40, formPos.y - 20, data)
-    // find newest item after dispatch via timeout
-    setTimeout(() => {
-      const newest = board.items[board.items.length - 1]
-      // The store will have the new item; we mark by listening next render
-    }, 0)
+    addItem(formType, formPos.xPct - 3, formPos.yPct - 2, data)
     setJustPinnedId('pending')
     if (soundEnabled) playPinChime()
     setPinnedFlash(true)
@@ -120,7 +111,6 @@ export default function Corkboard({ boardRef }) {
     setFormType(null)
   }
 
-  // Track last item count to detect new pins for animation
   const prevCount = useRef(board.items.length)
   useEffect(() => {
     if (board.items.length > prevCount.current) {
@@ -131,137 +121,120 @@ export default function Corkboard({ boardRef }) {
   }, [board.items])
 
   const FormComponent = formType ? FORM_MAP[formType] : null
-
-  const frameW = BOARD_W + 64
-  const frameH = BOARD_H + 64
+  const { frameWidth, frameHeight, frameInset } = layout
 
   return (
     <>
       <div
-        className="relative mx-auto"
+        className="corkboard-slot mx-auto"
         style={{
-          width: frameW * scale,
-          height: frameH * scale,
+          width: frameWidth,
+          height: frameHeight,
+          maxWidth: '100%',
         }}
       >
         <div
           ref={boardRef}
-          className="origin-top-left"
+          className="corkboard-frame relative h-full w-full"
           style={{
-            width: frameW,
-            height: frameH,
-            transform: `scale(${scale}) rotate(-0.4deg)`,
             filter: 'drop-shadow(6px 20px 32px rgba(74, 51, 35, 0.32))',
+            transform: 'rotate(-0.4deg)',
           }}
         >
-          {/* Wood frame shell */}
-          <div className="relative h-full w-full">
-            <WoodFrame />
+          <WoodFrame />
 
-            {/* Cork surface */}
+          <div
+            ref={surfaceRef}
+            data-cork-surface
+            className="cork-surface cork-surface-responsive absolute overflow-hidden"
+            style={{
+              left: frameInset,
+              top: frameInset,
+              right: frameInset,
+              bottom: frameInset,
+            }}
+            onClick={handleBoardClick}
+          >
+            <CorkTexture />
+            <div className="window-light" />
+            <div className="grain-overlay" />
+            <BoardDecorations />
+
             <div
-              ref={surfaceRef}
-              data-cork-surface
-              className="cork-surface absolute overflow-hidden"
+              className="pointer-events-none absolute top-[5%] px-[2.5%] py-1.5"
               style={{
-                left: 32,
-                top: 32,
-                width: BOARD_W,
-                height: BOARD_H,
+                left: '38%',
+                background: '#F1E7C7',
+                transform: 'rotate(-2.8deg)',
+                boxShadow: '2px 3px 8px rgba(74,51,35,0.2)',
               }}
-              onClick={handleBoardClick}
             >
-              <CorkTexture />
-              <div className="window-light" />
-              <div className="grain-overlay" />
-              <BoardDecorations />
-
-              {/* Board title card — off-center */}
-              <div
-                className="pointer-events-none absolute top-5 px-4 py-1.5"
-                style={{
-                  left: '38%',
-                  background: '#F1E7C7',
-                  transform: 'rotate(-2.8deg)',
-                  boxShadow: '2px 3px 8px rgba(74,51,35,0.2)',
-                }}
+              <p
+                className="font-display font-medium italic text-[#1F1815]"
+                style={{ fontSize: 'clamp(12px, 1.2cqw, 17px)' }}
               >
-                <p className="font-display text-[17px] font-medium italic text-[#1F1815]">
-                  {board.titleCard || board.name}
-                </p>
-              </div>
-
-              {/* Pin counter + save — quiet bottom-right */}
-              <div
-                className="absolute bottom-5 right-5 z-[8] flex flex-col items-end gap-1.5"
-                data-no-export
-                onClick={(e) => e.stopPropagation()}
-              >
-                <p
-                  className="font-hand pointer-events-none px-2 py-0.5 text-[13px] leading-none text-[#1E3A5F]"
-                  style={{
-                    background: 'rgba(241,231,199,0.72)',
-                    transform: 'rotate(-2deg)',
-                    boxShadow: '1px 1px 3px rgba(74,51,35,0.1)',
-                  }}
-                >
-                  {board.items.length} thing{board.items.length === 1 ? '' : 's'} pinned
-                </p>
-                <ExportToolbar boardRef={boardRef} />
-              </div>
-
-              {board.items.map((item) => (
-                <BoardItem
-                  key={item.id}
-                  item={item}
-                  justPinned={justPinnedId === item.id}
-                  reduceMotion={reduceMotion}
-                  onMove={(id, nx, ny) => {
-                    ignoreBoardClickUntil.current = Date.now() + 250
-                    moveItem(id, nx, ny)
-                    if (!reduceMotion) {
-                      const nudges = {}
-                      board.items.forEach((other) => {
-                        if (other.id === id) return
-                        const dx = other.x - nx
-                        const dy = other.y - ny
-                        const dist = Math.hypot(dx, dy)
-                        if (dist < 90 && dist > 0) {
-                          const push = (90 - dist) / 90
-                          nudges[other.id] = {
-                            dx: (dx / dist) * push * 14,
-                            dy: (dy / dist) * push * 14,
-                          }
-                        }
-                      })
-                      if (Object.keys(nudges).length) nudgeItems(nudges)
-                    }
-                  }}
-                  onSelect={(it) => {
-                    bringToFront(it.id)
-                    setExpanded(it)
-                  }}
-                  onEdit={(it) => openForm(it.type, it.x, it.y, it)}
-                  onContextMenu={(it, cx, cy) => {
-                    bringToFront(it.id)
-                    setContext({ item: it, x: cx, y: cy })
-                  }}
-                  onToggleListItem={(index) => {
-                    const items = [...(item.data.items || [])]
-                    items[index] = { ...items[index], done: !items[index].done }
-                    updateItem(item.id, { items })
-                  }}
-                />
-              ))}
-
-              <AddItemPopover
-                open={!!addMenu}
-                x={addMenu?.x ?? 0}
-                y={addMenu?.y ?? 0}
-                onClose={() => setAddMenu(null)}
-                onSelect={(type) => openForm(type, addMenu.x, addMenu.y)}
-              />
+                {board.titleCard || board.name}
+              </p>
             </div>
+
+            {board.items.map((item) => (
+              <BoardItem
+                key={item.id}
+                item={item}
+                justPinned={justPinnedId === item.id}
+                reduceMotion={reduceMotion}
+                corkWidth={corkSize.w}
+                corkHeight={corkSize.h}
+                onMove={(id, nxPct, nyPct) => {
+                  ignoreBoardClickUntil.current = Date.now() + 250
+                  moveItem(id, nxPct, nyPct)
+                  if (!reduceMotion && corkSize.w > 0) {
+                    const nudges = {}
+                    board.items.forEach((other) => {
+                      if (other.id === id) return
+                      const dxPct = other.xPct - nxPct
+                      const dyPct = other.yPct - nyPct
+                      const distPx = Math.hypot(
+                        (dxPct / 100) * corkSize.w,
+                        (dyPct / 100) * corkSize.h,
+                      )
+                      if (distPx < 90 && distPx > 0) {
+                        const push = (90 - distPx) / 90
+                        nudges[other.id] = {
+                          dxPct: (dxPct / distPx) * push * 1.4,
+                          dyPct: (dyPct / distPx) * push * 1.4,
+                        }
+                      }
+                    })
+                    if (Object.keys(nudges).length) nudgeItems(nudges)
+                  }
+                }}
+                onSelect={(it) => {
+                  bringToFront(it.id)
+                  setExpanded(it)
+                }}
+                onEdit={(it) => openForm(it.type, it.xPct, it.yPct, it)}
+                onContextMenu={(it, cx, cy) => {
+                  bringToFront(it.id)
+                  setContext({ item: it, x: cx, y: cy })
+                }}
+                onToggleListItem={(index) => {
+                  const items = [...(item.data.items || [])]
+                  items[index] = { ...items[index], done: !items[index].done }
+                  updateItem(item.id, { items })
+                }}
+              />
+            ))}
+
+            <AddItemPopover
+              open={!!addMenu}
+              xPct={addMenu?.xPct ?? 50}
+              yPct={addMenu?.yPct ?? 50}
+              corkWidth={corkSize.w}
+              corkHeight={corkSize.h}
+              onClose={() => setAddMenu(null)}
+              onSelect={(type) => openForm(type, addMenu.xPct, addMenu.yPct)}
+            />
           </div>
         </div>
       </div>
@@ -291,7 +264,7 @@ export default function Corkboard({ boardRef }) {
         item={expanded ? board.items.find((i) => i.id === expanded.id) || expanded : null}
         onClose={() => setExpanded(null)}
         onEdit={() => {
-          if (expanded) openForm(expanded.type, expanded.x, expanded.y, expanded)
+          if (expanded) openForm(expanded.type, expanded.xPct, expanded.yPct, expanded)
         }}
       />
 
@@ -301,7 +274,9 @@ export default function Corkboard({ boardRef }) {
         y={context?.y ?? 0}
         onClose={() => setContext(null)}
         onEdit={() => {
-          if (context) openForm(context.item.type, context.item.x, context.item.y, context.item)
+          if (context) {
+            openForm(context.item.type, context.item.xPct, context.item.yPct, context.item)
+          }
         }}
         onDuplicate={() => {
           if (context) duplicateItem(context.item.id)

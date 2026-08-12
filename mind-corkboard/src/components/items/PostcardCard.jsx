@@ -15,7 +15,7 @@ export default function PostcardCard({ item, showBack = false }) {
     <div
       className="relative select-none"
       style={{
-        width: 280,
+        width: '100%',
         height: 180,
         background: '#F1E7C7',
         boxShadow: '3px 4px 12px rgba(74,51,35,0.26), inset 0 0 0 2px rgba(74,51,35,0.12)',

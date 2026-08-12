@@ -3,15 +3,13 @@ import Stars from './Stars'
 
 export default function BookCard({ item, compact = false }) {
   const { data, pinColor, id } = item
-  const w = compact ? 190 : 220
   const note = data.note || data.takeaway || data.review || ''
   const catalogNo = String((id || '').replace(/\D/g, '').slice(-3) || '017').padStart(3, '0')
 
   return (
     <div
-      className="relative select-none px-3 pb-3 pt-5"
+      className="relative w-full select-none px-3 pb-3 pt-5"
       style={{
-        width: w,
         minHeight: compact ? 240 : 280,
         background: '#F1E7C7',
         border: '1.5px dashed rgba(74,51,35,0.4)',
