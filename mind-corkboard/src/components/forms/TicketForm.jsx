@@ -27,9 +27,9 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
         setForm({ ...EMPTY })
       }}
       submitLabel="pin ticket"
-      className="pl-5"
+      className="pl-4"
     >
-      <Field label="what was it" labelStyle="hand" offset="tilt">
+      <Field label="what was it" labelStyle="hand" focal>
         <input
           className="font-serif text-xl italic"
           value={form.eventName}
@@ -40,11 +40,11 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <div className="grid grid-cols-2 gap-3" style={{ transform: 'rotate(-0.4deg)' }}>
-        <Field label="when" labelStyle="type" offset="none">
+      <div className="grid grid-cols-2 gap-6">
+        <Field label="when" labelStyle="type">
           <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
         </Field>
-        <Field label="where" labelStyle="hand" offset="none">
+        <Field label="where" labelStyle="type">
           <input
             value={form.venue}
             onChange={(e) => set('venue', e.target.value)}
@@ -53,7 +53,7 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
         </Field>
       </div>
 
-      <Field label="memory" labelStyle="hand" offset="right">
+      <Field label="memory" labelStyle="hand" breakAlign>
         <input
           className="font-hand text-xl"
           value={form.memory}
@@ -66,7 +66,7 @@ export default function TicketForm({ open, onClose, onSubmit, initial }) {
         <Field label="seat" labelStyle="type">
           <input value={form.seat} onChange={(e) => set('seat', e.target.value)} placeholder="row…" />
         </Field>
-        <Field label="with" labelStyle="hand">
+        <Field label="with" labelStyle="type">
           <input
             className="font-hand text-lg"
             value={form.withWhom}

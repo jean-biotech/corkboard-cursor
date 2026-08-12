@@ -88,52 +88,40 @@ export default function CorkTexture() {
           rx={r * 0.95}
           ry={r * 0.7}
           fill="#A08560"
-          opacity={0.2 + (i % 4) * 0.05}
+          opacity={0.12 + (i % 4) * 0.03}
         />
       ))}
 
-      {/* Extra aged dark patches */}
-      <ellipse cx="380" cy="280" rx="160" ry="110" fill="#8B7355" opacity="0.14" />
-      <ellipse cx="980" cy="620" rx="180" ry="130" fill="#6B5344" opacity="0.12" />
-      <ellipse cx="720" cy="180" rx="90" ry="70" fill="#8B7355" opacity="0.11" />
+      {/* Soft aged patch — ambient, not busy */}
+      <ellipse cx="980" cy="620" rx="160" ry="110" fill="#6B5344" opacity="0.07" />
 
-      <rect width="1400" height="1000" filter="url(#corkNoise)" opacity="0.45" />
-      <rect width="1400" height="1000" fill="url(#corkGrain)" opacity="0.65" />
-      <rect width="1400" height="1000" fill="url(#corkVignette)" />
+      <rect width="1400" height="1000" filter="url(#corkNoise)" opacity="0.28" />
+      <rect width="1400" height="1000" fill="url(#corkGrain)" opacity="0.4" />
+      <rect width="1400" height="1000" fill="url(#corkVignette)" opacity="0.75" />
 
       {darkSpecks.map(([x, y], i) => (
         <circle
           key={`s-${i}`}
           cx={x}
           cy={y}
-          r={0.9 + (i % 4) * 0.5}
+          r={0.7 + (i % 4) * 0.35}
           fill={i % 3 === 0 ? '#6B5344' : '#8B7355'}
-          opacity={0.38 + (i % 5) * 0.08}
+          opacity={0.22 + (i % 5) * 0.05}
         />
       ))}
 
-      {/* Coffee ring */}
-      <circle cx="220" cy="780" r="38" fill="none" stroke="#6B4A2E" strokeWidth="3.5" opacity="0.14" />
+      {/* One subtle coffee ring */}
+      <circle cx="240" cy="760" r="36" fill="none" stroke="#6B4A2E" strokeWidth="2.5" opacity="0.08" />
       <circle
-        cx="222"
-        cy="782"
-        r="34"
+        cx="242"
+        cy="762"
+        r="32"
         fill="none"
         stroke="#4A3323"
-        strokeWidth="1.5"
-        opacity="0.09"
+        strokeWidth="1.2"
+        opacity="0.05"
         strokeDasharray="8 4 3 6"
       />
-
-      {/* Faint water stains */}
-      <ellipse cx="640" cy="320" rx="55" ry="42" fill="none" stroke="#6B4A2E" strokeWidth="2" opacity="0.07" />
-      <ellipse cx="1100" cy="760" rx="48" ry="36" fill="none" stroke="#4A3323" strokeWidth="1.8" opacity="0.08" />
-      <ellipse cx="460" cy="860" rx="36" ry="28" fill="none" stroke="#6B4A2E" strokeWidth="1.5" opacity="0.06" />
-
-      {/* Ink spot */}
-      <ellipse cx="1180" cy="240" rx="14" ry="10" fill="#1E3A5F" opacity="0.08" />
-      <circle cx="1174" cy="236" r="3" fill="#1E3A5F" opacity="0.1" />
-      <circle cx="1188" cy="248" r="2" fill="#1E3A5F" opacity="0.07" />
     </svg>
   )
 }

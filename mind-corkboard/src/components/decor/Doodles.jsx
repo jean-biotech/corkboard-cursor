@@ -123,41 +123,30 @@ function BlankTornScrap({ className = '', style }) {
 export function BoardDecorations() {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-      {/* Asymmetric scatter — nothing mirrored */}
-      <div className="absolute left-[3%] top-[9%]">
-        <WashiTape color="rose" width={110} height={18} rotation={-26} />
+      {/* Sparse, composed — canvas recedes */}
+      <div className="absolute left-[6%] top-[8%]" style={{ opacity: 0.75 }}>
+        <WashiTape color="rose" width={90} height={16} rotation={-14} />
       </div>
-      <div className="absolute right-[4%] top-[31%]">
-        <WashiTape color="sage" width={70} height={16} rotation={18} striped />
-      </div>
-      <div className="absolute left-[42%] bottom-[7%]">
-        <WashiTape color="blue" width={55} height={14} rotation={-3} />
-      </div>
-      <div className="absolute right-[18%] top-[5%]">
-        <WashiTape color="cream" width={40} height={12} rotation={32} striped />
+      <div className="absolute right-[8%] top-[14%]" style={{ opacity: 0.7 }}>
+        <WashiTape color="sage" width={72} height={14} rotation={10} striped />
       </div>
 
-      <div className="absolute left-[14%] top-[35%]">
-        <PushPin color="blue" size={15} />
+      <div className="absolute left-[5%] top-[28%]" style={{ opacity: 0.7 }}>
+        <PushPin color="blue" size={14} />
       </div>
-      <div className="absolute right-[9%] top-[55%]">
+      <div className="absolute right-[7%] top-[48%]" style={{ opacity: 0.65 }}>
         <PushPin color="yellow" size={13} />
       </div>
-      <div className="absolute left-[6%] bottom-[12%]">
-        <PushPin color="green" size={17} />
-      </div>
-      <div className="absolute left-[55%] top-[14%]">
-        <PushPin color="red" size={12} />
-      </div>
 
-      <PressedFlower className="absolute right-[5%] bottom-[20%] opacity-65" style={{ transform: 'rotate(22deg)' }} />
-      <TinyStar className="absolute left-[22%] top-[62%]" style={{ transform: 'rotate(-18deg)' }} />
-      <TinyStar className="absolute right-[32%] top-[22%]" style={{ transform: 'rotate(28deg)' }} />
-      <TinyArrow className="absolute left-[58%] top-[70%] opacity-50" style={{ transform: 'rotate(-12deg)' }} />
-      <TinyBird className="absolute left-[28%] top-[6%] opacity-65" style={{ transform: 'rotate(8deg)' }} />
-      <TinyMoth className="absolute right-[40%] bottom-[16%] opacity-55" style={{ transform: 'rotate(-22deg)' }} />
-      <ForYouStamp className="absolute left-[8%] bottom-[36%]" />
-      <BlankTornScrap className="absolute right-[12%] top-[42%]" style={{ transform: 'rotate(18deg)' }} />
+      <PressedFlower
+        className="absolute right-[6%] bottom-[16%]"
+        style={{ transform: 'rotate(10deg)', opacity: 0.45 }}
+      />
+      <TinyBird
+        className="absolute left-[30%] top-[7%]"
+        style={{ transform: 'rotate(-3deg)', opacity: 0.4 }}
+      />
+      <ForYouStamp className="absolute left-[5%] bottom-[30%]" style={{ opacity: 0.35 }} />
     </div>
   )
 }

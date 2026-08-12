@@ -18,9 +18,8 @@ const EMPTY = {
 export default function NoteForm({ open, onClose, onSubmit, initial }) {
   const [form, setForm] = useState(() => {
     const base = { ...EMPTY, ...initial }
-    if (base.fontStyle === 'caveat' || base.fontStyle === 'scribble') {
-      base.fontStyle = base.fontStyle === 'scribble' ? 'gloria' : 'reenie'
-    }
+    if (base.fontStyle === 'caveat') base.fontStyle = 'reenie'
+    if (base.fontStyle === 'scribble') base.fontStyle = 'gloria'
     return base
   })
   const set = (key, value) => setForm((f) => ({ ...f, [key]: value }))
@@ -43,22 +42,19 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-3 top-2 z-10"
+          className="absolute right-6 top-5 z-10"
           aria-label="close"
-          style={{ transform: 'rotate(8deg)' }}
         >
-          <svg width="16" height="16" viewBox="0 0 18 18" aria-hidden="true">
-            <path d="M3 4 L14 15" stroke="#1E3A5F" strokeWidth="1.7" strokeLinecap="round" />
-            <path d="M14 3 L4 14" stroke="#1E3A5F" strokeWidth="1.5" strokeLinecap="round" />
+          <svg width="14" height="14" viewBox="0 0 18 18" aria-hidden="true">
+            <path d="M3 4 L14 15" stroke="#1E3A5F" strokeWidth="1.5" strokeLinecap="round" />
+            <path d="M14 3 L4 14" stroke="#1E3A5F" strokeWidth="1.4" strokeLinecap="round" />
           </svg>
         </button>
       }
     >
-      <div className="mb-2 flex items-center justify-between pr-5">
-        <p className="font-type text-[0.58rem] text-[#6B4A2E]" style={{ transform: 'rotate(-2deg)' }}>
-          quick note
-        </p>
-        <div className="flex gap-1" style={{ transform: 'rotate(2deg)' }}>
+      <div className="mb-6 flex items-center justify-between pr-6">
+        <p className="font-type text-[0.58rem] text-[#6B4A2E]">quick note</p>
+        <div className="flex gap-1.5">
           {COLORS.map(([name, color]) => (
             <button
               key={name}
@@ -77,7 +73,7 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
         </div>
       </div>
 
-      <Field labelStyle="hand" offset="none">
+      <Field labelStyle="hand" focal>
         <textarea
           className={form.fontStyle === 'gloria' ? 'font-scribble text-lg' : 'font-hand text-2xl'}
           value={form.text}
@@ -91,16 +87,18 @@ export default function NoteForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <AddMore label="handwriting">
-        <div className="flex gap-4">
-          <label className="font-hand text-lg">
-            <input type="radio" checked={form.fontStyle === 'reenie'} onChange={() => set('fontStyle', 'reenie')} className="mr-1" />
-            messy
-          </label>
-          <label className="font-scribble text-sm">
-            <input type="radio" checked={form.fontStyle === 'gloria'} onChange={() => set('fontStyle', 'gloria')} className="mr-1" />
-            careful
-          </label>
-        </div>
+        <Field label="style" labelStyle="type">
+          <div className="flex gap-4">
+            <label className="font-hand text-lg">
+              <input type="radio" checked={form.fontStyle === 'reenie'} onChange={() => set('fontStyle', 'reenie')} className="mr-1" />
+              messy
+            </label>
+            <label className="font-scribble text-sm">
+              <input type="radio" checked={form.fontStyle === 'gloria'} onChange={() => set('fontStyle', 'gloria')} className="mr-1" />
+              careful
+            </label>
+          </div>
+        </Field>
       </AddMore>
     </FormShell>
   )

@@ -22,7 +22,7 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
       submitLabel="seal and pin"
       submitIcon="seal"
     >
-      <Field label="subject" labelStyle="type" offset="short">
+      <Field label="subject" labelStyle="hand">
         <input
           className="font-serif text-lg italic"
           value={form.title}
@@ -32,17 +32,17 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="body" labelStyle="hand" offset="none">
+      <Field label="body" labelStyle="hand" focal>
         <textarea
           className="font-hand text-xl"
           value={form.body}
           onChange={(e) => set('body', e.target.value)}
           placeholder="dear diary, or dear anyone..."
-          rows={6}
+          rows={7}
         />
       </Field>
 
-      <Field label="sign-off" labelStyle="hand" offset="right">
+      <Field label="sign-off" labelStyle="type" breakAlign>
         <input
           className="font-hand text-xl"
           value={form.signature}
@@ -55,7 +55,7 @@ export default function LetterForm({ open, onClose, onSubmit, initial }) {
         <Field label="date" labelStyle="type">
           <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
         </Field>
-        <Field label="to" labelStyle="hand">
+        <Field label="to" labelStyle="type">
           <input
             value={form.recipient}
             onChange={(e) => set('recipient', e.target.value)}

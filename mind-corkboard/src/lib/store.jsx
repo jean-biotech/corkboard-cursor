@@ -28,7 +28,7 @@ function uid(prefix = 'id') {
 }
 
 function randomRotation() {
-  return Math.round((Math.random() * 6 - 3) * 10) / 10
+  return Math.round((Math.random() * 4 - 2) * 10) / 10
 }
 
 function randomPinColor() {

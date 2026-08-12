@@ -139,44 +139,77 @@ button {
 .paper-form label {
   display: block;
   color: #1E3A5F;
-  margin-bottom: 0.1rem;
+  margin-bottom: 6px;
   text-transform: lowercase;
   font-weight: 400;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 .paper-form label.label-hand {
   font-family: var(--font-hand);
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   letter-spacing: 0;
-  transform: rotate(-1deg);
   display: inline-block;
 }
 
 .paper-form label.label-type {
   font-family: var(--font-type);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   letter-spacing: 0.03em;
   color: #6B4A2E;
 }
 
-.form-field-offset-left {
-  margin-left: 0;
-  margin-right: 12%;
-  max-width: 88%;
+.form-pad {
+  padding: 48px 48px 40px;
 }
 
-.form-field-offset-right {
-  margin-left: 10%;
-  max-width: 86%;
+.form-pad-compact {
+  padding: 36px 40px 32px;
 }
 
-.form-field-short {
-  max-width: 58%;
+@media (max-width: 640px) {
+  .form-pad {
+    padding: 32px 24px 28px;
+  }
+  .form-pad-compact {
+    padding: 28px 22px 24px;
+  }
 }
 
-.form-field-tilt {
-  transform: rotate(-0.8deg);
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.form-field-focal textarea,
+.form-field-focal input {
+  font-size: 1.15em;
+}
+
+.form-field-break {
+  margin-left: 14px;
+  max-width: calc(100% - 14px);
+}
+
+.form-actions {
+  margin-top: 40px;
+}
+
+.form-size-small {
+  min-height: 0;
+}
+
+.form-size-medium {
+  min-height: 0;
+}
+
+.form-size-large {
+  min-height: 0;
 }
 
 .paper-grain {

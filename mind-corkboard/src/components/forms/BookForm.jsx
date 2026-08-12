@@ -43,7 +43,7 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin book"
     >
-      <Field label="title" labelStyle="hand" offset="tilt">
+      <Field label="title" labelStyle="hand" focal>
         <input
           className="font-serif text-xl italic"
           value={form.title}
@@ -54,7 +54,7 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="author" labelStyle="type" offset="right">
+      <Field label="author" labelStyle="hand">
         <input
           className="font-type text-sm"
           value={form.author}
@@ -63,11 +63,11 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="rating" labelStyle="hand" offset="short">
+      <Field label="rating" labelStyle="hand">
         <StarPicker value={form.rating} onChange={(n) => set('rating', n)} />
       </Field>
 
-      <Field label="note" labelStyle="type" offset="none">
+      <Field label="note" labelStyle="type" breakAlign>
         <textarea
           className="font-hand text-xl"
           value={form.note}
@@ -78,13 +78,13 @@ export default function BookForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <AddMore label="more details">
-        <Field label="genre" labelStyle="hand">
+        <Field label="genre" labelStyle="type">
           <input value={form.genre} onChange={(e) => set('genre', e.target.value)} placeholder="fiction…" />
         </Field>
         <Field label="date" labelStyle="type">
           <input type="date" value={form.dateRead} onChange={(e) => set('dateRead', e.target.value)} />
         </Field>
-        <Field label="cover" labelStyle="hand">
+        <Field label="cover" labelStyle="type">
           <input
             type="file"
             accept="image/*"

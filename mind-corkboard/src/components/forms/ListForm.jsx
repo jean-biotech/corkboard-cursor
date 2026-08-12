@@ -39,9 +39,9 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
         setDraft('')
       }}
       submitLabel="pin list"
-      className="pl-7"
+      className="pl-5"
     >
-      <Field label="what's this for" labelStyle="hand" offset="tilt">
+      <Field label="what's this for" labelStyle="hand">
         <input
           className="font-serif text-lg italic"
           value={form.title}
@@ -51,8 +51,8 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
         />
       </Field>
 
-      <Field label="items" labelStyle="type" offset="none">
-        <ul className="mb-1 space-y-1">
+      <Field label="items" labelStyle="hand" focal>
+        <ul className="mb-2 space-y-2">
           {form.items.map((entry, i) => (
             <li key={`${entry.text}-${i}`} className="flex items-start gap-2">
               <button
@@ -65,7 +65,7 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
                     ),
                   }))
                 }
-                className="mt-1.5 h-3 w-3 shrink-0 border border-[#1E3A5F]/6"
+                className="mt-1.5 h-3 w-3 shrink-0 border border-[#1E3A5F]/55"
                 style={{ background: entry.done ? '#1E3A5F' : 'transparent' }}
               />
               <span
@@ -73,7 +73,6 @@ export default function ListForm({ open, onClose, onSubmit, initial }) {
                 style={{
                   textDecoration: entry.done ? 'line-through' : 'none',
                   opacity: entry.done ? 0.5 : 1,
-                  transform: `rotate(${(i % 3) - 1}deg)`,
                 }}
               >
                 {entry.text}

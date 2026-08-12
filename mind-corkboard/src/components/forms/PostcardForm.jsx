@@ -28,14 +28,13 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin postcard"
     >
-      <div className="relative mt-1 grid gap-3 sm:grid-cols-2">
+      <div className="relative grid gap-6 sm:grid-cols-2">
         <div
-          className="pointer-events-none absolute inset-y-2 left-1/2 hidden w-px -translate-x-1/2 bg-[#A08560]/35 sm:block"
-          style={{ transform: 'translateX(-50%) rotate(1deg)' }}
+          className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-px -translate-x-1/2 bg-[#A08560]/30 sm:block"
           aria-hidden="true"
         />
 
-        <Field label="message" labelStyle="hand" offset="tilt">
+        <Field label="message" labelStyle="hand" focal>
           <textarea
             className="font-serif text-base italic"
             value={form.message}
@@ -46,8 +45,8 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
           />
         </Field>
 
-        <div className="space-y-2" style={{ transform: 'rotate(0.6deg)' }}>
-          <Field label="photo" labelStyle="type" offset="none">
+        <div className="space-y-6">
+          <Field label="photo" labelStyle="hand">
             <input
               ref={fileRef}
               type="file"
@@ -63,20 +62,19 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
               onClick={() => fileRef.current?.click()}
               className="flex h-20 w-16 flex-col items-center justify-center overflow-hidden"
               style={{
-                border: '2px dashed rgba(200,50,46,0.4)',
+                border: '1.5px dashed rgba(200,50,46,0.35)',
                 background: form.image ? '#2A221C' : 'rgba(255,255,255,0.15)',
-                transform: 'rotate(4deg)',
               }}
             >
               {form.image ? (
                 <img src={form.image} alt="" className="h-full w-full object-cover" />
               ) : (
-                <span className="font-hand text-sm text-[#1E3A5F]/65">stamp</span>
+                <span className="font-hand text-sm text-[#1E3A5F]/55">stamp</span>
               )}
             </button>
           </Field>
 
-          <Field label="from" labelStyle="hand" offset="short">
+          <Field label="from" labelStyle="type">
             <input
               className="font-hand text-lg"
               value={form.sentFrom}
@@ -91,7 +89,7 @@ export default function PostcardForm({ open, onClose, onSubmit, initial }) {
         <Field label="date" labelStyle="type">
           <input type="date" value={form.date} onChange={(e) => set('date', e.target.value)} />
         </Field>
-        <Field label="place" labelStyle="hand">
+        <Field label="place" labelStyle="type">
           <input
             value={form.location}
             onChange={(e) => set('location', e.target.value)}

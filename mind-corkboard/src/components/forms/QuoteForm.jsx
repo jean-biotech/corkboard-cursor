@@ -21,7 +21,7 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
       }}
       submitLabel="pin quote"
     >
-      <Field label="the quote" labelStyle="hand" offset="none">
+      <Field label="the quote" labelStyle="hand" focal>
         <textarea
           className="font-serif text-lg italic"
           value={form.text}
@@ -32,12 +32,9 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
           rows={3}
           style={{ backgroundImage: 'none', borderBottom: 'none' }}
         />
-        <svg width="64" height="10" viewBox="0 0 64 10" aria-hidden="true" className="mt-0.5 opacity-50">
-          <path d="M1 6 Q18 2 36 7 T62 4" fill="none" stroke="#1E3A5F" strokeWidth="1.2" strokeLinecap="round" />
-        </svg>
       </Field>
 
-      <Field label="who said it" labelStyle="type" offset="right">
+      <Field label="who said it" labelStyle="hand">
         <input
           className="font-type text-sm"
           value={form.attribution}
@@ -47,7 +44,7 @@ export default function QuoteForm({ open, onClose, onSubmit, initial }) {
       </Field>
 
       <AddMore label="add source">
-        <Field label="source" labelStyle="hand">
+        <Field label="source" labelStyle="type">
           <input
             className="font-hand text-lg"
             value={form.context}

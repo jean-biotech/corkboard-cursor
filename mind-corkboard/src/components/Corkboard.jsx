@@ -148,8 +148,8 @@ export default function Corkboard({ boardRef }) {
           style={{
             width: frameW,
             height: frameH,
-            transform: `scale(${scale}) rotate(-0.7deg)`,
-            filter: 'drop-shadow(8px 24px 36px rgba(74, 51, 35, 0.38))',
+            transform: `scale(${scale}) rotate(-0.4deg)`,
+            filter: 'drop-shadow(6px 20px 32px rgba(74, 51, 35, 0.32))',
           }}
         >
           {/* Wood frame shell */}
