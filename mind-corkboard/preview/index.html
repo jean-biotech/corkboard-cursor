@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1"
+    />
+    <meta name="theme-color" content="#F5EFE4" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Corkboard" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta
+      name="description"
+      content="A personal digital corkboard for books, quotes, photos, memories, and everything else worth pinning."
+    />
+    <title>Mind Corkboard · Pin what stays with you</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,144,500;1,144,500&family=Reenie+Beanie&family=Special+Elite&display=swap"
+      rel="stylesheet"
+    />
+    <script type="module" crossorigin src="./assets/index-B0Jgufkm.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-Dx28jK0w.css">
+  </head>
+  <body>
+    <div id="root">
+      <p style="margin:0;padding:3rem 1.25rem;text-align:center;color:#6B4A2E;font-family:Georgia,serif">
+        pinning the board…
+      </p>
+    </div>
+    <script>
+      window.addEventListener('error', function (event) {
+        var root = document.getElementById('root')
+        if (!root || root.dataset.ready) return
+        root.innerHTML =
+          '<p style="margin:0;padding:2rem;font-family:Georgia,serif;color:#C8322E">Could not load the corkboard. Please refresh.</p>'
+      })
+    </script>
+  </body>
+</html>

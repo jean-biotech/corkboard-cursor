@@ -1,0 +1,410 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cork: #C9A876;
+  --color-cork-deep: #A08560;
+  --color-cork-light: #D4B788;
+  --color-walnut: #4A3323;
+  --color-oak: #6B4A2E;
+  --color-paper: #F1E7C7;
+  --color-ink: #1F1815;
+  --color-pen: #1E3A5F;
+  --color-pin-red: #C8322E;
+  --color-pin-blue: #2C4A6B;
+  --color-pin-yellow: #D4A82B;
+  --color-pin-green: #5C7A4F;
+  --color-washi-rose: #E4A5A5;
+  --color-washi-sage: #9AB5A0;
+  --color-washi-cream: #EDE0C4;
+  --color-washi-blue: #B8CBDA;
+  --color-wall: #F5EFE4;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-serif: "Fraunces", Georgia, serif;
+  --font-hand: "Reenie Beanie", cursive;
+  --font-type: "Special Elite", "Courier New", monospace;
+  --font-label: "Special Elite", "Courier New", monospace;
+  --space-related: 8px;
+  --space-section: 32px;
+  --space-form-pad: 40px;
+  --space-card-pad: 24px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  min-height: 100dvh;
+  overflow-x: hidden;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  color: #1F1815;
+  background: #F5EFE4;
+  font-family: "Fraunces", Georgia, serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings: "opsz" 144;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+button,
+a,
+[role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+}
+
+::selection {
+  background: rgba(30, 58, 95, 0.18);
+}
+
+.font-display,
+.font-serif {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-variation-settings: "opsz" 144;
+}
+
+.font-hand,
+.font-scribble {
+  font-family: var(--font-hand);
+}
+
+.font-type,
+.font-label {
+  font-family: var(--font-type);
+}
+
+.paper-form input,
+.paper-form textarea,
+.paper-form select {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(74, 51, 35, 0.28);
+  border-radius: 0;
+  padding: 0.35rem 0.15rem;
+  outline: none;
+  color: #1F1815;
+  font-size: 17px;
+}
+
+.paper-form textarea {
+  border: none;
+  border-bottom: 1px solid rgba(74, 51, 35, 0.22);
+  padding: 0.4rem 0.15rem;
+  min-height: 4.5rem;
+  resize: vertical;
+  background: transparent;
+  line-height: 1.7;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 1.55rem,
+    rgba(74, 51, 35, 0.12) 1.55rem,
+    rgba(74, 51, 35, 0.12) calc(1.55rem + 1px)
+  );
+  background-attachment: local;
+}
+
+.paper-form input:focus,
+.paper-form textarea:focus,
+.paper-form select:focus {
+  border-color: #1E3A5F;
+}
+
+.paper-form input::placeholder,
+.paper-form textarea::placeholder {
+  color: rgba(31, 24, 21, 0.38);
+  font-style: italic;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  opacity: 0.6;
+}
+
+.paper-form label {
+  display: block;
+  color: #1E3A5F;
+  margin-bottom: var(--space-related);
+  text-transform: lowercase;
+  font-weight: 400;
+  opacity: 0.85;
+}
+
+.paper-form label.label-hand,
+.paper-form label.label-type {
+  font-family: var(--font-hand);
+  font-size: 15px;
+  letter-spacing: 0;
+  display: inline-block;
+  color: #1E3A5F;
+}
+
+.form-pad,
+.form-pad-compact {
+  padding: var(--space-form-pad);
+}
+
+@media (max-width: 640px) {
+  .form-pad,
+  .form-pad-compact {
+    padding: 28px 22px;
+  }
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.form-field {
+  width: 100%;
+}
+
+.form-field-focal textarea,
+.form-field-focal input {
+  font-size: 1.15em;
+}
+
+.form-field-break {
+  margin-left: 14px;
+  max-width: calc(100% - 14px);
+}
+
+.form-actions {
+  margin-top: 40px;
+}
+
+.form-size-small {
+  min-height: 0;
+}
+
+.form-size-medium {
+  min-height: 0;
+}
+
+.form-size-large {
+  min-height: 0;
+}
+
+.paper-grain {
+  opacity: 0.07;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.form-ticket {
+  padding-left: 0.25rem;
+}
+
+.form-notebook {
+  padding-left: 0.25rem;
+}
+
+.form-scrap {
+  clip-path: polygon(
+    1% 3%, 8% 0%, 18% 2%, 28% 0%, 40% 3%, 52% 1%, 64% 3%, 76% 0%, 88% 2%, 98% 1%,
+    100% 12%, 98% 24%, 100% 38%, 97% 52%, 100% 66%, 98% 78%, 100% 90%, 96% 100%,
+    84% 98%, 72% 100%, 58% 97%, 46% 100%, 32% 98%, 20% 100%, 8% 97%, 0% 88%,
+    2% 74%, 0% 60%, 2% 46%, 0% 32%, 2% 18%
+  );
+}
+
+.photo-dropzone {
+  border: 1.5px dashed rgba(74, 51, 35, 0.4);
+  background: rgba(255, 255, 255, 0.18);
+  min-height: 140px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.photo-dropzone:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.wall-pattern {
+  background-color: #F5EFE4;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  background-image:
+    radial-gradient(rgba(74, 51, 35, 0.08) 1.1px, transparent 1.1px),
+    linear-gradient(45deg, rgba(74, 51, 35, 0.04) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(74, 51, 35, 0.04) 25%, transparent 25%);
+  background-size: 26px 26px, 52px 52px, 52px 52px;
+  background-position: 0 0, 0 0, 26px 26px;
+}
+
+.cork-surface-responsive {
+  container-type: inline-size;
+}
+
+.corkboard-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.corkboard-slot {
+  flex-shrink: 0;
+}
+
+.cork-page {
+  width: 100%;
+}
+
+.card-pad {
+  padding: var(--space-card-pad);
+}
+
+.grain-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.06;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.window-light {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    rgba(255, 248, 230, 0.16) 0%,
+    transparent 42%,
+    transparent 58%,
+    rgba(160, 133, 96, 0.07) 100%
+  );
+  animation: windowDrift 14s ease-in-out infinite alternate;
+}
+
+@keyframes windowDrift {
+  from {
+    opacity: 0.55;
+    transform: translateX(-1.5%);
+  }
+  to {
+    opacity: 0.9;
+    transform: translateX(1.5%);
+  }
+}
+
+@keyframes dustPuff {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.8);
+  }
+}
+
+@keyframes ambientSway {
+  0%,
+  100% {
+    rotate: var(--base-rot, 0deg);
+  }
+  50% {
+    rotate: calc(var(--base-rot, 0deg) + 0.5deg);
+  }
+}
+
+@keyframes photoCurl {
+  0%,
+  100% {
+    transform: perspective(80px) rotateX(0deg);
+  }
+  50% {
+    transform: perspective(80px) rotateX(2.5deg);
+  }
+}
+
+.dust-puff {
+  animation: dustPuff 0.55s ease-out forwards;
+}
+
+.ambient-sway {
+  animation: ambientSway 8s ease-in-out infinite;
+  animation-delay: var(--sway-delay, 0s);
+}
+
+.photo-curl-corner {
+  transform-origin: bottom right;
+  animation: photoCurl 9s ease-in-out infinite;
+}
+
+.cork-surface {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'%3E%3Ccircle cx='10' cy='8' r='5' fill='%23C8322E'/%3E%3Cpath d='M10 13 L9 24 L11 24 Z' fill='%236B4A2E'/%3E%3C/svg%3E") 8 4, crosshair;
+}
+
+.board-item-cursor {
+  cursor: grab;
+}
+
+.board-item-cursor:active {
+  cursor: grabbing;
+}
+
+.library-card-form {
+  background: #F1E7C7;
+  border: 1.5px dashed rgba(74, 51, 35, 0.45);
+  box-shadow: 0 18px 42px rgba(74, 51, 35, 0.28);
+}
+
+.ruled-field {
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 1.6rem,
+    rgba(74, 51, 35, 0.14) 1.6rem,
+    rgba(74, 51, 35, 0.14) calc(1.6rem + 1px)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .window-light,
+  .dust-puff,
+  .ambient-sway,
+  .photo-curl-corner {
+    animation: none !important;
+  }
+
+  * {
+    scroll-behavior: auto !important;
+  }
+}
