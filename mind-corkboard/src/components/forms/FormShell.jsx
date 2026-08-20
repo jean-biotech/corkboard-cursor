@@ -104,6 +104,7 @@ export default function FormShell({
       {open && (
         <motion.div
           className="fixed inset-0 z-[80] flex items-end justify-center bg-[rgba(31,24,21,0.28)] p-0 sm:items-center sm:p-6"
+          style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}

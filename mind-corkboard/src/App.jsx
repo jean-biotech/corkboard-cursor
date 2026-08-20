@@ -95,8 +95,8 @@ function Shell() {
         style={{
           paddingLeft: layout.pagePad,
           paddingRight: layout.pagePad,
-          paddingTop: 28,
-          paddingBottom: 24,
+          paddingTop: 'max(28px, env(safe-area-inset-top))',
+          paddingBottom: 'max(24px, env(safe-area-inset-bottom))',
           maxWidth: layout.frameWidth + layout.pagePad * 2,
         }}
       >
@@ -111,7 +111,7 @@ function Shell() {
           <Corkboard boardRef={boardRef} />
           <BoardFooter boardRef={boardRef} />
           <p className="font-type mt-5 w-full text-left text-[0.6rem] tracking-wide text-[#6B4A2E]/60">
-            tap empty cork to pin · drag to arrange · double-click to edit
+            tap empty cork to pin · drag to arrange · tap a pin to open · long-press to edit
           </p>
         </main>
       </div>

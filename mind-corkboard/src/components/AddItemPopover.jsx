@@ -140,6 +140,9 @@ export default function AddItemPopover({ open, xPct, yPct, corkWidth, corkHeight
   const menuSize = BASE_MENU * scale
   const radius = BASE_RADIUS * scale
   const iconScale = scale
+  const half = (menuSize / 2 / Math.max(corkWidth, 1)) * 100
+  const leftPct = Math.min(100 - half, Math.max(half, xPct))
+  const topPct = Math.min(100 - half, Math.max(half, yPct))
 
   return (
     <AnimatePresence>
@@ -155,8 +158,8 @@ export default function AddItemPopover({ open, xPct, yPct, corkWidth, corkHeight
             data-add-popover
             className="absolute z-[70]"
             style={{
-              left: `${xPct}%`,
-              top: `${yPct}%`,
+              left: `${leftPct}%`,
+              top: `${topPct}%`,
             }}
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}

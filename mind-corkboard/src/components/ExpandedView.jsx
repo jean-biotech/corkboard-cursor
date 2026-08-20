@@ -102,6 +102,10 @@ export default function ExpandedView({ item, onClose, onEdit }) {
       {item && (
         <motion.div
           className="fixed inset-0 z-[75] flex items-center justify-center bg-[rgba(31,24,21,0.45)] p-4"
+          style={{
+            paddingTop: 'max(1rem, env(safe-area-inset-top))',
+            paddingBottom: 'max(1rem, env(safe-area-inset-bottom))',
+          }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
