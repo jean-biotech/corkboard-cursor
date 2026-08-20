@@ -8,3 +8,6 @@ createRoot(document.getElementById('root')).render(
     <App />
   </StrictMode>,
 )
+
+const rootEl = document.getElementById('root')
+if (rootEl) rootEl.dataset.ready = '1'
