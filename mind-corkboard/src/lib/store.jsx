@@ -2,8 +2,7 @@ import { createContext, useContext, useEffect, useReducer, useCallback } from 'r
 import { loadState, saveState } from './persistence'
 import { clampPct, migrateBoard, pxToPct } from './boardCoords'
 
-export const BOARD_W = 1400
-export const BOARD_H = 1000
+export { BOARD_W, BOARD_H } from './boardCoords'
 export const MAX_BOARDS = 6
 
 export const PIN_COLORS = {

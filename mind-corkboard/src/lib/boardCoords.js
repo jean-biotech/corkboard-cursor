@@ -1,5 +1,5 @@
-import { BOARD_H, BOARD_W } from './store'
-
+export const BOARD_W = 1400
+export const BOARD_H = 1000
 export const FRAME_ASPECT = 1064 / 1464
 export const REF_CORK_W = BOARD_W
 export const REF_CORK_H = BOARD_H
